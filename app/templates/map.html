@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Locations &mdash; Flintstone</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+    <style>
+        .map-page { max-width: 1400px; margin: 0 auto; padding: 1.5rem; }
+        .map-container {
+            background: var(--igb-card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.5rem;
+        }
+        .map-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        .map-insets {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .map-panel { position: relative; }
+        .map-panel h3 {
+            font-size: 0.9rem;
+            color: var(--igb-blue);
+            margin-bottom: 0.4rem;
+        }
+        .leaflet-map {
+            border-radius: 8px;
+            border: 1px solid var(--igb-border);
+        }
+        #mapWorld { height: 420px; }
+        #mapGermany { height: 350px; }
+        #mapBerlin { height: 350px; }
+
+        .map-legend {
+            display: flex;
+            gap: 1.2rem;
+            margin: 0.8rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .map-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.8rem;
+            color: var(--igb-text-light);
+        }
+        .map-legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 0 3px rgba(0,0,0,0.3);
+        }
+        .map-stats {
+            display: flex;
+            gap: 1.2rem;
+            margin-bottom: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .map-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .map-filters label { font-size: 0.85rem; color: var(--igb-text-light); }
+        .map-filters select {
+            padding: 0.3rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--igb-border);
+            font-size: 0.85rem;
+        }
+        .leaflet-popup-content { font-family: inherit; max-width: 280px; }
+        .popup-title { font-weight: 600; color: var(--igb-blue); font-size: 0.88rem; margin-bottom: 0.3rem; }
+        .popup-meta { font-size: 0.78rem; color: var(--igb-text-light); margin-bottom: 0.2rem; }
+        .popup-pubs { font-size: 0.75rem; margin-top: 0.3rem; padding-left: 1rem; }
+        .popup-pubs li { margin-bottom: 0.15rem; }
+        .popup-pubs a { color: var(--igb-blue-light); }
+        .inset-box {
+            position: absolute;
+            border: 2px solid var(--igb-blue);
+            background: rgba(0,79,124,0.08);
+            pointer-events: none;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+    <header>
+        <div class="header-content">
+            <h1>
+                <span class="logo-icon">🪨</span>
+                <a href="/" style="color:white; text-decoration:none;">Flintstone</a>
+                <span class="header-subtitle">Sample Locations</span>
+            </h1>
+            <p class="header-tagline">Where IGB researchers study freshwater — cross-referenced with <a href="https://fred.igb-berlin.de" target="_blank" style="color:#8ecae6;">FRED</a></p>
+        </div>
+    </header>
+
+    <div class="map-page">
+        <div class="map-container">
+            <div class="map-stats">
+                <div class="stat-chip">
+                    <span class="stat-chip-value" id="fredCount">-</span>
+                    <span class="stat-chip-label">FRED datasets</span>
+                </div>
+                <div class="stat-chip">
+                    <span class="stat-chip-value" id="pubSiteCount">-</span>
+                    <span class="stat-chip-label">study sites from papers</span>
+                </div>
+                <div class="stat-chip">
+                    <span class="stat-chip-value" id="totalPubs">-</span>
+                    <span class="stat-chip-label">publications with locations</span>
+                </div>
+            </div>
+
+            <div class="map-filters">
+                <label>
+                    Show:
+                    <select id="filterSource">
+                        <option value="all">All sources</option>
+                        <option value="FRED">FRED datasets only</option>
+                        <option value="publications">Publication sites only</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="map-legend">
+                <div class="map-legend-item"><span class="map-legend-dot" style="background:#2196F3;"></span> FRED dataset</div>
+                <div class="map-legend-item"><span class="map-legend-dot" style="background:#4CAF50;"></span> Lake</div>
+                <div class="map-legend-item"><span class="map-legend-dot" style="background:#FF9800;"></span> River</div>
+                <div class="map-legend-item"><span class="map-legend-dot" style="background:#9C27B0;"></span> Marine</div>
+                <div class="map-legend-item"><span style="font-size:0.75rem; opacity:0.6;">Size = number of publications</span></div>
+            </div>
+
+            <div class="map-grid">
+                <div class="map-panel">
+                    <h3>🌍 World Overview</h3>
+                    <div id="mapWorld" class="leaflet-map"></div>
+                </div>
+                <div class="map-insets">
+                    <div class="map-panel">
+                        <h3>🇩🇪 Germany</h3>
+                        <div id="mapGermany" class="leaflet-map"></div>
+                    </div>
+                    <div class="map-panel">
+                        <h3>📍 Berlin &amp; Brandenburg</h3>
+                        <div id="mapBerlin" class="leaflet-map"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-content">🪨 Flintstone &mdash; IGB Publication Intelligence Tool &middot; Prototype</div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+    <script>
+    const COLORS = { 'FRED': '#2196F3', 'lake': '#4CAF50', 'river': '#FF9800', 'marine': '#9C27B0', 'default': '#607D8B', 'dataset': '#2196F3' };
+
+    let allLocations = [];
+    const maps = {};
+    const markerGroups = { world: [], germany: [], berlin: [] };
+
+    function getColor(loc) {
+        if (loc.source === 'FRED') return COLORS.FRED;
+        return COLORS[loc.type] || COLORS.default;
+    }
+
+    function getRadius(loc, mapType) {
+        if (loc.source === 'FRED') {
+            return mapType === 'berlin' ? 6 : (mapType === 'germany' ? 5 : 4);
+        }
+        const count = loc.pub_count || 1;
+        const base = mapType === 'berlin' ? 6 : (mapType === 'germany' ? 5 : 4);
+        return Math.min(base + Math.sqrt(count) * 1.5, 22);
+    }
+
+    function buildPopup(loc) {
+        let html = '<div class="popup-title">' + loc.title + '</div>';
+        if (loc.source === 'FRED') {
+            html += '<div class="popup-meta">📦 FRED Dataset</div>';
+            if (loc.place) html += '<div class="popup-meta">' + loc.place + '</div>';
+            if (loc.year) html += '<div class="popup-meta">Year: ' + loc.year + '</div>';
+            if (loc.doi) html += '<div class="popup-meta"><a href="' + loc.doi + '" target="_blank">View on FRED →</a></div>';
+        } else {
+            html += '<div class="popup-meta">📄 ' + loc.pub_count + ' publication' + (loc.pub_count !== 1 ? 's' : '') + ' mention this site</div>';
+            html += '<div class="popup-meta">Type: ' + loc.type + '</div>';
+            if (loc.top_pubs && loc.top_pubs.length > 0) {
+                html += '<ul class="popup-pubs">';
+                loc.top_pubs.forEach(function(pub) {
+                    if (pub.doi) {
+                        html += '<li><a href="' + pub.doi + '" target="_blank">' + pub.title.substring(0, 55) + '…</a> (' + (pub.year || '?') + ')</li>';
+                    } else {
+                        html += '<li>' + pub.title.substring(0, 55) + '… (' + (pub.year || '?') + ')</li>';
+                    }
+                });
+                html += '</ul>';
+            }
+        }
+        return html;
+    }
+
+    // Cluster groups for Berlin map
+    let berlinCluster = null;
+
+    function addMarkers(mapObj, mapKey, bounds) {
+        // Clear existing
+        markerGroups[mapKey].forEach(function(m) { mapObj.removeLayer(m); });
+        markerGroups[mapKey] = [];
+        if (mapKey === 'berlin' && berlinCluster) {
+            mapObj.removeLayer(berlinCluster);
+        }
+
+        const filterSource = document.getElementById('filterSource').value;
+        let fredCount = 0, pubSiteCount = 0, totalPubs = 0;
+
+        allLocations.forEach(function(loc) {
+            if (filterSource !== 'all' && loc.source !== filterSource) return;
+            if (bounds && !bounds.contains([loc.lat, loc.lon])) return;
+
+            const color = getColor(loc);
+            const radius = getRadius(loc, mapKey);
+
+            const marker = L.circleMarker([loc.lat, loc.lon], {
+                radius: radius,
+                fillColor: color,
+                color: 'white',
+                weight: 1.5,
+                opacity: 1,
+                fillOpacity: 0.75,
+            }).bindPopup(buildPopup(loc));
+
+            markerGroups[mapKey].push(marker);
+
+            if (loc.source === 'FRED') fredCount++;
+            else { pubSiteCount++; totalPubs += loc.pub_count || 0; }
+        });
+
+        // Use clustering for Berlin map, direct for others
+        if (mapKey === 'berlin') {
+            berlinCluster = L.markerClusterGroup({ maxClusterRadius: 30, spiderfyOnMaxZoom: true });
+            markerGroups[mapKey].forEach(function(m) { berlinCluster.addLayer(m); });
+            mapObj.addLayer(berlinCluster);
+        } else {
+            markerGroups[mapKey].forEach(function(m) { m.addTo(mapObj); });
+        }
+
+        if (mapKey === 'world') {
+            document.getElementById('fredCount').textContent = fredCount;
+            document.getElementById('pubSiteCount').textContent = pubSiteCount;
+            document.getElementById('totalPubs').textContent = totalPubs;
+        }
+    }
+
+    function updateAll() {
+        addMarkers(maps.world, 'world', null);
+        addMarkers(maps.germany, 'germany', L.latLngBounds([47.0, 5.5], [55.2, 15.5]));
+        addMarkers(maps.berlin, 'berlin', L.latLngBounds([52.1, 12.8], [52.9, 14.2]));
+    }
+
+    async function init() {
+        const tiles = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+        const attr = '© OpenStreetMap';
+
+        // World map
+        maps.world = L.map('mapWorld').setView([30, 15], 2);
+        L.tileLayer(tiles, { attribution: attr, maxZoom: 18 }).addTo(maps.world);
+
+        // Germany map
+        maps.germany = L.map('mapGermany').setView([51.2, 10.5], 6);
+        L.tileLayer(tiles, { attribution: attr, maxZoom: 18 }).addTo(maps.germany);
+
+        // Berlin map
+        maps.berlin = L.map('mapBerlin').setView([52.5, 13.5], 10);
+        L.tileLayer(tiles, { attribution: attr, maxZoom: 18 }).addTo(maps.berlin);
+
+        // Load data
+        try {
+            const resp = await fetch('/static/locations.json');
+            allLocations = await resp.json();
+            console.log('Loaded ' + allLocations.length + ' locations');
+            updateAll();
+        } catch (e) {
+            console.error('Failed to load locations:', e);
+        }
+
+        document.getElementById('filterSource').addEventListener('change', updateAll);
+    }
+
+    init();
+    </script>
+</body>
+</html>

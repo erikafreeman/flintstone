@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if author %}{{ author.display_name }} &mdash; {% endif %}Flintstone</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    {% include 'nav.html' %}
+    <header>
+        <h1><a href="/" style="color:white; text-decoration:none;">Flintstone</a> <span>IGB Publication Intelligence</span></h1>
+        <p>Surface relevant prior work, identify collaborators, and discover what's new</p>
+    </header>
+
+    <div class="container">
+        {% if not author %}
+        <div class="results-section">
+            <h2>Author not found</h2>
+            <p><a href="/">&larr; Back to search</a></p>
+        </div>
+        {% else %}
+        <div class="author-header">
+            <div>
+                <h2 class="author-name">{{ author.display_name }}</h2>
+                {% if author.department %}
+                <div class="author-dept">
+                    <span class="dept-badge">{{ author.department }}</span>
+                    {% if author.position %} &middot; {{ author.position }}{% endif %}
+                    {% if author.is_current_staff %}<span class="staff-badge">✓ current staff</span>{% endif %}
+                </div>
+                {% endif %}
+                {% if author.orcid %}
+                <a href="{{ author.orcid }}" target="_blank" class="author-orcid">ORCID Profile</a>
+                {% endif %}
+            </div>
+            <div class="author-stats">
+                <div class="stat">
+                    <span class="stat-value">{{ pub_count }}</span>
+                    <span class="stat-label">Publications</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">{{ total_citations }}</span>
+                    <span class="stat-label">Total Citations</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">{{ year_range }}</span>
+                    <span class="stat-label">Active Years</span>
+                </div>
+            </div>
+        </div>
+
+        {% if coauthors %}
+        <div class="results-section">
+            <h2>Frequent IGB Co-Authors</h2>
+            <div class="coauthor-list">
+                {% for ca in coauthors %}
+                <a href="/author/{{ ca.id }}" class="coauthor-chip">
+                    {{ ca.display_name }} <span class="coauthor-count">({{ ca.collab_count }})</span>
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="results-section">
+            <h2>Publications ({{ pub_count }})</h2>
+            {% for pub in publications %}
+            <div class="pub-item">
+                <div>
+                    {% if pub.doi %}
+                    <a href="{{ pub.doi }}" target="_blank" class="pub-title">{{ pub.title }}</a>
+                    {% else %}
+                    <span class="pub-title">{{ pub.title }}</span>
+                    {% endif %}
+                </div>
+                <div class="pub-meta">{{ pub.year }} &middot; {{ pub.journal or 'Unknown journal' }} &middot; Cited {{ pub.cited_by_count }} times</div>
+                {% if pub.abstract_short %}
+                <div class="pub-abstract">{{ pub.abstract_short }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <p style="margin-top:1.5rem;"><a href="/">&larr; Back to search</a></p>
+        {% endif %}
+    </div>
+
+    <footer>
+        Flintstone &mdash; IGB Publication Intelligence Tool &middot; Prototype &middot; Data from <a href="https://openalex.org" target="_blank">OpenAlex</a>
+    </footer>
+</body>
+</html>

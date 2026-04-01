@@ -1,0 +1,2272 @@
+[
+  {
+    "lat": 52.476,
+    "lon": 13.625,
+    "title": "Dataset - A novel in situ experimental setup for studying the impact of bedform celerity on 2D oxygen distribution in the hyporheic zone of small streams",
+    "doi": "https://doi.org/10.18728/igb-fred-1047.2",
+    "source": "FRED",
+    "place": "Rechter Randgraben",
+    "year": 2026,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.476,
+    "lon": 13.625,
+    "title": "Dataset - A novel in situ experimental setup for studying the impact of bedform celerity on 2D oxygen distribution in the hyporheic zone of small streams",
+    "doi": "https://doi.org/10.18728/igb-fred-1046.1",
+    "source": "FRED",
+    "place": "Rechter Randgraben",
+    "year": 2026,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.595,
+    "lon": 14.038,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL03",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.6,
+    "lon": 14.036,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL02",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.605,
+    "lon": 14.035,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL01",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.583,
+    "lon": 14.067,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL_GW01",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.588,
+    "lon": 14.062,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL04",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.58,
+    "lon": 14.071,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL08",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.585,
+    "lon": 14.066,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL05",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.579,
+    "lon": 14.071,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL09",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.577,
+    "lon": 14.069,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL10",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.58,
+    "lon": 14.072,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL_GW_03",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.581,
+    "lon": 14.069,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL_GW02",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.583,
+    "lon": 14.067,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL06",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.633,
+    "lon": 13.993,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL00",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.582,
+    "lon": 14.069,
+    "title": "Sophienfliess",
+    "doi": "https://doi.org/10.18728/igb-fred-1043.0",
+    "source": "FRED",
+    "place": "SOFL07",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.476,
+    "lon": 13.625,
+    "title": "Oxic and suboxic zones along hyporheic flow paths contribute to the attenuation of trace organic contaminants, as revealed by suspect screening - Data repository",
+    "doi": "https://doi.org/10.18728/igb-fred-1038.1",
+    "source": "FRED",
+    "place": "Rechter Randgraben",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.499,
+    "lon": 14.632,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Reitwein",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.578,
+    "lon": 14.628,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Küstrin",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.071,
+    "lon": 14.752,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Ratzdorf",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.067,
+    "lon": 14.758,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Neiße Ratzdorf",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.146,
+    "lon": 14.679,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Eisenhüttenstadt",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.762,
+    "lon": 14.318,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Güstebieser Loose",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.242,
+    "lon": 14.704,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Aurith Fähre",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.812,
+    "lon": 14.222,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Europabrücke",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.347,
+    "lon": 14.555,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Frankfurt Stadtbrücke",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.424,
+    "lon": 14.543,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Lebus",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.843,
+    "lon": 14.122,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Hohenwutzen",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.897,
+    "lon": 14.152,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Lunower Dammhaus",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.982,
+    "lon": 14.191,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Stützkow Turm Querdeich",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.035,
+    "lon": 14.311,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder Schwedt Oderbrücke",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.923,
+    "lon": 14.126,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Alte Oder (Hohensaaten-Friedrichsthaler Wasserstraße) Stolzenhagen",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.053,
+    "lon": 14.29,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Alte Oder (Hohensaaten-Friedrichsthaler Wasserstraße) Schwedt Brücke",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.077,
+    "lon": 14.361,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder vor Schwedter Querfahrt Mündung",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.109,
+    "lon": 14.339,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Alte Oder (Hohensaaten-Friedrichsthaler Wasserstraße) Gatow",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.141,
+    "lon": 14.384,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Oder vor Westoder Abzweig",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.206,
+    "lon": 14.394,
+    "title": "ODER~SO water chemistry",
+    "doi": "https://doi.org/10.18728/igb-fred-1033.0",
+    "source": "FRED",
+    "place": "Westoder Gartz Hafen",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.476,
+    "lon": 13.625,
+    "title": "Oxic and suboxic zones along hyporheic flow paths contribute to the attenuation of trace organic contaminants, as revealed by suspect screening - Data repository",
+    "doi": "https://doi.org/10.18728/igb-fred-1026.0",
+    "source": "FRED",
+    "place": "Rechter Randgraben",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.455,
+    "lon": 13.597,
+    "title": "Electrical conductivity as a a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-974.3",
+    "source": "FRED",
+    "place": "Erpe Elsengrund",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.448,
+    "lon": 13.647,
+    "title": "Electrical conductivity as a a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-974.3",
+    "source": "FRED",
+    "place": "L2",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.441,
+    "lon": 13.622,
+    "title": "Electrical conductivity as a a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-974.3",
+    "source": "FRED",
+    "place": "L1",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.444,
+    "lon": 13.621,
+    "title": "Electrical conductivity as a a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-974.3",
+    "source": "FRED",
+    "place": "Up2",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.449,
+    "lon": 13.604,
+    "title": "Electrical conductivity as a a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-974.3",
+    "source": "FRED",
+    "place": "Up1",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.447,
+    "lon": 13.584,
+    "title": "Electrical conductivity as a a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-974.3",
+    "source": "FRED",
+    "place": "Down",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 5.2409,
+    "lon": 8.8842,
+    "title": "A spatial inventory of freshwater macroinvertebrate occurrences in the Guineo-Congolian biodiversity hotspot",
+    "doi": "https://doi.org/10.18728/igb-fred-899.0",
+    "source": "FRED",
+    "place": "Guineo-Congolian region",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.127,
+    "lon": 12.958,
+    "title": "FRED DEMO",
+    "doi": "https://doi.org/10.18728/igb-fred-968.7",
+    "source": "FRED",
+    "place": "Transekt",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.104,
+    "lon": 12.983,
+    "title": "FRED DEMO",
+    "doi": "https://doi.org/10.18728/igb-fred-968.7",
+    "source": "FRED",
+    "place": "Moor an der Großen Fuchskuhle",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.127,
+    "lon": 12.958,
+    "title": "FRED DEMO",
+    "doi": "https://doi.org/10.18728/igb-fred-967.6",
+    "source": "FRED",
+    "place": "Transekt",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.104,
+    "lon": 12.983,
+    "title": "FRED DEMO",
+    "doi": "https://doi.org/10.18728/igb-fred-967.6",
+    "source": "FRED",
+    "place": "Moor an der Großen Fuchskuhle",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.455,
+    "lon": 13.597,
+    "title": "Electrical conductivity as a a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-962.2",
+    "source": "FRED",
+    "place": "Erpe Elsengrund",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.448,
+    "lon": 13.647,
+    "title": "Electrical conductivity as a a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-962.2",
+    "source": "FRED",
+    "place": "L2",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.441,
+    "lon": 13.622,
+    "title": "Electrical conductivity as a a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-962.2",
+    "source": "FRED",
+    "place": "L1",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.444,
+    "lon": 13.621,
+    "title": "Electrical conductivity as a a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-962.2",
+    "source": "FRED",
+    "place": "Up2",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.449,
+    "lon": 13.604,
+    "title": "Electrical conductivity as a a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-962.2",
+    "source": "FRED",
+    "place": "Up1",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.447,
+    "lon": 13.584,
+    "title": "Electrical conductivity as a a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-962.2",
+    "source": "FRED",
+    "place": "Down",
+    "year": 2025,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.548,
+    "lon": 13.372,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Panke, Wiesenstraße",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.453,
+    "lon": 13.594,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Erpe, Freiarmbrücke",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.455,
+    "lon": 13.566,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Wuhle, Lindenstraße (Berlin-Köpenick)",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.46,
+    "lon": 13.512,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Spree, Kaisersteg",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.457,
+    "lon": 13.611,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Neuhagener Mühlenfließ Erpetal",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.548,
+    "lon": 13.488,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Obersee",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.548,
+    "lon": 13.482,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Orankesee",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.533,
+    "lon": 13.373,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Südpanke",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.576,
+    "lon": 13.407,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Panke Schlosspark",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.505,
+    "lon": 13.371,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Piano See",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.53,
+    "lon": 13.582,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Wuhleteich",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.529,
+    "lon": 13.584,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Wuhle",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.561,
+    "lon": 13.571,
+    "title": "BiNatur - Biodiversity in urban Rivers",
+    "doi": "https://doi.org/10.18728/igb-fred-939.0",
+    "source": "FRED",
+    "place": "Neue Wuhle",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.157,
+    "lon": 13.032,
+    "title": "Lake Stechlin methane data (2019-2020)",
+    "doi": "https://doi.org/10.18728/igb-fred-920.3",
+    "source": "FRED",
+    "place": "Stechlin Tiefenpunkt",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.449,
+    "lon": 13.604,
+    "title": "Electrical conductivity as a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-905.1",
+    "source": "FRED",
+    "place": "Up1",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.441,
+    "lon": 13.622,
+    "title": "Electrical conductivity as a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-905.1",
+    "source": "FRED",
+    "place": "L1",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.447,
+    "lon": 13.584,
+    "title": "Electrical conductivity as a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-905.1",
+    "source": "FRED",
+    "place": "Down",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.444,
+    "lon": 13.621,
+    "title": "Electrical conductivity as a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-905.1",
+    "source": "FRED",
+    "place": "Up2",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.448,
+    "lon": 13.647,
+    "title": "Electrical conductivity as a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-905.1",
+    "source": "FRED",
+    "place": "L2",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.455,
+    "lon": 13.597,
+    "title": "Electrical conductivity as a tracer for seasonal reverse flow and transport of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-905.1",
+    "source": "FRED",
+    "place": "Erpe Elsengrund",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.449,
+    "lon": 13.604,
+    "title": "Electrical conductivity as a tracer for seasonal reverse flow and spatial distribution of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-904.0",
+    "source": "FRED",
+    "place": "Up1",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.441,
+    "lon": 13.622,
+    "title": "Electrical conductivity as a tracer for seasonal reverse flow and spatial distribution of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-904.0",
+    "source": "FRED",
+    "place": "L1",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.447,
+    "lon": 13.584,
+    "title": "Electrical conductivity as a tracer for seasonal reverse flow and spatial distribution of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-904.0",
+    "source": "FRED",
+    "place": "Down",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.444,
+    "lon": 13.621,
+    "title": "Electrical conductivity as a tracer for seasonal reverse flow and spatial distribution of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-904.0",
+    "source": "FRED",
+    "place": "Up2",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.448,
+    "lon": 13.647,
+    "title": "Electrical conductivity as a tracer for seasonal reverse flow and spatial distribution of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-904.0",
+    "source": "FRED",
+    "place": "L2",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.455,
+    "lon": 13.597,
+    "title": "Electrical conductivity as a tracer for seasonal reverse flow and spatial distribution of trace organic contaminants in River Spree - Data Repository",
+    "doi": "https://doi.org/10.18728/igb-fred-904.0",
+    "source": "FRED",
+    "place": "Erpe Elsengrund",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.476,
+    "lon": 13.625,
+    "title": "Attenuation of trace organic compounds along hyporheic flow paths in a lowland sandbed stream - data from \"Rechter Randgraben\"",
+    "doi": "https://doi.org/10.18728/igb-fred-902.2",
+    "source": "FRED",
+    "place": "Rechter Randgraben",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 59.836,
+    "lon": 18.631,
+    "title": "Nanoflagellate trophic strategies in the Run-off experiment in Lake Erken, SITES AquaNet, 2022",
+    "doi": "https://doi.org/10.18728/igb-fred-879.0",
+    "source": "FRED",
+    "place": "Erken AquaNet platform",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.157,
+    "lon": 13.032,
+    "title": "Lake Stechlin methane data (2019-2020)",
+    "doi": "https://doi.org/10.18728/igb-fred-874.2",
+    "source": "FRED",
+    "place": "Stechlin Tiefenpunkt",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.157,
+    "lon": 13.032,
+    "title": "Lake Stechlin methane data (2019-2020)",
+    "doi": "https://doi.org/10.18728/igb-fred-872.1",
+    "source": "FRED",
+    "place": "Stechlin Tiefenpunkt",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.157,
+    "lon": 13.032,
+    "title": "Lake Stechlin methane data (2019-2020)",
+    "doi": "https://doi.org/10.18728/igb-fred-871.0",
+    "source": "FRED",
+    "place": "Stechlin Tiefenpunkt",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.438,
+    "lon": 13.67,
+    "title": "Müggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/igb-fred-867.2",
+    "source": "FRED",
+    "place": "Müggelsee M3",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.434,
+    "lon": 13.658,
+    "title": "Müggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/igb-fred-867.2",
+    "source": "FRED",
+    "place": "Müggelsee M7",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.431,
+    "lon": 13.632,
+    "title": "Müggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/igb-fred-867.2",
+    "source": "FRED",
+    "place": "Müggelsee M10",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.442,
+    "lon": 13.635,
+    "title": "Müggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/igb-fred-867.2",
+    "source": "FRED",
+    "place": "Müggelsee M8",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.427,
+    "lon": 13.643,
+    "title": "Müggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/igb-fred-867.2",
+    "source": "FRED",
+    "place": "Müggelsee MS1",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.443,
+    "lon": 13.652,
+    "title": "Müggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/igb-fred-867.2",
+    "source": "FRED",
+    "place": "Müggelsee M5",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.548,
+    "lon": 13.372,
+    "title": "Inter-catchement comparison between urban and rural agricultural stream",
+    "doi": "https://doi.org/10.18728/igb-fred-865.0",
+    "source": "FRED",
+    "place": "Panke, Wiesenstraße",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.393,
+    "lon": 14.198,
+    "title": "Inter-catchement comparison between urban and rural agricultural stream",
+    "doi": "https://doi.org/10.18728/igb-fred-865.0",
+    "source": "FRED",
+    "place": "Demnitzer Mühlenfließ DM32",
+    "year": 2024,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.566,
+    "lon": 13.234,
+    "title": "Lake Tegel physico-chemical data",
+    "doi": "https://doi.org/10.18728/557.0",
+    "source": "FRED",
+    "place": "Station V",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.562,
+    "lon": 13.232,
+    "title": "Lake Tegel physico-chemical data",
+    "doi": "https://doi.org/10.18728/557.0",
+    "source": "FRED",
+    "place": "Station VI",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.59,
+    "lon": 13.265,
+    "title": "Lake Tegel physico-chemical data",
+    "doi": "https://doi.org/10.18728/557.0",
+    "source": "FRED",
+    "place": "Station II",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.587,
+    "lon": 13.271,
+    "title": "Lake Tegel physico-chemical data",
+    "doi": "https://doi.org/10.18728/557.0",
+    "source": "FRED",
+    "place": "Station I",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.573,
+    "lon": 13.241,
+    "title": "Lake Tegel physico-chemical data",
+    "doi": "https://doi.org/10.18728/557.0",
+    "source": "FRED",
+    "place": "Station IV",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.58,
+    "lon": 13.262,
+    "title": "Lake Tegel physico-chemical data",
+    "doi": "https://doi.org/10.18728/557.0",
+    "source": "FRED",
+    "place": "Station III",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.566,
+    "lon": 13.234,
+    "title": "Lake Tegel Phytoplankton 1987 - 2006",
+    "doi": "https://doi.org/10.18728/558.0",
+    "source": "FRED",
+    "place": "Station V",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.562,
+    "lon": 13.232,
+    "title": "Lake Tegel Phytoplankton 1987 - 2006",
+    "doi": "https://doi.org/10.18728/558.0",
+    "source": "FRED",
+    "place": "Station VI",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.59,
+    "lon": 13.265,
+    "title": "Lake Tegel Phytoplankton 1987 - 2006",
+    "doi": "https://doi.org/10.18728/558.0",
+    "source": "FRED",
+    "place": "Station II",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.587,
+    "lon": 13.271,
+    "title": "Lake Tegel Phytoplankton 1987 - 2006",
+    "doi": "https://doi.org/10.18728/558.0",
+    "source": "FRED",
+    "place": "Station I",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.573,
+    "lon": 13.241,
+    "title": "Lake Tegel Phytoplankton 1987 - 2006",
+    "doi": "https://doi.org/10.18728/558.0",
+    "source": "FRED",
+    "place": "Station IV",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.58,
+    "lon": 13.262,
+    "title": "Lake Tegel Phytoplankton 1987 - 2006",
+    "doi": "https://doi.org/10.18728/558.0",
+    "source": "FRED",
+    "place": "Station III",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.476,
+    "lon": 13.625,
+    "title": "Attenuation of trace organic compounds along hyporheic flow paths in a lowland sandbed stream - data from \"Rechter Randgraben\"",
+    "doi": "https://doi.org/10.18728/igb-fred-839.1",
+    "source": "FRED",
+    "place": "Rechter Randgraben",
+    "year": 2023,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.438,
+    "lon": 13.67,
+    "title": "Müggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/igb-fred-575.1",
+    "source": "FRED",
+    "place": "Müggelsee M3",
+    "year": 2021,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.434,
+    "lon": 13.658,
+    "title": "Müggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/igb-fred-575.1",
+    "source": "FRED",
+    "place": "Müggelsee M7",
+    "year": 2021,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.431,
+    "lon": 13.632,
+    "title": "Müggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/igb-fred-575.1",
+    "source": "FRED",
+    "place": "Müggelsee M10",
+    "year": 2021,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.442,
+    "lon": 13.635,
+    "title": "Müggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/igb-fred-575.1",
+    "source": "FRED",
+    "place": "Müggelsee M8",
+    "year": 2021,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.427,
+    "lon": 13.643,
+    "title": "Müggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/igb-fred-575.1",
+    "source": "FRED",
+    "place": "Müggelsee MS1",
+    "year": 2021,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.443,
+    "lon": 13.652,
+    "title": "Müggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/igb-fred-575.1",
+    "source": "FRED",
+    "place": "Müggelsee M5",
+    "year": 2021,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.476,
+    "lon": 13.625,
+    "title": "The relevance of specific hyporheic flow paths for the attenuation of trace organic compounds in a lowland stream - data from \"Rechter Randgraben\"",
+    "doi": "https://doi.org/10.18728/igb-fred-818.0",
+    "source": "FRED",
+    "place": "Rechter Randgraben",
+    "year": 2023,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.42,
+    "lon": 13.813,
+    "title": "Werlsee insitu",
+    "doi": "https://doi.org/10.18728/igb-fred-817.0",
+    "source": "FRED",
+    "place": "Werlsee",
+    "year": 2023,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.47,
+    "lon": 13.623,
+    "title": "River Erpe electrical conductivity data summer 2016 / Project HypoTrain",
+    "doi": "https://doi.org/10.18728/igb-fred-803.0",
+    "source": "FRED",
+    "place": "Erpe Mühlenstraße",
+    "year": 2022,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.479,
+    "lon": 13.636,
+    "title": "River Erpe electrical conductivity data summer 2016 / Project HypoTrain",
+    "doi": "https://doi.org/10.18728/igb-fred-803.0",
+    "source": "FRED",
+    "place": "Erpe Heidemühle",
+    "year": 2022,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.455,
+    "lon": 13.597,
+    "title": "River Erpe electrical conductivity data summer 2016 / Project HypoTrain",
+    "doi": "https://doi.org/10.18728/igb-fred-803.0",
+    "source": "FRED",
+    "place": "Erpe Elsengrund",
+    "year": 2022,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.368,
+    "lon": 13.997,
+    "title": "MadMacs",
+    "doi": "https://doi.org/10.18728/igb-fred-771.0",
+    "source": "FRED",
+    "place": "Spree, Große Tränke bei Fürstenwalde (IGB-Messstelle 7)",
+    "year": 2022,
+    "type": "dataset"
+  },
+  {
+    "lat": 50.811,
+    "lon": 10.235,
+    "title": "Lake Burgsee manuscript \"Dynamics of greenhouse gases (CH4 and CO2) in meromictic Lake Burgsee, Germany\" data",
+    "doi": "https://doi.org/10.18728/igb-fred-761.0",
+    "source": "FRED",
+    "place": "Lake Burgsee sinkhole",
+    "year": 2022,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.104,
+    "lon": 12.983,
+    "title": "FRED DEMO",
+    "doi": "https://doi.org/10.18728/564.4",
+    "source": "FRED",
+    "place": "Moor an der Großen Fuchskuhle",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.127,
+    "lon": 12.958,
+    "title": "FRED DEMO",
+    "doi": "https://doi.org/10.18728/564.4",
+    "source": "FRED",
+    "place": "Transekt",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.476,
+    "lon": 13.625,
+    "title": "Seasonal differences in TrOC attenuation in the hyporheic zone of the Erpe side channel",
+    "doi": "https://doi.org/10.18728/igb-fred-578.0",
+    "source": "FRED",
+    "place": "Rechter Randgraben",
+    "year": 2021,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.127,
+    "lon": 12.958,
+    "title": "FRED DEMO",
+    "doi": "https://doi.org/10.18728/igb-fred-569.5",
+    "source": "FRED",
+    "place": "Transekt",
+    "year": 2021,
+    "type": "dataset"
+  },
+  {
+    "lat": 53.104,
+    "lon": 12.983,
+    "title": "FRED DEMO",
+    "doi": "https://doi.org/10.18728/igb-fred-569.5",
+    "source": "FRED",
+    "place": "Moor an der Großen Fuchskuhle",
+    "year": 2021,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.434,
+    "lon": 13.658,
+    "title": "Widespread deoxygenation of temperate lakes - Müggelsee data",
+    "doi": "https://doi.org/10.18728/568.0",
+    "source": "FRED",
+    "place": "Müggelsee M7",
+    "year": 2021,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.476,
+    "lon": 13.625,
+    "title": "Trace organics and dissolved organic matter - study at \"Rechter Randgraben\"",
+    "doi": "https://doi.org/10.18728/556.0",
+    "source": "FRED",
+    "place": "Rechter Randgraben",
+    "year": 2020,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.438,
+    "lon": 13.67,
+    "title": "Mueggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/526.0",
+    "source": "FRED",
+    "place": "Müggelsee M3",
+    "year": 2019,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.434,
+    "lon": 13.658,
+    "title": "Mueggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/526.0",
+    "source": "FRED",
+    "place": "Müggelsee M7",
+    "year": 2019,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.431,
+    "lon": 13.632,
+    "title": "Mueggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/526.0",
+    "source": "FRED",
+    "place": "Müggelsee M10",
+    "year": 2019,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.442,
+    "lon": 13.635,
+    "title": "Mueggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/526.0",
+    "source": "FRED",
+    "place": "Müggelsee M8",
+    "year": 2019,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.427,
+    "lon": 13.643,
+    "title": "Mueggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/526.0",
+    "source": "FRED",
+    "place": "Müggelsee MS1",
+    "year": 2019,
+    "type": "dataset"
+  },
+  {
+    "lat": 52.443,
+    "lon": 13.652,
+    "title": "Mueggelsee phytoplankton",
+    "doi": "https://doi.org/10.18728/526.0",
+    "source": "FRED",
+    "place": "Müggelsee M5",
+    "year": 2019,
+    "type": "dataset"
+  },
+  {
+    "lat": -3.0,
+    "lon": -60.0,
+    "title": "Amazon",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 27,
+    "top_pubs": [
+      {
+        "title": "Group-level phenotypes are idiosyncratic yet unpredictable over development in a clonal fish",
+        "year": 2026,
+        "doi": "https://doi.org/10.64898/2026.02.03.700030"
+      },
+      {
+        "title": "Activity during the first days of life predicts lifespan in a naturally clonal vertebrate",
+        "year": 2026,
+        "doi": "https://doi.org/10.64898/2026.02.21.707185"
+      },
+      {
+        "title": "Paternal effects without paternity? Testing non-genetic male influence on offspring size and brood size in a gynogenetic vertebrate, the Amazon molly (Poecilia formosa)",
+        "year": 2026,
+        "doi": "https://doi.org/10.1371/journal.pone.0328962"
+      }
+    ]
+  },
+  {
+    "lat": 57.0,
+    "lon": 18.0,
+    "title": "Baltic Sea",
+    "source": "publications",
+    "type": "marine",
+    "pub_count": 124,
+    "top_pubs": [
+      {
+        "title": "williamarlidge/responsibility_cod_closure: v1.0.0 – Code & data for \"Recreational anglers' attribution of causal responsibility for the western Baltic cod stock collapse\"",
+        "year": 2026,
+        "doi": "https://doi.org/10.5281/zenodo.18635334"
+      },
+      {
+        "title": "williamarlidge/responsibility_cod_closure: v1.0.0 – Code & data for \"Recreational anglers' attribution of causal responsibility for the western Baltic cod stock collapse\"",
+        "year": 2026,
+        "doi": "https://doi.org/10.5281/zenodo.18635333"
+      },
+      {
+        "title": "williamarlidge/anglers_perceptions_codstock_regimeshifts: v1.0.0 – Code & data for \"Anglers' perceptions of cod-stock regime shifts\"",
+        "year": 2026,
+        "doi": "https://doi.org/10.5281/zenodo.16338019"
+      }
+    ]
+  },
+  {
+    "lat": 52.75,
+    "lon": 14.55,
+    "title": "Oder",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 207,
+    "top_pubs": [
+      {
+        "title": "A High-Density Bloom of Prymnesium parvum with No Apparent Toxicity in the Oder After the Ecological Disaster of 2022",
+        "year": 2026,
+        "doi": "https://doi.org/10.3390/w18030324"
+      },
+      {
+        "title": "Characterizing mixed strongyle infections in foals and broodmares using cytochrome c oxidase subunit I deep amplicon sequencing",
+        "year": 2026,
+        "doi": "https://doi.org/10.6084/m9.figshare.c.8289066"
+      },
+      {
+        "title": "Characterizing mixed strongyle infections in foals and broodmares using cytochrome c oxidase subunit I deep amplicon sequencing",
+        "year": 2026,
+        "doi": "https://doi.org/10.6084/m9.figshare.c.8289066.v1"
+      }
+    ]
+  },
+  {
+    "lat": 52.438,
+    "lon": 13.653,
+    "title": "Müggelsee",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 44,
+    "top_pubs": [
+      {
+        "title": "Electrical Conductivity as a Tracer for Seasonal Reverse Flow and Transport of Trace Organic Contaminants in River Spree",
+        "year": 2025,
+        "doi": "https://doi.org/10.1002/hyp.70084"
+      },
+      {
+        "title": "Early warning of harmful cyanobacteria blooms based on high frequency in situ monitoring and intelligible machine learning modelling: The case study of Lake Müggelsee (Germany)",
+        "year": 2025,
+        "doi": "https://doi.org/10.1016/j.watres.2025.124514"
+      },
+      {
+        "title": "Iron from Lignite Mining Increases Phosphorus Fixation in Sediments, but Does Not Affect Trophic States of Lakes Along River Spree (Germany)",
+        "year": 2023,
+        "doi": "https://doi.org/10.1007/s11270-023-06441-2"
+      }
+    ]
+  },
+  {
+    "lat": 31.0,
+    "lon": 117.0,
+    "title": "Yangtze",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 12,
+    "top_pubs": [
+      {
+        "title": "The crucial role of ecohydraulic factors in triggering sturgeon reproduction: Implications for active habitat restoration strategies in the Yangtze River",
+        "year": 2025,
+        "doi": "https://doi.org/10.1111/1365-2664.70020"
+      },
+      {
+        "title": "Community assembly characteristics of abundant and rare bacterial taxa in water, sediment and riparian soil of Wujiang river, China",
+        "year": 2025,
+        "doi": "https://doi.org/10.1016/j.ecoenv.2025.118262"
+      },
+      {
+        "title": "Health risk ranking of antibiotic resistance genes in the Yangtze River",
+        "year": 2024,
+        "doi": "https://doi.org/10.1016/j.ese.2024.100388"
+      }
+    ]
+  },
+  {
+    "lat": 50.36,
+    "lon": 7.6,
+    "title": "Rhine",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 28,
+    "top_pubs": [
+      {
+        "title": "High resolution projections of shifts in freshwater biodiversity habitats under global climate change ",
+        "year": 2026,
+        "doi": "https://doi.org/10.5194/egusphere-egu26-19593"
+      },
+      {
+        "title": "Ontogenetic shifts by juvenile fishes highlight the need for habitat heterogeneity and connectivity in river restoration",
+        "year": 2025,
+        "doi": "https://doi.org/10.1002/lno.12797"
+      },
+      {
+        "title": "Quality-checked species records from the German citizen science platform ArtenFinder",
+        "year": 2025,
+        "doi": "https://doi.org/10.3897/bdj.13.e150687"
+      }
+    ]
+  },
+  {
+    "lat": 53.151,
+    "lon": 13.03,
+    "title": "Lake Stechlin",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 81,
+    "top_pubs": [
+      {
+        "title": "High resolution spatiotemporal measuring of diel vertical migration in zooplankton shows size specific responses to variable natural light conditions",
+        "year": 2026,
+        "doi": "https://doi.org/10.5281/zenodo.18184570"
+      },
+      {
+        "title": "High resolution spatiotemporal measuring of diel vertical migration in zooplankton shows size specific responses to variable natural light conditions",
+        "year": 2026,
+        "doi": "https://doi.org/10.5281/zenodo.18184571"
+      },
+      {
+        "title": "High-resolution in situ imaging reveals size-specific moonlight responses in zooplankton diel vertical migration",
+        "year": 2026,
+        "doi": "https://doi.org/10.1038/s41598-026-36105-0"
+      }
+    ]
+  },
+  {
+    "lat": 51.5,
+    "lon": 14.2,
+    "title": "Lusatian Lakes",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 6,
+    "top_pubs": [
+      {
+        "title": "Reduced greenhouse gas emissions from particulate organic matter degradation in iron-enriched sediments",
+        "year": 2024,
+        "doi": "https://doi.org/10.1039/d4em00185k"
+      },
+      {
+        "title": "Iron from Lignite Mining Increases Phosphorus Fixation in Sediments, but Does Not Affect Trophic States of Lakes Along River Spree (Germany)",
+        "year": 2023,
+        "doi": "https://doi.org/10.1007/s11270-023-06441-2"
+      },
+      {
+        "title": "Impact of mining on geochemical signatures of riverine sediments in adjacent ecosystems",
+        "year": 2020,
+        "doi": "https://doi.org/10.5194/egusphere-egu2020-9159"
+      }
+    ]
+  },
+  {
+    "lat": 38.0,
+    "lon": 18.0,
+    "title": "Mediterranean",
+    "source": "publications",
+    "type": "marine",
+    "pub_count": 83,
+    "top_pubs": [
+      {
+        "title": "Drivers of CO <sub>2</sub> emissions during the dry phase in Mediterranean and Temperate ponds",
+        "year": 2026,
+        "doi": "https://doi.org/10.5194/bg-23-181-2026"
+      },
+      {
+        "title": "Evolution of flood generating processes under climate change in France",
+        "year": 2025,
+        "doi": "https://doi.org/10.5194/hess-29-7023-2025"
+      },
+      {
+        "title": "Individual movement behaviour and habitat use of a small-sized cypriniform (Telestes muticellus) in a mountain stream",
+        "year": 2025,
+        "doi": "https://doi.org/10.1007/s10641-024-01661-9"
+      }
+    ]
+  },
+  {
+    "lat": 54.09,
+    "lon": 12.13,
+    "title": "Warnow",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 3,
+    "top_pubs": [
+      {
+        "title": "Microplastics alter composition of fungal communities in aquatic ecosystems",
+        "year": 2017,
+        "doi": "https://doi.org/10.1111/1462-2920.13891"
+      },
+      {
+        "title": "Using Phytoplankton to Assess the Trophic Status of German Rivers",
+        "year": 2011,
+        "doi": "https://doi.org/10.1002/iroh.201111304"
+      },
+      {
+        "title": "Growth and Loss Processes of Riverine Phytoplankton in Relation to Water Depth",
+        "year": 2002,
+        "doi": "https://doi.org/10.1002/1522-2632(200205)87:2/3<241::aid-iroh241>3.0.co;2-a"
+      }
+    ]
+  },
+  {
+    "lat": 26.0,
+    "lon": 32.0,
+    "title": "Nile",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 153,
+    "top_pubs": [
+      {
+        "title": "A feasibility study on using a simplified mass balance to predict potassium in integrated freshwater aquaculture",
+        "year": 2026,
+        "doi": "https://doi.org/10.1016/j.aquaeng.2026.102691"
+      },
+      {
+        "title": "Host outnumbered: microbiomes and a fungal parasite interact to shape host genotype-dependent survival",
+        "year": 2026,
+        "doi": "https://doi.org/10.64898/2026.01.31.703031"
+      },
+      {
+        "title": "Mangroves support an estimated annual abundance of over 700 billion juvenile fish and invertebrates",
+        "year": 2025,
+        "doi": "https://doi.org/10.1038/s43247-025-02229-w"
+      }
+    ]
+  },
+  {
+    "lat": 56.0,
+    "lon": 4.0,
+    "title": "North Sea",
+    "source": "publications",
+    "type": "marine",
+    "pub_count": 21,
+    "top_pubs": [
+      {
+        "title": "Unravelling the Past: Genetic Structure and Species Diversity of Ancient Sturgeon in Lake Ladoga",
+        "year": 2026,
+        "doi": "https://doi.org/10.1111/jbi.70192"
+      },
+      {
+        "title": "The AquaINFRA research data infrastructure: Knowledge generation through FAIR open data and reproducible computational workflows",
+        "year": 2025,
+        "doi": "https://doi.org/10.5194/egusphere-egu25-9682"
+      },
+      {
+        "title": "First record of a Critically Endangered species, European sturgeon, in the stomach of harbor porpoises from the North Sea",
+        "year": 2024,
+        "doi": "https://doi.org/10.3354/esr01342"
+      }
+    ]
+  },
+  {
+    "lat": 52.497,
+    "lon": 13.455,
+    "title": "Spree",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 66,
+    "top_pubs": [
+      {
+        "title": "Macroplastic in urban waterways: assessing storage in Berlin's Spree River",
+        "year": 2026,
+        "doi": "https://doi.org/10.1016/j.envres.2026.123990"
+      },
+      {
+        "title": "Target and Nontarget Analyses Reveal Similar Dissolved Organic Contaminant Patterns Relative to Quantified Catchment Characteristics along Two German Rivers",
+        "year": 2026,
+        "doi": "https://doi.org/10.1021/acs.est.5c15195"
+      },
+      {
+        "title": "Enhancing process interpretation with isotopes: potential discharge-isotope trade-offs in ecohydrological modelling of heavily managed lowland catchments",
+        "year": 2026,
+        "doi": "https://doi.org/10.5194/hess-30-1143-2026"
+      }
+    ]
+  },
+  {
+    "lat": 46.15,
+    "lon": 12.97,
+    "title": "Tagliamento",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 19,
+    "top_pubs": [
+      {
+        "title": "Flow dynamics in rivers with riffle-pool morphology: a dataset from case studies and field experiments",
+        "year": 2023,
+        "doi": "https://doi.org/10.1038/s41597-023-02370-1"
+      },
+      {
+        "title": "Dataset on flow dynamics in rivers with riffle-pool morphology: results from case studies and field experiments on the Tagliamento River, Italy",
+        "year": 2023,
+        "doi": "https://doi.org/10.5281/zenodo.8042226"
+      },
+      {
+        "title": "Dataset on flow dynamics in rivers with riffle-pool morphology: results from case studies and field experiments on the Tagliamento River, Italy",
+        "year": 2023,
+        "doi": "https://doi.org/10.5281/zenodo.7801747"
+      }
+    ]
+  },
+  {
+    "lat": -6.0,
+    "lon": 29.5,
+    "title": "Lake Tanganyika",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 2,
+    "top_pubs": [
+      {
+        "title": "Depth-discrete metagenomics reveals the roles of microbes in biogeochemical cycling in the tropical freshwater Lake Tanganyika",
+        "year": 2021,
+        "doi": "https://doi.org/10.1038/s41396-021-00898-x"
+      },
+      {
+        "title": "Depth-discrete metagenomics reveals the roles of microbes in biogeochemical cycling in the tropical freshwater Lake Tanganyika",
+        "year": 2019,
+        "doi": "https://doi.org/10.1101/834861"
+      }
+    ]
+  },
+  {
+    "lat": 53.545,
+    "lon": 9.96,
+    "title": "Elbe",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 36,
+    "top_pubs": [
+      {
+        "title": "Nitrate source apportionment in a semiarid aquifer of Mexico using Bayesian dual-isotope mixing models (δ15N, δ18O, δ11B)",
+        "year": 2026,
+        "doi": "https://doi.org/10.5194/egusphere-egu26-15846"
+      },
+      {
+        "title": "Osmotolerance is a driver of microbial carbon processes in the Elbe estuary",
+        "year": 2026,
+        "doi": "https://doi.org/10.1128/msystems.01790-25"
+      },
+      {
+        "title": "Metabarcoding reveals potentially mixotrophic flagellates and picophytoplankton as key groups of phytoplankton in the Elbe estuary",
+        "year": 2024,
+        "doi": "https://doi.org/10.1016/j.envres.2024.119126"
+      }
+    ]
+  },
+  {
+    "lat": 46.45,
+    "lon": 6.55,
+    "title": "Lake Geneva",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 2,
+    "top_pubs": [
+      {
+        "title": "A hybrid empirical and parametric approach for managing ecosystem complexity: Water quality in Lake Geneva under nonstationary futures",
+        "year": 2022,
+        "doi": "https://doi.org/10.1073/pnas.2102466119"
+      },
+      {
+        "title": "Effects of increasing temperatures on methane concentrations and methanogenesis during experimental incubation of sediments from oligotrophic and mesotrophic lakes",
+        "year": 2016,
+        "doi": "https://doi.org/10.1002/2016jg003328"
+      }
+    ]
+  },
+  {
+    "lat": 48.22,
+    "lon": 16.38,
+    "title": "Danube",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 40,
+    "top_pubs": [
+      {
+        "title": "Assessing ecosystem services across scales to support nature-based solutions in river floodplains: a review of non-monetary tools",
+        "year": 2026,
+        "doi": "https://doi.org/10.3897/natureconservation.62.148716"
+      },
+      {
+        "title": "Assembling River Perspectives: Using a Jigsaw Puzzle to Co-Create a Traveling Exhibition about the Danube River",
+        "year": 2026,
+        "doi": "https://doi.org/10.58981/denvky08"
+      },
+      {
+        "title": "Optimizing river restoration: A multi-scenario approach to barrier removal prioritization",
+        "year": 2025,
+        "doi": "https://doi.org/10.1016/j.jenvman.2025.126176"
+      }
+    ]
+  },
+  {
+    "lat": 52.889,
+    "lon": 11.476,
+    "title": "Arendsee",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 12,
+    "top_pubs": [
+      {
+        "title": "Vivianite as a phosphorus source in lake sediments: Importance of increased sulphate reduction on phosphorus mobilisation",
+        "year": 2025,
+        "doi": "https://doi.org/10.1007/s11368-025-03986-z"
+      },
+      {
+        "title": "Groundwater-borne phosphorus import into Lake Arendsee and its changes over the last 15 years",
+        "year": 2025,
+        "doi": "https://doi.org/10.5194/egusphere-egu25-3989"
+      },
+      {
+        "title": "Effect of increased sulfate reduction on the stability of authigenic vivianite in lake sediment",
+        "year": 2023,
+        "doi": "https://doi.org/10.5194/egusphere-egu23-17209"
+      }
+    ]
+  },
+  {
+    "lat": 52.521,
+    "lon": 13.176,
+    "title": "Havel",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 9,
+    "top_pubs": [
+      {
+        "title": "Urban water systems under climate stress: An isotopic perspective from Berlin, Germany",
+        "year": 2020,
+        "doi": "https://doi.org/10.1002/hyp.13850"
+      },
+      {
+        "title": "Sedimentary Sulphur:Iron Ratio Indicates Vivianite Occurrence: A Study from Two Contrasting Freshwater Systems",
+        "year": 2015,
+        "doi": "https://doi.org/10.1371/journal.pone.0143737"
+      },
+      {
+        "title": "Estimating the potential for habitat restoration and connectivity effects on European sturgeon (<i>Acipenser sturio</i>L. 1758) population rehabilitation in a lowland river - the Havel, Germany",
+        "year": 2014,
+        "doi": "https://doi.org/10.1111/jai.12613"
+      }
+    ]
+  },
+  {
+    "lat": 15.0,
+    "lon": 105.0,
+    "title": "Mekong",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 3,
+    "top_pubs": [
+      {
+        "title": "Do alien species affect native freshwater megafauna?",
+        "year": 2023,
+        "doi": "https://doi.org/10.1111/fwb.14073"
+      },
+      {
+        "title": "Combined effects of life‐history traits and human impact on extinction risk of freshwater megafauna",
+        "year": 2020,
+        "doi": "https://doi.org/10.1111/cobi.13590"
+      },
+      {
+        "title": "Freshwater megafauna diversity: Patterns, status and threats",
+        "year": 2018,
+        "doi": "https://doi.org/10.1111/ddi.12780"
+      }
+    ]
+  },
+  {
+    "lat": 51.18,
+    "lon": 14.44,
+    "title": "Bautzen Reservoir",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 6,
+    "top_pubs": [
+      {
+        "title": "Impact of mining on geochemical signatures of riverine sediments in adjacent ecosystems",
+        "year": 2020,
+        "doi": "https://doi.org/10.5194/egusphere-egu2020-9159"
+      },
+      {
+        "title": "Size‐dependent predator–prey relationships between pikeperch and their prey fish",
+        "year": 2007,
+        "doi": "https://doi.org/10.1111/j.1600-0633.2006.00223.x"
+      },
+      {
+        "title": "Reduction of nutrient loading and biomanipulation as tools in water quality management: Long-term observations on Bautzen Reservoir and Feldberger Haussee (Germany)",
+        "year": 2007,
+        "doi": "https://doi.org/10.1080/07438140709354027"
+      }
+    ]
+  },
+  {
+    "lat": 53.5,
+    "lon": 108.0,
+    "title": "Lake Baikal",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 9,
+    "top_pubs": [
+      {
+        "title": "Autonomous System for Lake Ice Monitoring",
+        "year": 2021,
+        "doi": "https://doi.org/10.3390/s21248505"
+      },
+      {
+        "title": "Climate Change–Driven Regime Shifts in a Planktonic Food Web",
+        "year": 2020,
+        "doi": "https://doi.org/10.1086/712813"
+      },
+      {
+        "title": "Turbulence in the stratified boundary layer under ice: observations from Lake Baikal and a new similarity model",
+        "year": 2020,
+        "doi": "https://doi.org/10.5194/hess-24-1691-2020"
+      }
+    ]
+  },
+  {
+    "lat": 54.43,
+    "lon": 13.43,
+    "title": "Rügen",
+    "source": "publications",
+    "type": "marine",
+    "pub_count": 3,
+    "top_pubs": [
+      {
+        "title": "Data‐poor stock assessment of fish stocks co‐exploited by commercial and recreational fisheries: Applications to pike <i>Esox lucius</i> in the western Baltic Sea",
+        "year": 2021,
+        "doi": "https://doi.org/10.1111/fme.12514"
+      },
+      {
+        "title": "Data-poor stock assessment of fish stocks co-exploited by commercial and recreational fisheries: applications to pike ( <i>Esox lucius</i> ) in the western Baltic Sea",
+        "year": 2021,
+        "doi": "https://doi.org/10.1101/2021.01.20.427466"
+      },
+      {
+        "title": "Metazoan parasites from herring (Clupea harengus L.) as biological indicators in the Baltic Sea",
+        "year": 2014,
+        "doi": "https://doi.org/10.2478/s11686-014-0276-5"
+      }
+    ]
+  },
+  {
+    "lat": 59.842,
+    "lon": 18.565,
+    "title": "Lake Erken",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 6,
+    "top_pubs": [
+      {
+        "title": "Trophic strategies of freshwater nanoflagellates under variable run‐off scenarios",
+        "year": 2025,
+        "doi": "https://doi.org/10.1002/lno.70054"
+      },
+      {
+        "title": "Drivers of phytoplankton responses to summer wind events in a stratified lake: A modeling study",
+        "year": 2022,
+        "doi": "https://doi.org/10.1002/lno.12040"
+      },
+      {
+        "title": "Drivers of phytoplankton responses to summer storms in a stratified lake: a modelling study",
+        "year": 2021,
+        "doi": "https://doi.org/10.31223/x5pk8h"
+      }
+    ]
+  },
+  {
+    "lat": 31.2,
+    "lon": 120.2,
+    "title": "Lake Taihu",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 6,
+    "top_pubs": [
+      {
+        "title": "Differential microbiome features in lake–river systems of Taihu basin in response to water flow disturbance",
+        "year": 2024,
+        "doi": "https://doi.org/10.3389/fmicb.2024.1479158"
+      },
+      {
+        "title": "Distribution pattern of dissolved organic matter in pore water of sediments from three typical areas of western Lake Taihu and its environmental implications",
+        "year": 2023,
+        "doi": "https://doi.org/10.2166/wst.2023.364"
+      },
+      {
+        "title": "From minute to day: Ecophysiological response of phytoplankton to fluctuating light exposure during vertical mixing",
+        "year": 2022,
+        "doi": "https://doi.org/10.1002/lno.12240"
+      }
+    ]
+  },
+  {
+    "lat": 52.448,
+    "lon": 13.212,
+    "title": "Schlachtensee",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 3,
+    "top_pubs": [
+      {
+        "title": "Submerged Macrophyte Responses to Reduced Phosphorus Concentrations in Two Peri‐Urban Lakes",
+        "year": 2009,
+        "doi": "https://doi.org/10.1111/j.1526-100x.2009.00577.x"
+      },
+      {
+        "title": "Effects of nitrate on phosphorus release: comparison of two Berlin lakes",
+        "year": 2006,
+        "doi": "https://doi.org/10.1002/aheh.200500632"
+      },
+      {
+        "title": "Ecology of cryptophytes coexisting near a freshwater chemocline",
+        "year": 1998,
+        "doi": "https://doi.org/10.1046/j.1365-2427.1998.00260.x"
+      }
+    ]
+  },
+  {
+    "lat": 47.633,
+    "lon": 9.375,
+    "title": "Bodensee",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 4,
+    "top_pubs": [
+      {
+        "title": "Methanogenic Rates in Sediments Explain Long-Term Trends on Spatial and Seasonal Variation of CH4 Cycling in the Littoral Zone of Lake Constance",
+        "year": 2025,
+        "doi": "https://doi.org/10.5194/egusphere-egu25-2719"
+      },
+      {
+        "title": "Uniform Temperature Dependency in the Phenology of a Keystone Herbivore in Lakes of the Northern Hemisphere",
+        "year": 2012,
+        "doi": "https://doi.org/10.1371/journal.pone.0045497"
+      },
+      {
+        "title": "Community composition of bacterial biofilms on two submerged macrophytes and an artificial substrate in a pre-alpine lake",
+        "year": 2009,
+        "doi": "https://doi.org/10.3354/ame01353"
+      }
+    ]
+  },
+  {
+    "lat": 52.23,
+    "lon": 14.04,
+    "title": "Scharmützelsee",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 2,
+    "top_pubs": [
+      {
+        "title": "Dilemma of Non‐Steady State in Lakes – Development and Predictability of In‐Lake P Concentration in Dimictic Lake Scharmützelsee (Germany) after Abrupt Load Reduction",
+        "year": 2011,
+        "doi": "https://doi.org/10.1002/iroh.201111287"
+      },
+      {
+        "title": "Can Submerged Macrophytes Influence Turbidity and Trophic State in Deep Lakes? Suggestions from a Case Study",
+        "year": 2010,
+        "doi": "https://doi.org/10.2134/jeq2009.0122"
+      }
+    ]
+  },
+  {
+    "lat": 52.99,
+    "lon": 13.58,
+    "title": "Döllnsee",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 2,
+    "top_pubs": [
+      {
+        "title": "Fine‐scale movement ecology of a freshwater top predator, Eurasian perch (<i>Perca fluviatilis</i>), in response to the abiotic environment over the course of a year",
+        "year": 2018,
+        "doi": "https://doi.org/10.1111/eff.12393"
+      },
+      {
+        "title": "Residues of total mercury in fish from two small lakes in the biosphere reserve of Schorfheide‐Chorin in Brandenburg, east Germany",
+        "year": 1994,
+        "doi": "https://doi.org/10.1002/tox.2530090408"
+      }
+    ]
+  },
+  {
+    "lat": 53.02,
+    "lon": 13.65,
+    "title": "Haussee",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 9,
+    "top_pubs": [
+      {
+        "title": "Monitoring of Calcite Precipitation in Hardwater Lakes with Multi-Spectral Remote Sensing Archives",
+        "year": 2017,
+        "doi": "https://doi.org/10.3390/w9010015"
+      },
+      {
+        "title": "Reduction of nutrient loading and biomanipulation as tools in water quality management: Long-term observations on Bautzen Reservoir and Feldberger Haussee (Germany)",
+        "year": 2007,
+        "doi": "https://doi.org/10.1080/07438140709354027"
+      },
+      {
+        "title": "Microbial activity within a subaqueous dune in a large lowland river (River Elbe, Germany)",
+        "year": 2004,
+        "doi": "https://doi.org/10.3354/ame036083"
+      }
+    ]
+  },
+  {
+    "lat": 53.34,
+    "lon": 13.44,
+    "title": "Feldberger Seen",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 6,
+    "top_pubs": [
+      {
+        "title": "Monitoring of Calcite Precipitation in Hardwater Lakes with Multi-Spectral Remote Sensing Archives",
+        "year": 2017,
+        "doi": "https://doi.org/10.3390/w9010015"
+      },
+      {
+        "title": "Reduction of nutrient loading and biomanipulation as tools in water quality management: Long-term observations on Bautzen Reservoir and Feldberger Haussee (Germany)",
+        "year": 2007,
+        "doi": "https://doi.org/10.1080/07438140709354027"
+      },
+      {
+        "title": "Comparison of losses of planktivorous fish by predation and seine‐fishing in a lake undergoing long‐term biomanipulation",
+        "year": 2002,
+        "doi": "https://doi.org/10.1046/j.1365-2427.2002.00994.x"
+      }
+    ]
+  },
+  {
+    "lat": 54.4,
+    "lon": 13.1,
+    "title": "Bodden",
+    "source": "publications",
+    "type": "marine",
+    "pub_count": 2,
+    "top_pubs": [
+      {
+        "title": "Water isotopes in estuarine lagoons at the German Baltic Sea coast",
+        "year": 2022,
+        "doi": "https://doi.org/10.5194/egusphere-egu22-3585"
+      },
+      {
+        "title": "The Human Dimensions of Recreational Anglers Targeting Freshwater Species in Coastal Ecosystems, with Implications for Management",
+        "year": 2021,
+        "doi": "https://doi.org/10.1002/nafm.10672"
+      }
+    ]
+  },
+  {
+    "lat": 52.543,
+    "lon": 13.342,
+    "title": "Plötzensee",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 1,
+    "top_pubs": [
+      {
+        "title": "Sulphate reduction determines the long-term effect of iron amendments on phosphorus retention in lake sediments",
+        "year": 2021,
+        "doi": "https://doi.org/10.1007/s11368-021-03099-3"
+      }
+    ]
+  },
+  {
+    "lat": 52.46,
+    "lon": 13.11,
+    "title": "Groß Glienicker See",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 1,
+    "top_pubs": [
+      {
+        "title": "Sulphate reduction determines the long-term effect of iron amendments on phosphorus retention in lake sediments",
+        "year": 2021,
+        "doi": "https://doi.org/10.1007/s11368-021-03099-3"
+      }
+    ]
+  },
+  {
+    "lat": 53.0,
+    "lon": 13.63,
+    "title": "Großer Vätersee",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 5,
+    "top_pubs": [
+      {
+        "title": "Impact of <i>Chaoborus flavicans</i> ‐Predation on the Zooplankton in a Mesotrophic Lake – a Three Year Study",
+        "year": 2011,
+        "doi": "https://doi.org/10.1002/iroh.201011253"
+      },
+      {
+        "title": "Piscivory and trophic position of <i>Anguilla anguilla</i> in two lakes: importance of macrozoobenthos density",
+        "year": 2009,
+        "doi": "https://doi.org/10.1111/j.1095-8649.2009.02289.x"
+      },
+      {
+        "title": "Determinants of habitat use in large roach",
+        "year": 2006,
+        "doi": "https://doi.org/10.1111/j.1095-8649.2006.01189.x"
+      }
+    ]
+  },
+  {
+    "lat": 53.85,
+    "lon": 13.07,
+    "title": "Peene",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 2,
+    "top_pubs": [
+      {
+        "title": "The unexpected long period of elevated <scp>CH<sub>4</sub></scp> emissions from an inundated fen meadow ended only with the occurrence of cattail (<i>Typha latifolia</i>)",
+        "year": 2023,
+        "doi": "https://doi.org/10.1111/gcb.16713"
+      },
+      {
+        "title": "Water isotopes in estuarine lagoons at the German Baltic Sea coast",
+        "year": 2022,
+        "doi": "https://doi.org/10.5194/egusphere-egu22-3585"
+      }
+    ]
+  },
+  {
+    "lat": -1.0,
+    "lon": 33.0,
+    "title": "Lake Victoria",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 1,
+    "top_pubs": [
+      {
+        "title": "Cyanotoxin-producing bloom of Anabaena flos-aquae, Anabaena discoidea and Microcystis aeruginosa (Cyanobacteria) in Nyanza Gulf of Lake Victoria, Kenya",
+        "year": 2002,
+        "doi": ""
+      }
+    ]
+  },
+  {
+    "lat": 53.38,
+    "lon": 13.46,
+    "title": "Breiter Luzin",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 2,
+    "top_pubs": [
+      {
+        "title": "Monitoring of Calcite Precipitation in Hardwater Lakes with Multi-Spectral Remote Sensing Archives",
+        "year": 2017,
+        "doi": "https://doi.org/10.3390/w9010015"
+      },
+      {
+        "title": "Evidence for independent origin of two spring‐spawning ciscoes (Salmoniformes: Coregonidae) in Germany",
+        "year": 2006,
+        "doi": "https://doi.org/10.1111/j.0022-1112.2006.01039.x"
+      }
+    ]
+  },
+  {
+    "lat": 52.45,
+    "lon": 13.72,
+    "title": "Löcknitz",
+    "source": "publications",
+    "type": "river",
+    "pub_count": 1,
+    "top_pubs": [
+      {
+        "title": "Pore Water Composition as Device for the Detection of Origin and Flow Direction of Soil Water in Alluvial Soils of the Middle Elbe River",
+        "year": 2003,
+        "doi": "https://doi.org/10.1002/aheh.200300498"
+      }
+    ]
+  },
+  {
+    "lat": 47.99,
+    "lon": 11.12,
+    "title": "Ammersee",
+    "source": "publications",
+    "type": "lake",
+    "pub_count": 1,
+    "top_pubs": [
+      {
+        "title": "Salvelinus evasus sp. n., a charr from deep waters of Lake Ammersee, southern Germany (Teleostei: Salmonidae), with comments on two extinct species",
+        "year": 2005,
+        "doi": "https://doi.org/10.5962/bhl.part.80298"
+      }
+    ]
+  }
+]

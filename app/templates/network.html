@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborator Network &mdash; Flintstone</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .network-container {
+            background: var(--igb-card);
+            border-radius: var(--radius);
+            padding: 1.4rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        #network-svg {
+            width: 100%;
+            height: 620px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--igb-border);
+            background: #f8fafb;
+        }
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.7rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .controls label { font-size: 0.82rem; color: var(--igb-text-light); }
+        .controls select, .controls input {
+            padding: 0.3rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--igb-border);
+            font-size: 0.82rem;
+            font-family: var(--font-body);
+        }
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 0.5rem 0 0.7rem;
+            justify-content: center;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.78rem;
+            color: var(--igb-text-light);
+        }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .node-label {
+            font-family: var(--font-body);
+            font-size: 9px;
+            fill: #475569;
+            pointer-events: none;
+        }
+        .node-label-highlight {
+            font-size: 11px;
+            font-weight: 600;
+            fill: #1a2332;
+        }
+        .tooltip-network {
+            position: fixed;
+            display: none;
+            background: rgba(10,20,35,0.92);
+            color: white;
+            padding: 0.55rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            max-width: 240px;
+            pointer-events: none;
+            z-index: 100;
+            line-height: 1.45;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+        }
+        .tooltip-network strong { color: #8ecae6; }
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+    <header>
+        <div class="header-content">
+            <h1>
+                <span class="logo-icon">🪨</span>
+                <a href="/" style="color:white; text-decoration:none;">Flintstone</a>
+                <span class="header-subtitle">Collaborator Network</span>
+            </h1>
+            <p class="header-tagline">IGB co-authorship connections between current staff</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="network-container">
+            <div class="map-stats">
+                <div class="stat-chip"><span class="stat-chip-value" id="nodeCount">-</span><span class="stat-chip-label">researchers</span></div>
+                <div class="stat-chip"><span class="stat-chip-value" id="edgeCount">-</span><span class="stat-chip-label">collaborations</span></div>
+                <div class="stat-chip"><span class="stat-chip-value" id="crossDept">-</span><span class="stat-chip-label">cross-department</span></div>
+            </div>
+
+            <div class="controls">
+                <label>Min. shared papers:
+                    <input type="range" id="minWeight" min="2" max="20" value="3" style="width:90px;">
+                    <span id="minWeightLabel">3</span>
+                </label>
+                <label>Department:
+                    <select id="deptFilter">
+                        <option value="all">All departments</option>
+                        <option value="(Dept. 1) Ecohydrology and Biogeochemistry">Dept. 1</option>
+                        <option value="(Dept. 2) Community and Ecosystem Ecology">Dept. 2</option>
+                        <option value="(Dept. 3) Plankton and Microbial Ecology">Dept. 3</option>
+                        <option value="(Dept. 4) Fish Biology, Fisheries and Aquaculture">Dept. 4</option>
+                        <option value="(Dept. 5) Evolutionary and Integrative Ecology">Dept. 5</option>
+                    </select>
+                </label>
+                <label>Search:
+                    <input type="text" id="searchName" placeholder="Find a researcher..." style="width:170px;">
+                </label>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item"><span class="legend-dot" style="background:#2196F3;"></span> Dept. 1</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#4CAF50;"></span> Dept. 2</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#FF9800;"></span> Dept. 3</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#9C27B0;"></span> Dept. 4</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#F44336;"></span> Dept. 5</div>
+                <div class="legend-item" style="opacity:0.5;font-size:0.72rem;">Node size = publications · Line = shared papers · Drag to rearrange · Scroll to zoom</div>
+            </div>
+
+            <svg id="network-svg"></svg>
+            <div class="tooltip-network" id="tooltip"></div>
+        </div>
+
+    </div>
+
+    <footer><div class="footer-content">🪨 Flintstone &mdash; IGB Publication Intelligence Tool</div></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+    <script>
+    const DEPT_COLORS = {
+        '(Dept. 1) Ecohydrology and Biogeochemistry': '#2196F3',
+        '(Dept. 2) Community and Ecosystem Ecology': '#4CAF50',
+        '(Dept. 3) Plankton and Microbial Ecology': '#FF9800',
+        '(Dept. 4) Fish Biology, Fisheries and Aquaculture': '#9C27B0',
+        '(Dept. 5) Evolutionary and Integrative Ecology': '#F44336',
+        'Directorate': '#607D8B',
+        'Administration': '#795548',
+        'Unknown': '#B0BEC5',
+    };
+
+    let allNodes = [], allEdges = [];
+    let simulation, svg, g, linkG, nodeG, labelG;
+
+    async function init() {
+        const resp = await fetch('/static/network.json');
+        const data = await resp.json();
+        allNodes = data.nodes;
+        allEdges = data.edges;
+
+        const container = document.getElementById('network-svg');
+        const w = container.clientWidth, h = container.clientHeight;
+
+        svg = d3.select('#network-svg')
+            .attr('viewBox', [0, 0, w, h]);
+
+        // Zoom
+        const zoom = d3.zoom()
+            .scaleExtent([0.3, 5])
+            .on('zoom', (e) => g.attr('transform', e.transform));
+
+        svg.call(zoom);
+
+        g = svg.append('g');
+        linkG = g.append('g').attr('class', 'links');
+        nodeG = g.append('g').attr('class', 'nodes');
+        labelG = g.append('g').attr('class', 'labels');
+
+        document.getElementById('minWeight').addEventListener('input', rebuild);
+        document.getElementById('deptFilter').addEventListener('change', rebuild);
+        document.getElementById('searchName').addEventListener('input', onSearch);
+
+        rebuild();
+    }
+
+    function rebuild() {
+        const minW = parseInt(document.getElementById('minWeight').value);
+        const dept = document.getElementById('deptFilter').value;
+        document.getElementById('minWeightLabel').textContent = minW;
+
+        // Filter
+        let edges = allEdges.filter(e => e.weight >= minW);
+        const connIds = new Set();
+        edges.forEach(e => { connIds.add(e.source.id || e.source); connIds.add(e.target.id || e.target); });
+
+        let nodes = allNodes.filter(n => connIds.has(n.id));
+        if (dept !== 'all') nodes = nodes.filter(n => n.dept === dept);
+
+        const visIds = new Set(nodes.map(n => n.id));
+        edges = edges.filter(e => visIds.has(e.source.id || e.source) && visIds.has(e.target.id || e.target));
+
+        // Stats
+        let cross = 0;
+        const nodeMap = {};
+        nodes.forEach(n => { nodeMap[n.id] = n; });
+        edges.forEach(e => {
+            const s = nodeMap[e.source.id || e.source], t = nodeMap[e.target.id || e.target];
+            if (s && t && s.dept !== t.dept) cross++;
+        });
+        document.getElementById('nodeCount').textContent = nodes.length;
+        document.getElementById('edgeCount').textContent = edges.length;
+        document.getElementById('crossDept').textContent = cross;
+
+        const container = document.getElementById('network-svg');
+        const w = container.clientWidth, h = container.clientHeight;
+
+        // D3 force simulation
+        if (simulation) simulation.stop();
+
+        simulation = d3.forceSimulation(nodes)
+            .force('link', d3.forceLink(edges).id(d => d.id).distance(60).strength(e => Math.min(e.weight * 0.02, 0.3)))
+            .force('charge', d3.forceManyBody().strength(-120))
+            .force('center', d3.forceCenter(w / 2, h / 2))
+            .force('collision', d3.forceCollide().radius(d => getRadius(d) + 3))
+            .on('tick', ticked);
+
+        // Links
+        linkG.selectAll('line').remove();
+        const links = linkG.selectAll('line').data(edges).enter().append('line')
+            .attr('stroke', '#c8d3de')
+            .attr('stroke-opacity', e => Math.min(0.15 + e.weight * 0.03, 0.5))
+            .attr('stroke-width', e => Math.min(0.5 + e.weight * 0.15, 3));
+
+        // Nodes
+        nodeG.selectAll('circle').remove();
+        const circles = nodeG.selectAll('circle').data(nodes).enter().append('circle')
+            .attr('r', d => getRadius(d))
+            .attr('fill', d => DEPT_COLORS[d.dept] || DEPT_COLORS.Unknown)
+            .attr('stroke', 'white')
+            .attr('stroke-width', 1.5)
+            .attr('cursor', 'pointer')
+            .style('transition', 'opacity 0.2s')
+            .on('mouseover', onHover)
+            .on('mouseout', onOut)
+            .on('click', (e, d) => window.open('/author/' + d.id, '_blank'))
+            .call(d3.drag()
+                .on('start', dragStart)
+                .on('drag', dragging)
+                .on('end', dragEnd));
+
+        // Labels (only for larger nodes)
+        labelG.selectAll('text').remove();
+        const labels = labelG.selectAll('text').data(nodes.filter(n => n.pubs > 15)).enter().append('text')
+            .attr('class', 'node-label')
+            .text(d => d.name.split(' ').pop())
+            .attr('text-anchor', 'middle')
+            .attr('dy', d => getRadius(d) + 11);
+
+        function ticked() {
+            links
+                .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+            circles.attr('cx', d => d.x).attr('cy', d => d.y);
+            labels.attr('x', d => d.x).attr('y', d => d.y);
+        }
+    }
+
+    function getRadius(d) { return Math.min(3.5 + Math.sqrt(d.pubs) * 1.3, 20); }
+
+    function onHover(event, d) {
+        const tooltip = document.getElementById('tooltip');
+        const neighbors = new Set();
+        allEdges.forEach(e => {
+            const sid = e.source.id || e.source, tid = e.target.id || e.target;
+            if (sid === d.id) neighbors.add(tid);
+            if (tid === d.id) neighbors.add(sid);
+        });
+
+        // Dim non-neighbors
+        nodeG.selectAll('circle').style('opacity', n => (n.id === d.id || neighbors.has(n.id)) ? 1 : 0.1);
+        linkG.selectAll('line').style('opacity', e => {
+            const sid = e.source.id || e.source, tid = e.target.id || e.target;
+            return (sid === d.id || tid === d.id) ? 0.6 : 0.03;
+        }).attr('stroke', e => {
+            const sid = e.source.id || e.source, tid = e.target.id || e.target;
+            return (sid === d.id || tid === d.id) ? '#004f7c' : '#c8d3de';
+        });
+        labelG.selectAll('text').style('opacity', n => (n.id === d.id || neighbors.has(n.id)) ? 1 : 0.05);
+
+        const shortDept = (d.dept || '').replace(/\(Dept\. (\d)\).*/, 'Dept. $1');
+        tooltip.style.display = 'block';
+        tooltip.style.left = (event.pageX + 12) + 'px';
+        tooltip.style.top = (event.pageY - 10) + 'px';
+        tooltip.innerHTML = `<strong>${d.name}</strong><br>${shortDept}<br>${d.pubs} publications · ${neighbors.size} collaborators`;
+    }
+
+    function onOut() {
+        document.getElementById('tooltip').style.display = 'none';
+        nodeG.selectAll('circle').style('opacity', 1);
+        linkG.selectAll('line').style('opacity', e => Math.min(0.15 + e.weight * 0.03, 0.5)).attr('stroke', '#c8d3de');
+        labelG.selectAll('text').style('opacity', 1);
+    }
+
+    function onSearch() {
+        const q = document.getElementById('searchName').value.toLowerCase();
+        if (q.length < 2) {
+            nodeG.selectAll('circle').style('opacity', 1).attr('stroke', 'white').attr('stroke-width', 1.5);
+            return;
+        }
+        nodeG.selectAll('circle')
+            .style('opacity', d => d.name.toLowerCase().includes(q) ? 1 : 0.15)
+            .attr('stroke', d => d.name.toLowerCase().includes(q) ? '#ff4444' : 'white')
+            .attr('stroke-width', d => d.name.toLowerCase().includes(q) ? 3 : 1.5);
+    }
+
+    function dragStart(event, d) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        d.fx = d.x; d.fy = d.y;
+    }
+    function dragging(event, d) { d.fx = event.x; d.fy = event.y; }
+    function dragEnd(event, d) {
+        if (!event.active) simulation.alphaTarget(0);
+        d.fx = null; d.fy = null;
+    }
+
+    init();
+    </script>
+</body>
+</html>

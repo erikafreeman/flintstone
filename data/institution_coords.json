@@ -1,0 +1,2144 @@
+{
+ "https://openalex.org/I1294671590": {
+  "lat": 48.85341,
+  "lon": 2.3488,
+  "name": "Centre National de la Recherche Scientifique",
+  "country": "FR",
+  "count": 14
+ },
+ "https://openalex.org/I205783295": {
+  "lat": 42.44063,
+  "lon": -76.49661,
+  "name": "Cornell University",
+  "country": "US",
+  "count": 4
+ },
+ "https://openalex.org/I99464096": {
+  "lat": 50.87959,
+  "lon": 4.70093,
+  "name": "KU Leuven",
+  "country": "BE",
+  "count": 2
+ },
+ "https://openalex.org/I84218800": {
+  "lat": 38.54491,
+  "lon": -121.74052,
+  "name": "University of California, Davis",
+  "country": "US",
+  "count": 2
+ },
+ "https://openalex.org/I8204097": {
+  "lat": 48.13743,
+  "lon": 11.57549,
+  "name": "Ludwig-Maximilians-Universität München",
+  "country": "DE",
+  "count": 2
+ },
+ "https://openalex.org/I204337017": {
+  "lat": 56.15674,
+  "lon": 10.21076,
+  "name": "Aarhus University",
+  "country": "DK",
+  "count": 4
+ },
+ "https://openalex.org/I133731052": {
+  "lat": 60.16952,
+  "lon": 24.93545,
+  "name": "University of Helsinki",
+  "country": "FI",
+  "count": 3
+ },
+ "https://openalex.org/I123387679": {
+  "lat": 59.85882,
+  "lon": 17.63889,
+  "name": "Uppsala University",
+  "country": "SE",
+  "count": 3
+ },
+ "https://openalex.org/I4210088668": {
+  "lat": 48.85341,
+  "lon": 2.3488,
+  "name": "Institut National de Recherche pour l'Agriculture, l'Alimentation et l'Environnement",
+  "country": "FR",
+  "count": 3
+ },
+ "https://openalex.org/I129774422": {
+  "lat": 48.20849,
+  "lon": 16.37208,
+  "name": "University of Vienna",
+  "country": "AT",
+  "count": 4
+ },
+ "https://openalex.org/I114090438": {
+  "lat": 50.11552,
+  "lon": 8.68417,
+  "name": "Goethe University Frankfurt",
+  "country": "DE",
+  "count": 4
+ },
+ "https://openalex.org/I75951250": {
+  "lat": 52.52437,
+  "lon": 13.41053,
+  "name": "Freie Universität Berlin",
+  "country": "DE",
+  "count": 10
+ },
+ "https://openalex.org/I114457229": {
+  "lat": 46.20222,
+  "lon": 6.14569,
+  "name": "University of Geneva",
+  "country": "CH",
+  "count": 3
+ },
+ "https://openalex.org/I913481162": {
+  "lat": 51.97,
+  "lon": 5.66667,
+  "name": "Wageningen University & Research",
+  "country": "NL",
+  "count": 3
+ },
+ "https://openalex.org/I4577782": {
+  "lat": 52.52437,
+  "lon": 13.41053,
+  "name": "Technische Universität Berlin",
+  "country": "DE",
+  "count": 7
+ },
+ "https://openalex.org/I1286329397": {
+  "lat": 38.96872,
+  "lon": -77.3411,
+  "name": "United States Geological Survey",
+  "country": "US",
+  "count": 3
+ },
+ "https://openalex.org/I134820265": {
+  "lat": 40.4165,
+  "lon": -3.70256,
+  "name": "Consejo Superior de Investigaciones Científicas",
+  "country": "ES",
+  "count": 3
+ },
+ "https://openalex.org/I126231945": {
+  "lat": 54.59682,
+  "lon": -5.92541,
+  "name": "Queen's University Belfast",
+  "country": "GB",
+  "count": 3
+ },
+ "https://openalex.org/I11701301": {
+  "lat": -27.46794,
+  "lon": 153.02809,
+  "name": "Griffith University",
+  "country": "AU",
+  "count": 5
+ },
+ "https://openalex.org/I190249584": {
+  "lat": 47.26266,
+  "lon": 11.39454,
+  "name": "Universität Innsbruck",
+  "country": "AT",
+  "count": 5
+ },
+ "https://openalex.org/I200763008": {
+  "lat": 50.58727,
+  "lon": 8.67554,
+  "name": "Justus-Liebig-Universität Gießen",
+  "country": "DE",
+  "count": 4
+ },
+ "https://openalex.org/I62318514": {
+  "lat": 51.45656967163086,
+  "lon": 7.012279987335205,
+  "name": "University of Duisburg-Essen",
+  "country": "DE",
+  "count": 6
+ },
+ "https://openalex.org/I298625061": {
+  "lat": 59.85882,
+  "lon": 17.63889,
+  "name": "Swedish University of Agricultural Sciences",
+  "country": "SE",
+  "count": 5
+ },
+ "https://openalex.org/I176453806": {
+  "lat": 52.39886,
+  "lon": 13.06566,
+  "name": "University of Potsdam",
+  "country": "DE",
+  "count": 4
+ },
+ "https://openalex.org/I202391551": {
+  "lat": 50.08804,
+  "lon": 14.42076,
+  "name": "Czech Academy of Sciences",
+  "country": "CZ",
+  "count": 3
+ },
+ "https://openalex.org/I110017253": {
+  "lat": 47.39484,
+  "lon": 0.70398,
+  "name": "Université de Tours",
+  "country": "FR",
+  "count": 3
+ },
+ "https://openalex.org/I251424209": {
+  "lat": 41.98311,
+  "lon": 2.82493,
+  "name": "Universitat de Girona",
+  "country": "ES",
+  "count": 4
+ },
+ "https://openalex.org/I137479271": {
+  "lat": 51.33962,
+  "lon": 12.37129,
+  "name": "Helmholtz Centre for Environmental Research",
+  "country": "DE",
+  "count": 10
+ },
+ "https://openalex.org/I1313606977": {
+  "lat": 52.530555725097656,
+  "lon": 13.379132270812988,
+  "name": "Museum für Naturkunde",
+  "country": "DE",
+  "count": 3
+ },
+ "https://openalex.org/I4210092773": {
+  "lat": 51.59982,
+  "lon": -1.1248,
+  "name": "UK Centre for Ecology & Hydrology",
+  "country": "GB",
+  "count": 2
+ },
+ "https://openalex.org/I3124161356": {
+  "lat": 48.97447,
+  "lon": 14.47434,
+  "name": "University of South Bohemia in České Budějovice",
+  "country": "CZ",
+  "count": 3
+ },
+ "https://openalex.org/I63664421": {
+  "lat": 47.397239685058594,
+  "lon": 8.618720054626465,
+  "name": "Swiss Federal Institute of Aquatic Science and Technology",
+  "country": "CH",
+  "count": 2
+ },
+ "https://openalex.org/I51783024": {
+  "lat": 51.52517,
+  "lon": 14.00164,
+  "name": "Brandenburg University of Technology Cottbus-Senftenberg",
+  "country": "DE",
+  "count": 2
+ },
+ "https://openalex.org/I4210135169": {
+  "lat": 41.38879,
+  "lon": 2.15899,
+  "name": "Institut de Biologia Evolutiva",
+  "country": "ES",
+  "count": 3
+ },
+ "https://openalex.org/I4210096541": {
+  "lat": 49.02922439575195,
+  "lon": 12.10599422454834,
+  "name": "Institute for Biodiversity",
+  "country": "DE",
+  "count": 3
+ },
+ "https://openalex.org/I2800424308": {
+  "lat": 60.16952133178711,
+  "lon": 24.935449600219727,
+  "name": "Finnish Environment Institute",
+  "country": "FI",
+  "count": 3
+ },
+ "https://openalex.org/I19409027": {
+  "lat": 58.380619049072266,
+  "lon": 26.72509002685547,
+  "name": "Estonian University of Life Sciences",
+  "country": "EE",
+  "count": 4
+ },
+ "https://openalex.org/I4210107786": {
+  "lat": 51.970001220703125,
+  "lon": 5.666669845581055,
+  "name": "Netherlands Institute of Ecology",
+  "country": "NL",
+  "count": 4
+ },
+ "https://openalex.org/I4210153706": {
+  "lat": 63.43048858642578,
+  "lon": 10.395059585571289,
+  "name": "Norwegian Institute for Nature Research",
+  "country": "NO",
+  "count": 3
+ },
+ "https://openalex.org/I4210116314": {
+  "lat": 52.52436828613281,
+  "lon": 13.410530090332031,
+  "name": "Leibniz Institute of Freshwater Ecology and Inland Fisheries",
+  "country": "DE",
+  "count": 4
+ },
+ "https://openalex.org/I4210113030": {
+  "lat": 52.50703811645508,
+  "lon": 14.137160301208496,
+  "name": "Leibniz Centre for Agricultural Landscape Research",
+  "country": "DE",
+  "count": 2
+ },
+ "https://openalex.org/I4210116941": {
+  "lat": 39.667938232421875,
+  "lon": 2.578670024871826,
+  "name": "Mediterranean Institute for Advanced Studies",
+  "country": "ES",
+  "count": 2
+ },
+ "https://openalex.org/I2802939387": {
+  "lat": 59.9127311706543,
+  "lon": 10.746089935302734,
+  "name": "Norwegian Institute for Water Research",
+  "country": "NO",
+  "count": 4
+ },
+ "https://openalex.org/I4210101295": {
+  "lat": 41.674190521240234,
+  "lon": 2.7903599739074707,
+  "name": "Centre d'Estudis Avançats de Blanes",
+  "country": "ES",
+  "count": 3
+ },
+ "https://openalex.org/I4210093792": {
+  "lat": 52.26594,
+  "lon": 10.52673,
+  "name": "Johann Heinrich von Thünen-Institut",
+  "country": "DE",
+  "count": 3
+ },
+ "https://openalex.org/I69416788": {
+  "lat": -33.30421829223633,
+  "lon": 26.532760620117188,
+  "name": "South African Institute for Aquatic Biodiversity",
+  "country": "ZA",
+  "count": 2
+ },
+ "https://openalex.org/I137696358": {
+  "lat": 48.20848846435547,
+  "lon": 16.372079849243164,
+  "name": "Gregor Mendel Institute of Molecular Plant Biology",
+  "country": "AT",
+  "count": 4
+ },
+ "https://openalex.org/I4210121644": {
+  "lat": 46.91369,
+  "lon": 17.88918,
+  "name": "HUN-REN Balaton Limnological Research Institute",
+  "country": "HU",
+  "count": 2
+ },
+ "https://openalex.org/I4210118442": {
+  "lat": 52.46015548706055,
+  "lon": 13.28921890258789,
+  "name": "Berlin Brandenburg Institute of Advanced Biodiversity Research",
+  "country": "DE",
+  "count": 3
+ },
+ "https://openalex.org/I4210117904": {
+  "lat": 52.45867919921875,
+  "lon": 13.30502986907959,
+  "name": "Berlin Center for Genomics in Biodiversity Research",
+  "country": "DE",
+  "count": 2
+ },
+ "https://openalex.org/I95457486": {
+  "lat": 37.87159,
+  "lon": -122.27275,
+  "name": "University of California, Berkeley",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I32971472": {
+  "lat": 41.30815,
+  "lon": -72.92816,
+  "name": "Yale University",
+  "country": "US",
+  "count": 2
+ },
+ "https://openalex.org/I130769515": {
+  "lat": 40.79339,
+  "lon": -77.86,
+  "name": "Pennsylvania State University",
+  "country": "US",
+  "count": 2
+ },
+ "https://openalex.org/I861853513": {
+  "lat": 41.89193,
+  "lon": 12.51133,
+  "name": "Sapienza University of Rome",
+  "country": "IT",
+  "count": 1
+ },
+ "https://openalex.org/I889458895": {
+  "lat": 22.26861,
+  "lon": 114.12924,
+  "name": "University of Hong Kong",
+  "country": "HK",
+  "count": 1
+ },
+ "https://openalex.org/I145872427": {
+  "lat": 51.8425,
+  "lon": 5.85278,
+  "name": "Radboud University Nijmegen",
+  "country": "NL",
+  "count": 2
+ },
+ "https://openalex.org/I137902535": {
+  "lat": 35.7721,
+  "lon": -78.63861,
+  "name": "North Carolina State University",
+  "country": "US",
+  "count": 2
+ },
+ "https://openalex.org/I859038795": {
+  "lat": 37.22957,
+  "lon": -80.41394,
+  "name": "Virginia Tech",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I8087733": {
+  "lat": 48.52265930175781,
+  "lon": 9.052220344543457,
+  "name": "University of Tübingen",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I96673099": {
+  "lat": 55.77043914794922,
+  "lon": 12.503780364990234,
+  "name": "Technical University of Denmark",
+  "country": "DK",
+  "count": 1
+ },
+ "https://openalex.org/I121797337": {
+  "lat": 52.158329010009766,
+  "lon": 4.493060111999512,
+  "name": "Leiden University",
+  "country": "NL",
+  "count": 2
+ },
+ "https://openalex.org/I881427289": {
+  "lat": 57.70716,
+  "lon": 11.96679,
+  "name": "University of Gothenburg",
+  "country": "SE",
+  "count": 1
+ },
+ "https://openalex.org/I1289243028": {
+  "lat": 36.01036071777344,
+  "lon": -84.26963806152344,
+  "name": "Oak Ridge National Laboratory",
+  "country": "US",
+  "count": 2
+ },
+ "https://openalex.org/I161593684": {
+  "lat": 59.32938,
+  "lon": 18.06871,
+  "name": "Stockholm University",
+  "country": "SE",
+  "count": 2
+ },
+ "https://openalex.org/I39343248": {
+  "lat": 52.52436828613281,
+  "lon": 13.410530090332031,
+  "name": "Humboldt-Universität zu Berlin",
+  "country": "DE",
+  "count": 2
+ },
+ "https://openalex.org/I904495901": {
+  "lat": 51.48165,
+  "lon": 7.21648,
+  "name": "Ruhr University Bochum",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I23923803": {
+  "lat": 50.72359848022461,
+  "lon": -3.527509927749634,
+  "name": "University of Exeter",
+  "country": "GB",
+  "count": 2
+ },
+ "https://openalex.org/I99043593": {
+  "lat": -33.86785,
+  "lon": 151.20732,
+  "name": "Macquarie University",
+  "country": "AU",
+  "count": 1
+ },
+ "https://openalex.org/I32021983": {
+  "lat": 54.32133,
+  "lon": 10.13489,
+  "name": "Christian-Albrechts-Universität zu Kiel",
+  "country": "DE",
+  "count": 2
+ },
+ "https://openalex.org/I195460627": {
+  "lat": 57.1436882019043,
+  "lon": -2.098140001296997,
+  "name": "University of Aberdeen",
+  "country": "GB",
+  "count": 2
+ },
+ "https://openalex.org/I169108374": {
+  "lat": 43.32686,
+  "lon": -2.98884,
+  "name": "University of the Basque Country",
+  "country": "ES",
+  "count": 2
+ },
+ "https://openalex.org/I124227911": {
+  "lat": 31.25181,
+  "lon": 34.7913,
+  "name": "Ben-Gurion University of the Negev",
+  "country": "IL",
+  "count": 2
+ },
+ "https://openalex.org/I177969490": {
+  "lat": 55.39594,
+  "lon": 10.38831,
+  "name": "University of Southern Denmark",
+  "country": "DK",
+  "count": 2
+ },
+ "https://openalex.org/I26092322": {
+  "lat": -33.93462,
+  "lon": 18.86676,
+  "name": "Stellenbosch University",
+  "country": "ZA",
+  "count": 2
+ },
+ "https://openalex.org/I98381234": {
+  "lat": 65.01236,
+  "lon": 25.46816,
+  "name": "University of Oulu",
+  "country": "FI",
+  "count": 1
+ },
+ "https://openalex.org/I909854389": {
+  "lat": 51.50852966308594,
+  "lon": -0.12574000656604767,
+  "name": "London School of Economics and Political Science",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I80180929": {
+  "lat": 37.98704147338867,
+  "lon": -1.1300400495529175,
+  "name": "Universidad de Murcia",
+  "country": "ES",
+  "count": 1
+ },
+ "https://openalex.org/I219388962": {
+  "lat": 51.1,
+  "lon": 17.03333,
+  "name": "University of Wrocław",
+  "country": "PL",
+  "count": 2
+ },
+ "https://openalex.org/I91203450": {
+  "lat": 32.81303,
+  "lon": 34.99928,
+  "name": "University of Haifa",
+  "country": "IL",
+  "count": 1
+ },
+ "https://openalex.org/I189712700": {
+  "lat": 47.66033172607422,
+  "lon": 9.175820350646973,
+  "name": "University of Konstanz",
+  "country": "DE",
+  "count": 2
+ },
+ "https://openalex.org/I129877168": {
+  "lat": 53.14118,
+  "lon": 8.21467,
+  "name": "Carl von Ossietzky Universität Oldenburg",
+  "country": "DE",
+  "count": 2
+ },
+ "https://openalex.org/I31944674": {
+  "lat": 9.933329582214355,
+  "lon": -84.08332824707031,
+  "name": "Universidad de Costa Rica",
+  "country": "CR",
+  "count": 2
+ },
+ "https://openalex.org/I172787465": {
+  "lat": -36.82699,
+  "lon": -73.04977,
+  "name": "University of Concepción",
+  "country": "CL",
+  "count": 2
+ },
+ "https://openalex.org/I83328450": {
+  "lat": 39.50699996948242,
+  "lon": -84.74523162841797,
+  "name": "Miami University",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I12093191": {
+  "lat": 56.1190299987793,
+  "lon": -3.9368200302124023,
+  "name": "University of Stirling",
+  "country": "GB",
+  "count": 2
+ },
+ "https://openalex.org/I155028946": {
+  "lat": 27.70169,
+  "lon": 85.3206,
+  "name": "Tribhuvan University",
+  "country": "NP",
+  "count": 2
+ },
+ "https://openalex.org/I79889768": {
+  "lat": -9.6658296585083,
+  "lon": -35.73527908325195,
+  "name": "Universidade Federal de Alagoas",
+  "country": "BR",
+  "count": 1
+ },
+ "https://openalex.org/I90745801": {
+  "lat": -30.50123,
+  "lon": 151.66553,
+  "name": "University of New England",
+  "country": "AU",
+  "count": 1
+ },
+ "https://openalex.org/I1314251682": {
+  "lat": 34.013248443603516,
+  "lon": -6.832550048828125,
+  "name": "Institut National de la Recherche Agronomique",
+  "country": "MA",
+  "count": 2
+ },
+ "https://openalex.org/I13511017": {
+  "lat": 29.883270263671875,
+  "lon": -97.94139099121094,
+  "name": "Texas State University",
+  "country": "US",
+  "count": 2
+ },
+ "https://openalex.org/I2799318839": {
+  "lat": 54.09311,
+  "lon": 13.38786,
+  "name": "Universitätsmedizin Greifswald",
+  "country": "DE",
+  "count": 2
+ },
+ "https://openalex.org/I877176835": {
+  "lat": 37.19422149658203,
+  "lon": 49.63624954223633,
+  "name": "University of Guilan",
+  "country": "IR",
+  "count": 1
+ },
+ "https://openalex.org/I34403800": {
+  "lat": 54.32133,
+  "lon": 10.13489,
+  "name": "GEOMAR Helmholtz Centre for Ocean Research Kiel",
+  "country": "DE",
+  "count": 2
+ },
+ "https://openalex.org/I2800387288": {
+  "lat": 50.85045,
+  "lon": 4.34878,
+  "name": "European Commission",
+  "country": "BE",
+  "count": 2
+ },
+ "https://openalex.org/I1330165540": {
+  "lat": 52.44320297241211,
+  "lon": 13.287660598754883,
+  "name": "Federal Institute For Materials Research and Testing",
+  "country": "DE",
+  "count": 2
+ },
+ "https://openalex.org/I166595947": {
+  "lat": -21.13555908203125,
+  "lon": -44.26166915893555,
+  "name": "Federal University of São João del-Rei",
+  "country": "BR",
+  "count": 2
+ },
+ "https://openalex.org/I96749437": {
+  "lat": 27.800579071044922,
+  "lon": -97.39637756347656,
+  "name": "Texas A&M University – Corpus Christi",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I103225651": {
+  "lat": 46.18967056274414,
+  "lon": 11.132120132446289,
+  "name": "Fondazione Edmund Mach",
+  "country": "IT",
+  "count": 2
+ },
+ "https://openalex.org/I2800614204": {
+  "lat": 54.1767,
+  "lon": 12.08402,
+  "name": "Leibniz Institute for Baltic Sea Research Warnemünde",
+  "country": "DE",
+  "count": 2
+ },
+ "https://openalex.org/I94876832": {
+  "lat": 54.0,
+  "lon": -6.416669845581055,
+  "name": "Dundalk Institute of Technology",
+  "country": "IE",
+  "count": 1
+ },
+ "https://openalex.org/I45129253": {
+  "lat": 51.50853,
+  "lon": -0.12574,
+  "name": "University College London",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I5023651": {
+  "lat": 45.50884,
+  "lon": -73.58781,
+  "name": "McGill University",
+  "country": "CA",
+  "count": 1
+ },
+ "https://openalex.org/I62916508": {
+  "lat": 48.13743,
+  "lon": 11.57549,
+  "name": "Technical University of Munich",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I79619799": {
+  "lat": 52.48142,
+  "lon": -1.89983,
+  "name": "University of Birmingham",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I5124864": {
+  "lat": 46.516,
+  "lon": 6.63282,
+  "name": "École Polytechnique Fédérale de Lausanne",
+  "country": "CH",
+  "count": 1
+ },
+ "https://openalex.org/I7877124": {
+  "lat": 52.52437,
+  "lon": 13.41053,
+  "name": "Charité - Universitätsmedizin Berlin",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I76835614": {
+  "lat": 38.95171,
+  "lon": -92.33407,
+  "name": "University of Missouri",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I79510175": {
+  "lat": 51.48,
+  "lon": -3.18,
+  "name": "Cardiff University",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I44461941": {
+  "lat": 29.763280868530273,
+  "lon": -95.36327362060547,
+  "name": "University of Houston",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I76903346": {
+  "lat": 40.20686,
+  "lon": -8.41996,
+  "name": "University of Coimbra",
+  "country": "PT",
+  "count": 1
+ },
+ "https://openalex.org/I67031392": {
+  "lat": 45.411170959472656,
+  "lon": -75.6981201171875,
+  "name": "Carleton University",
+  "country": "CA",
+  "count": 1
+ },
+ "https://openalex.org/I4210127387": {
+  "lat": 55.041500091552734,
+  "lon": 82.93460083007812,
+  "name": "Siberian Branch of the Russian Academy of Sciences",
+  "country": "RU",
+  "count": 1
+ },
+ "https://openalex.org/I4210152878": {
+  "lat": 52.39886,
+  "lon": 13.06566,
+  "name": "GFZ Helmholtz Centre for Geosciences",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I52590639": {
+  "lat": 52.9536018371582,
+  "lon": -1.1504700183868408,
+  "name": "Nottingham Trent University",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I54108979": {
+  "lat": 59.66471862792969,
+  "lon": 10.794650077819824,
+  "name": "Norwegian University of Life Sciences",
+  "country": "NO",
+  "count": 1
+ },
+ "https://openalex.org/I4210111179": {
+  "lat": 42.280242919921875,
+  "lon": -85.56851959228516,
+  "name": "Michigan United",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I4210130807": {
+  "lat": 28.46824073791504,
+  "lon": -16.254619598388672,
+  "name": "Instituto de Astrofísica de Canarias",
+  "country": "ES",
+  "count": 1
+ },
+ "https://openalex.org/I4210120109": {
+  "lat": 40.416500091552734,
+  "lon": -3.7025599479675293,
+  "name": "Museo Nacional de Ciencias Naturales",
+  "country": "ES",
+  "count": 1
+ },
+ "https://openalex.org/I44892455": {
+  "lat": 34.69379,
+  "lon": 135.50107,
+  "name": "Takeda (Japan)",
+  "country": "JP",
+  "count": 1
+ },
+ "https://openalex.org/I4210151560": {
+  "lat": 41.388790130615234,
+  "lon": 2.158989906311035,
+  "name": "Institut de Ciències del Mar",
+  "country": "ES",
+  "count": 1
+ },
+ "https://openalex.org/I4210134612": {
+  "lat": 51.1890983581543,
+  "lon": -0.890375018119812,
+  "name": "Forest Research",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I4210134243": {
+  "lat": 6.903361797332764,
+  "lon": 79.87503051757812,
+  "name": "National Research Council",
+  "country": "LK",
+  "count": 1
+ },
+ "https://openalex.org/I4210116113": {
+  "lat": 41.84611892700195,
+  "lon": 12.477470397949219,
+  "name": "Istituto Superiore per la Protezione e la Ricerca Ambientale",
+  "country": "IT",
+  "count": 1
+ },
+ "https://openalex.org/I4210110009": {
+  "lat": 48.85341,
+  "lon": 2.3488,
+  "name": "Biologie des Organismes et Écosystèmes Aquatiques",
+  "country": "FR",
+  "count": 1
+ },
+ "https://openalex.org/I4210134135": {
+  "lat": 47.49835,
+  "lon": 19.04045,
+  "name": "HUN-REN Centre for Ecological Research",
+  "country": "HU",
+  "count": 1
+ },
+ "https://openalex.org/I4210132748": {
+  "lat": 59.91273,
+  "lon": 10.74609,
+  "name": "Norsk Hydro (Norway)",
+  "country": "NO",
+  "count": 1
+ },
+ "https://openalex.org/I4210149559": {
+  "lat": 44.80401,
+  "lon": 20.46513,
+  "name": "Institute of Physics Belgrade",
+  "country": "RS",
+  "count": 1
+ },
+ "https://openalex.org/I63586086": {
+  "lat": 65.01235961914062,
+  "lon": 25.46816062927246,
+  "name": "Oulu University of Applied Sciences",
+  "country": "FI",
+  "count": 1
+ },
+ "https://openalex.org/I4210154993": {
+  "lat": 32.82587432861328,
+  "lon": 34.956607818603516,
+  "name": "Israel Oceanographic and Limnological Research",
+  "country": "IL",
+  "count": 1
+ },
+ "https://openalex.org/I4210166203": {
+  "lat": 50.80904006958008,
+  "lon": 8.770689964294434,
+  "name": "Max Planck Institute for Terrestrial Microbiology",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I4210118596": {
+  "lat": 42.05159,
+  "lon": 12.61969,
+  "name": "Water Research Institute",
+  "country": "IT",
+  "count": 1
+ },
+ "https://openalex.org/I4210128716": {
+  "lat": 51.83863830566406,
+  "lon": 12.245550155639648,
+  "name": "German Environment Agency",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I4210122974": {
+  "lat": 26.270124435424805,
+  "lon": -80.15265655517578,
+  "name": "Aquatic Systems (United States)",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I4210110488": {
+  "lat": 46.812278747558594,
+  "lon": -71.21453857421875,
+  "name": "Center for Northern Studies",
+  "country": "CA",
+  "count": 1
+ },
+ "https://openalex.org/I4210155205": {
+  "lat": 53.26832962036133,
+  "lon": -8.920000076293945,
+  "name": "Marine Institute",
+  "country": "IE",
+  "count": 1
+ },
+ "https://openalex.org/I4210130740": {
+  "lat": 53.92060089111328,
+  "lon": 27.598310470581055,
+  "name": "Department of Chemistry and Earth Sciences",
+  "country": "BY",
+  "count": 1
+ },
+ "https://openalex.org/I4210113975": {
+  "lat": 45.924015045166016,
+  "lon": 8.548195838928223,
+  "name": "Institute of Ecosystem Study",
+  "country": "IT",
+  "count": 1
+ },
+ "https://openalex.org/I4210120379": {
+  "lat": 4.17521,
+  "lon": 73.50916,
+  "name": "Marine Research Centre",
+  "country": "MV",
+  "count": 1
+ },
+ "https://openalex.org/I4210127057": {
+  "lat": 53.86893081665039,
+  "lon": 10.68729019165039,
+  "name": "Technical University of Applied Sciences Lübeck",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I4210135292": {
+  "lat": 50.11025619506836,
+  "lon": 8.692889213562012,
+  "name": "Hospital zum Heiligen Geist",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I4210139014": {
+  "lat": 47.513587951660156,
+  "lon": 19.072343826293945,
+  "name": "Hungarian School Sport Federation",
+  "country": "HU",
+  "count": 1
+ },
+ "https://openalex.org/I4210152728": {
+  "lat": 51.48158,
+  "lon": 11.97947,
+  "name": "Fraunhofer Institute for Microstructure of Materials and Systems",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I4210139381": {
+  "lat": 39.9036,
+  "lon": 8.59257,
+  "name": "Fondazione Centro Marino Internazionale",
+  "country": "IT",
+  "count": 1
+ },
+ "https://openalex.org/I4210135897": {
+  "lat": 32.692047119140625,
+  "lon": -117.17237854003906,
+  "name": "ResearchWorks (United States)",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I4210142051": {
+  "lat": 51.31903076171875,
+  "lon": -0.558929979801178,
+  "name": "WWF-UK",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I4210166725": {
+  "lat": 51.69916915893555,
+  "lon": 5.30417013168335,
+  "name": "HAS green academy",
+  "country": "NL",
+  "count": 1
+ },
+ "https://openalex.org/I4210119855": {
+  "lat": 56.946,
+  "lon": 24.10589,
+  "name": "Latvian Institute of Aquatic Ecology",
+  "country": "LV",
+  "count": 1
+ },
+ "https://openalex.org/I4210132170": {
+  "lat": 34.47621154785156,
+  "lon": -91.41848754882812,
+  "name": "Harry K. Dupree Stuttgart National Aquaculture Research Center",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I4210114257": {
+  "lat": 25.666667938232422,
+  "lon": -80.3566665649414,
+  "name": "Saving the Blue",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I4210147913": {
+  "lat": 49.87166976928711,
+  "lon": 8.650270462036133,
+  "name": "Mylan (Germany)",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I24943067": {
+  "lat": 31.222219467163086,
+  "lon": 121.45806121826172,
+  "name": "Fudan University",
+  "country": "CN",
+  "count": 1
+ },
+ "https://openalex.org/I32597200": {
+  "lat": 51.05,
+  "lon": 3.71667,
+  "name": "Ghent University",
+  "country": "BE",
+  "count": 1
+ },
+ "https://openalex.org/I4068193": {
+  "lat": 44.80401,
+  "lon": 20.46513,
+  "name": "University of Belgrade",
+  "country": "RS",
+  "count": 1
+ },
+ "https://openalex.org/I2801227569": {
+  "lat": 51.025169372558594,
+  "lon": 3.725213050842285,
+  "name": "Ghent University Hospital",
+  "country": "BE",
+  "count": 1
+ },
+ "https://openalex.org/I41156924": {
+  "lat": -41.28664,
+  "lon": 174.77557,
+  "name": "Victoria University of Wellington",
+  "country": "NZ",
+  "count": 1
+ },
+ "https://openalex.org/I24768866": {
+  "lat": 42.69751,
+  "lon": 23.32415,
+  "name": "Bulgarian Academy of Sciences",
+  "country": "BG",
+  "count": 1
+ },
+ "https://openalex.org/I2803209242": {
+  "lat": 37.80437,
+  "lon": -122.2708,
+  "name": "University of California System",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I34250744": {
+  "lat": 51.77058,
+  "lon": 19.47395,
+  "name": "University of Łódź",
+  "country": "PL",
+  "count": 1
+ },
+ "https://openalex.org/I3018771216": {
+  "lat": 48.13743,
+  "lon": 11.57549,
+  "name": "LMU Klinikum",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I27765905": {
+  "lat": -26.71667,
+  "lon": 27.1,
+  "name": "North-West University",
+  "country": "ZA",
+  "count": 1
+ },
+ "https://openalex.org/I3018134672": {
+  "lat": 48.137428283691406,
+  "lon": 11.57548999786377,
+  "name": "Helmholtz Zentrum München",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I4210089242": {
+  "lat": 51.19879913330078,
+  "lon": 6.789299964904785,
+  "name": "Düsseldorf University Hospital",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I2800262456": {
+  "lat": 47.35515,
+  "lon": 8.44256,
+  "name": "Swiss Federal Institute for Forest, Snow and Landscape Research",
+  "country": "CH",
+  "count": 1
+ },
+ "https://openalex.org/I4210099549": {
+  "lat": 50.734378814697266,
+  "lon": 7.095489978790283,
+  "name": "Zoological Research Museum Alexander Koenig",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I2802076133": {
+  "lat": 49.98419,
+  "lon": 8.2791,
+  "name": "University of Koblenz and Landau",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I2801380234": {
+  "lat": 59.6685791015625,
+  "lon": 9.65017032623291,
+  "name": "University of South-Eastern Norway",
+  "country": "NO",
+  "count": 1
+ },
+ "https://openalex.org/I4210088717": {
+  "lat": 10.642119407653809,
+  "lon": -61.400123596191406,
+  "name": "University of the West Indies",
+  "country": "TT",
+  "count": 1
+ },
+ "https://openalex.org/I4210092303": {
+  "lat": 41.80582,
+  "lon": -6.75719,
+  "name": "Polytechnic Institute of Bragança",
+  "country": "PT",
+  "count": 1
+ },
+ "https://openalex.org/I2883434090": {
+  "lat": -41.14556884765625,
+  "lon": -71.30821990966797,
+  "name": "Bariloche Atomic Centre",
+  "country": "AR",
+  "count": 1
+ },
+ "https://openalex.org/I2801030728": {
+  "lat": 51.33962,
+  "lon": 12.37129,
+  "name": "German Centre for Integrative Biodiversity Research",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I315704651": {
+  "lat": 52.52437,
+  "lon": 13.41053,
+  "name": "Leibniz Association",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I4210100913": {
+  "lat": 41.63333,
+  "lon": 2.16667,
+  "name": "Institute of Agrifood Research and Technology",
+  "country": "ES",
+  "count": 1
+ },
+ "https://openalex.org/I2799973717": {
+  "lat": 52.00667190551758,
+  "lon": 4.355559825897217,
+  "name": "IHE Delft Institute for Water Education",
+  "country": "NL",
+  "count": 1
+ },
+ "https://openalex.org/I4210096500": {
+  "lat": 44.522239685058594,
+  "lon": 11.338353157043457,
+  "name": "Institute of Atmospheric Sciences and Climate",
+  "country": "IT",
+  "count": 1
+ },
+ "https://openalex.org/I2802821144": {
+  "lat": 37.812156677246094,
+  "lon": -122.2677993774414,
+  "name": "Center for Environmental Health",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I2801009184": {
+  "lat": 37.26530075073242,
+  "lon": 127.11315155029297,
+  "name": "Luther University",
+  "country": "KR",
+  "count": 1
+ },
+ "https://openalex.org/I3133086891": {
+  "lat": 54.32133,
+  "lon": 10.13489,
+  "name": "Hochschule für Angewandte Wissenschaften Kiel",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I4210091245": {
+  "lat": 28.232084274291992,
+  "lon": -80.67520141601562,
+  "name": "Health First",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I4210087209": {
+  "lat": 48.11198,
+  "lon": -1.67429,
+  "name": "Ecosystèmes, Biodiversité, Evolution",
+  "country": "FR",
+  "count": 1
+ },
+ "https://openalex.org/I4210089079": {
+  "lat": 51.45657,
+  "lon": 7.01228,
+  "name": "Ruhrlandklinik",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I41639379": {
+  "lat": 38.89511,
+  "lon": -77.03637,
+  "name": "Association of Research Libraries",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I4210101733": {
+  "lat": 50.08803939819336,
+  "lon": 14.420760154724121,
+  "name": "Czech Academy of Sciences, Institute of Animal Physiology and Genetics",
+  "country": "CZ",
+  "count": 1
+ },
+ "https://openalex.org/I4210099563": {
+  "lat": 52.52436828613281,
+  "lon": 13.410530090332031,
+  "name": "Leibniz-Forschungsinstitut für Molekulare Pharmakologie",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I2799562678": {
+  "lat": 41.98311,
+  "lon": 2.82493,
+  "name": "Catalan Institute for Water Research",
+  "country": "ES",
+  "count": 1
+ },
+ "https://openalex.org/I2800016743": {
+  "lat": 59.94603729248047,
+  "lon": 30.23458480834961,
+  "name": "Arctic and Antarctic Research Institute",
+  "country": "RU",
+  "count": 1
+ },
+ "https://openalex.org/I4210100483": {
+  "lat": 53.927696228027344,
+  "lon": 27.68490982055664,
+  "name": "Institute of Microbiology",
+  "country": "BY",
+  "count": 1
+ },
+ "https://openalex.org/I4210093666": {
+  "lat": 52.45801544189453,
+  "lon": -1.9330300092697144,
+  "name": "The Edgbaston Hospital",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I2802697327": {
+  "lat": 50.11552,
+  "lon": 8.68417,
+  "name": "Senckenberg - Leibniz Institution for Biodiversity and Earth System Research",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I4210100464": {
+  "lat": 48.20849,
+  "lon": 16.37208,
+  "name": "Environment Agency Austria",
+  "country": "AT",
+  "count": 1
+ },
+ "https://openalex.org/I3132506069": {
+  "lat": -0.539870023727417,
+  "lon": 37.45743179321289,
+  "name": "University of Embu",
+  "country": "KE",
+  "count": 1
+ },
+ "https://openalex.org/I4210106586": {
+  "lat": 46.512882232666016,
+  "lon": 6.6215620040893555,
+  "name": "Haute École Pédagogique du Canton de Vaud",
+  "country": "CH",
+  "count": 1
+ },
+ "https://openalex.org/I4210097148": {
+  "lat": 38.895111083984375,
+  "lon": -77.03636932373047,
+  "name": "World Wildlife Fund",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I4210106933": {
+  "lat": 23.109451293945312,
+  "lon": 113.25511169433594,
+  "name": "Kingmed Diagnostics",
+  "country": "CN",
+  "count": 1
+ },
+ "https://openalex.org/I2801097748": {
+  "lat": 50.73438,
+  "lon": 7.09549,
+  "name": "Federal Agency for Nature Conservation",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I266738801": {
+  "lat": 52.675018310546875,
+  "lon": 7.949830055236816,
+  "name": "German Institute of Food Technologies",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I4210100015": {
+  "lat": 45.91685485839844,
+  "lon": 13.620355606079102,
+  "name": "Mediterranean Institute for Advanced Studies",
+  "country": "SI",
+  "count": 1
+ },
+ "https://openalex.org/I4210105551": {
+  "lat": 32.958980560302734,
+  "lon": -117.09721374511719,
+  "name": "ATA Engineering (United States)",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I2799288508": {
+  "lat": 32.786834716796875,
+  "lon": -96.80669403076172,
+  "name": "Perot Museum of Nature and Science",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I4210087791": {
+  "lat": 52.44953155517578,
+  "lon": 13.099656105041504,
+  "name": "Institute of Inland Fisheries in Potsdam-Sacrow",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I2802477636": {
+  "lat": 44.26005935668945,
+  "lon": -72.57539367675781,
+  "name": "Vermont State Colleges",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I19820366": {
+  "lat": 39.9075,
+  "lon": 116.39723,
+  "name": "Chinese Academy of Sciences",
+  "country": "CN",
+  "count": 1
+ },
+ "https://openalex.org/I201448701": {
+  "lat": 47.60621,
+  "lon": -122.33207,
+  "name": "University of Washington",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I157725225": {
+  "lat": 40.11059,
+  "lon": -88.20727,
+  "name": "University of Illinois Urbana-Champaign",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I223822909": {
+  "lat": 49.40768,
+  "lon": 8.69079,
+  "name": "Heidelberg University",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I170897317": {
+  "lat": 35.99403,
+  "lon": -78.89862,
+  "name": "Duke University",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I187531555": {
+  "lat": 55.705841064453125,
+  "lon": 13.193209648132324,
+  "name": "Lund University",
+  "country": "SE",
+  "count": 1
+ },
+ "https://openalex.org/I202697423": {
+  "lat": 47.36667,
+  "lon": 8.55,
+  "name": "University of Zurich",
+  "country": "CH",
+  "count": 1
+ },
+ "https://openalex.org/I182534213": {
+  "lat": 41.1485,
+  "lon": -8.61097,
+  "name": "Universidade do Porto",
+  "country": "PT",
+  "count": 1
+ },
+ "https://openalex.org/I165733156": {
+  "lat": 33.9609489440918,
+  "lon": -83.37793731689453,
+  "name": "University of Georgia",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I154570441": {
+  "lat": 34.42083,
+  "lon": -119.69819,
+  "name": "University of California, Santa Barbara",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I21491767": {
+  "lat": 43.29695,
+  "lon": 5.38107,
+  "name": "Aix-Marseille Université",
+  "country": "FR",
+  "count": 1
+ },
+ "https://openalex.org/I24603500": {
+  "lat": 42.37537,
+  "lon": -72.51925,
+  "name": "University of Massachusetts Amherst",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I22465464": {
+  "lat": 51.96236,
+  "lon": 7.62571,
+  "name": "University of Münster",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I181343428": {
+  "lat": 45.81444,
+  "lon": 15.97798,
+  "name": "University of Zagreb",
+  "country": "HR",
+  "count": 1
+ },
+ "https://openalex.org/I190082696": {
+  "lat": 54.77676,
+  "lon": -1.57566,
+  "name": "Durham University",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I189590672": {
+  "lat": 39.18361,
+  "lon": -96.57167,
+  "name": "Kansas State University",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I180437899": {
+  "lat": 53.07582,
+  "lon": 8.80717,
+  "name": "University of Bremen",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I165799507": {
+  "lat": 42.72840881347656,
+  "lon": -73.69178771972656,
+  "name": "Rensselaer Polytechnic Institute",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I21449261": {
+  "lat": 49.19522,
+  "lon": 16.60796,
+  "name": "Masaryk University",
+  "country": "CZ",
+  "count": 1
+ },
+ "https://openalex.org/I174878644": {
+  "lat": 38.24443817138672,
+  "lon": 21.734439849853516,
+  "name": "University of Patras",
+  "country": "GR",
+  "count": 1
+ },
+ "https://openalex.org/I154202486": {
+  "lat": 48.39029,
+  "lon": -4.48628,
+  "name": "Ifremer",
+  "country": "FR",
+  "count": 1
+ },
+ "https://openalex.org/I189210763": {
+  "lat": 25.038890838623047,
+  "lon": 102.71833038330078,
+  "name": "Yunnan University",
+  "country": "CN",
+  "count": 1
+ },
+ "https://openalex.org/I185492890": {
+  "lat": -43.53333,
+  "lon": 172.63333,
+  "name": "University of Canterbury",
+  "country": "NZ",
+  "count": 1
+ },
+ "https://openalex.org/I201799495": {
+  "lat": 39.91987,
+  "lon": 32.85427,
+  "name": "Middle East Technical University",
+  "country": "TR",
+  "count": 1
+ },
+ "https://openalex.org/I191240316": {
+  "lat": 53.7446,
+  "lon": -0.33525,
+  "name": "University of Hull",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I155093810": {
+  "lat": 46.732391357421875,
+  "lon": -117.00016784667969,
+  "name": "University of Idaho",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I154338468": {
+  "lat": 46.80237,
+  "lon": 7.15128,
+  "name": "University of Fribourg",
+  "country": "CH",
+  "count": 1
+ },
+ "https://openalex.org/I182083151": {
+  "lat": 40.416500091552734,
+  "lon": -3.7025599479675293,
+  "name": "Universidad Rey Juan Carlos",
+  "country": "ES",
+  "count": 1
+ },
+ "https://openalex.org/I161929037": {
+  "lat": 48.39029,
+  "lon": -4.48628,
+  "name": "Université de Bretagne Occidentale",
+  "country": "FR",
+  "count": 1
+ },
+ "https://openalex.org/I180203408": {
+  "lat": 35.43333053588867,
+  "lon": 139.64999389648438,
+  "name": "Yokohama National University",
+  "country": "JP",
+  "count": 1
+ },
+ "https://openalex.org/I169333911": {
+  "lat": 54.35226821899414,
+  "lon": 18.649120330810547,
+  "name": "Gdańsk University of Technology",
+  "country": "PL",
+  "count": 1
+ },
+ "https://openalex.org/I177721651": {
+  "lat": 42.68059158325195,
+  "lon": -83.13381958007812,
+  "name": "Oakland University",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I173888879": {
+  "lat": 63.43048858642578,
+  "lon": 10.395059585571289,
+  "name": "SINTEF",
+  "country": "NO",
+  "count": 1
+ },
+ "https://openalex.org/I17442442": {
+  "lat": 39.9075,
+  "lon": 116.39723,
+  "name": "State Grid Corporation of China (China)",
+  "country": "CN",
+  "count": 1
+ },
+ "https://openalex.org/I203238179": {
+  "lat": -33.30421829223633,
+  "lon": 26.532760620117188,
+  "name": "Rhodes University",
+  "country": "ZA",
+  "count": 1
+ },
+ "https://openalex.org/I160856358": {
+  "lat": 32.7157096862793,
+  "lon": -117.16471862792969,
+  "name": "University of San Diego",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I21803372": {
+  "lat": 38.56587,
+  "lon": -7.90405,
+  "name": "University of Évora",
+  "country": "PT",
+  "count": 1
+ },
+ "https://openalex.org/I174025329": {
+  "lat": -26.65682,
+  "lon": 153.07955,
+  "name": "University of the Sunshine Coast",
+  "country": "AU",
+  "count": 1
+ },
+ "https://openalex.org/I154893126": {
+  "lat": 26.583330154418945,
+  "lon": 106.71666717529297,
+  "name": "Guizhou Normal University",
+  "country": "CN",
+  "count": 1
+ },
+ "https://openalex.org/I205220096": {
+  "lat": 55.75222,
+  "lon": 37.61556,
+  "name": "Institute of Oceanology. PP Shirshov Russian Academy of Sciences",
+  "country": "RU",
+  "count": 1
+ },
+ "https://openalex.org/I184746854": {
+  "lat": -43.650001525878906,
+  "lon": 172.48333740234375,
+  "name": "Lincoln University",
+  "country": "NZ",
+  "count": 1
+ },
+ "https://openalex.org/I193291145": {
+  "lat": 48.83730697631836,
+  "lon": 7.799991130828857,
+  "name": "Schiller International University",
+  "country": "FR",
+  "count": 1
+ },
+ "https://openalex.org/I173063890": {
+  "lat": 52.0908317565918,
+  "lon": 5.122220039367676,
+  "name": "University of Applied Sciences Utrecht",
+  "country": "NL",
+  "count": 1
+ },
+ "https://openalex.org/I154986956": {
+  "lat": 51.45624923706055,
+  "lon": -0.9711300134658813,
+  "name": "European Centre for Medium-Range Weather Forecasts",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I202500258": {
+  "lat": 50.85045,
+  "lon": 4.34878,
+  "name": "Research Institute for Nature and Forest",
+  "country": "BE",
+  "count": 1
+ },
+ "https://openalex.org/I163902620": {
+  "lat": 45.898681640625,
+  "lon": -64.36836242675781,
+  "name": "Mount Allison University",
+  "country": "CA",
+  "count": 1
+ },
+ "https://openalex.org/I179311214": {
+  "lat": 29.273948669433594,
+  "lon": 48.052146911621094,
+  "name": "Gulf University for Science & Technology",
+  "country": "KW",
+  "count": 1
+ },
+ "https://openalex.org/I166433441": {
+  "lat": 53.07582092285156,
+  "lon": 8.807169914245605,
+  "name": "Hochschule Bremen",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I156171363": {
+  "lat": -41.27077865600586,
+  "lon": 173.28404235839844,
+  "name": "Nelson Marlborough Institute of Technology",
+  "country": "NZ",
+  "count": 1
+ },
+ "https://openalex.org/I178975111": {
+  "lat": 42.49197769165039,
+  "lon": -71.22704315185547,
+  "name": "Spectral Sciences (United States)",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I142606810": {
+  "lat": 46.28569030761719,
+  "lon": -119.28446197509766,
+  "name": "Pacific Northwest National Laboratory",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I135310074": {
+  "lat": 43.07305,
+  "lon": -89.40123,
+  "name": "University of Wisconsin–Madison",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I129604602": {
+  "lat": -33.86785,
+  "lon": 151.20732,
+  "name": "The University of Sydney",
+  "country": "AU",
+  "count": 1
+ },
+ "https://openalex.org/I124055696": {
+  "lat": 55.67594,
+  "lon": 12.56553,
+  "name": "University of Copenhagen",
+  "country": "DK",
+  "count": 1
+ },
+ "https://openalex.org/I146655781": {
+  "lat": 53.41058,
+  "lon": -2.97794,
+  "name": "University of Liverpool",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I138689650": {
+  "lat": 45.40797,
+  "lon": 11.88586,
+  "name": "University of Padua",
+  "country": "IT",
+  "count": 1
+ },
+ "https://openalex.org/I151201029": {
+  "lat": -34.61315,
+  "lon": -58.37723,
+  "name": "Consejo Nacional de Investigaciones Científicas y Técnicas",
+  "country": "AR",
+  "count": 1
+ },
+ "https://openalex.org/I126307644": {
+  "lat": 41.66113,
+  "lon": -91.53017,
+  "name": "University of Iowa",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I131249849": {
+  "lat": 44.56457,
+  "lon": -123.26204,
+  "name": "Oregon State University",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I146416000": {
+  "lat": 38.97167,
+  "lon": -95.23525,
+  "name": "University of Kansas",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I129902397": {
+  "lat": 44.64269,
+  "lon": -63.57688,
+  "name": "Dalhousie University",
+  "country": "CA",
+  "count": 1
+ },
+ "https://openalex.org/I134560555": {
+  "lat": 43.60426,
+  "lon": 1.44367,
+  "name": "Université Toulouse III - Paul Sabatier",
+  "country": "FR",
+  "count": 1
+ },
+ "https://openalex.org/I150729083": {
+  "lat": -15.77972,
+  "lon": -47.92972,
+  "name": "Universidade de Brasília",
+  "country": "BR",
+  "count": 1
+ },
+ "https://openalex.org/I113940042": {
+  "lat": 31.222219467163086,
+  "lon": 121.45806121826172,
+  "name": "Shanghai University",
+  "country": "CN",
+  "count": 1
+ },
+ "https://openalex.org/I13469542": {
+  "lat": 50.85044860839844,
+  "lon": 4.348780155181885,
+  "name": "Vrije Universiteit Brussel",
+  "country": "BE",
+  "count": 1
+ },
+ "https://openalex.org/I1118541": {
+  "lat": 52.627830505371094,
+  "lon": 1.2983399629592896,
+  "name": "University of East Anglia",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I111236770": {
+  "lat": 44.47588,
+  "lon": -73.21207,
+  "name": "University of Vermont",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I131077856": {
+  "lat": 48.85341,
+  "lon": 2.3488,
+  "name": "Centre de Coopération Internationale en Recherche Agronomique pour le Développement",
+  "country": "FR",
+  "count": 1
+ },
+ "https://openalex.org/I134113660": {
+  "lat": 39.52963,
+  "lon": -119.8138,
+  "name": "University of Nevada, Reno",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I153267046": {
+  "lat": 49.44300079345703,
+  "lon": 7.771609783172607,
+  "name": "University of Kaiserslautern",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I11932220": {
+  "lat": 41.388790130615234,
+  "lon": 2.158989906311035,
+  "name": "Institució Catalana de Recerca i Estudis Avançats",
+  "country": "ES",
+  "count": 1
+ },
+ "https://openalex.org/I127251866": {
+  "lat": 53.53615188598633,
+  "lon": 8.59298038482666,
+  "name": "Alfred-Wegener-Institut Helmholtz-Zentrum für Polar- und Meeresforschung",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I141472210": {
+  "lat": 64.83778381347656,
+  "lon": -147.7163848876953,
+  "name": "University of Alaska Fairbanks",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I117532281": {
+  "lat": 23.116670608520508,
+  "lon": 113.25,
+  "name": "Guangzhou University of Chinese Medicine",
+  "country": "CN",
+  "count": 1
+ },
+ "https://openalex.org/I1313416372": {
+  "lat": 38.895111083984375,
+  "lon": -77.03636932373047,
+  "name": "US Forest Service",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I121296143": {
+  "lat": 27.850000381469727,
+  "lon": 112.9000015258789,
+  "name": "Hunan University of Science and Technology",
+  "country": "CN",
+  "count": 1
+ },
+ "https://openalex.org/I110594554": {
+  "lat": 43.26271057128906,
+  "lon": -2.9252800941467285,
+  "name": "Ikerbasque",
+  "country": "ES",
+  "count": 1
+ },
+ "https://openalex.org/I150540706": {
+  "lat": 48.20849,
+  "lon": 16.37208,
+  "name": "University of Veterinary Medicine Vienna",
+  "country": "AT",
+  "count": 1
+ },
+ "https://openalex.org/I126924076": {
+  "lat": 29.560260772705078,
+  "lon": 106.55770874023438,
+  "name": "Chongqing Normal University",
+  "country": "CN",
+  "count": 1
+ },
+ "https://openalex.org/I12708293": {
+  "lat": 46.516,
+  "lon": 6.63282,
+  "name": "SIB Swiss Institute of Bioinformatics",
+  "country": "CH",
+  "count": 1
+ },
+ "https://openalex.org/I1317774081": {
+  "lat": 48.06833,
+  "lon": 16.35607,
+  "name": "International Institute for Applied Systems Analysis",
+  "country": "AT",
+  "count": 1
+ },
+ "https://openalex.org/I140275651": {
+  "lat": 47.09327,
+  "lon": 17.91149,
+  "name": "University of Pannonia",
+  "country": "HU",
+  "count": 1
+ },
+ "https://openalex.org/I115304662": {
+  "lat": 41.930118560791016,
+  "lon": 2.2548599243164062,
+  "name": "Universitat de Vic - Universitat Central de Catalunya",
+  "country": "ES",
+  "count": 1
+ },
+ "https://openalex.org/I129235615": {
+  "lat": 44.60784,
+  "lon": -0.77318,
+  "name": "CEA CESTA",
+  "country": "FR",
+  "count": 1
+ },
+ "https://openalex.org/I1321067030": {
+  "lat": 51.535701751708984,
+  "lon": -0.1574999988079071,
+  "name": "Zoological Society of London",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I131579929": {
+  "lat": 41.806800842285156,
+  "lon": -77.07080078125,
+  "name": "Mansfield University",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I1293066303": {
+  "lat": 50.93933868408203,
+  "lon": 4.326550006866455,
+  "name": "Meise Botanic Garden",
+  "country": "BE",
+  "count": 1
+ },
+ "https://openalex.org/I116191961": {
+  "lat": 64.52913665771484,
+  "lon": 40.548770904541016,
+  "name": "Northern (Arctic) Federal University",
+  "country": "RU",
+  "count": 1
+ },
+ "https://openalex.org/I120163777": {
+  "lat": 49.01513,
+  "lon": 12.10161,
+  "name": "OTH Regensburg",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I120832542": {
+  "lat": 47.90264892578125,
+  "lon": 20.373289108276367,
+  "name": "Eszterhazy Karoly Catholic University",
+  "country": "HU",
+  "count": 1
+ },
+ "https://openalex.org/I1340669248": {
+  "lat": 39.840576171875,
+  "lon": -89.64656829833984,
+  "name": "Illinois Department of Natural Resources",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I137932638": {
+  "lat": 49.7680549621582,
+  "lon": 6.629444122314453,
+  "name": "Trier University of Applied Sciences",
+  "country": "DE",
+  "count": 1
+ },
+ "https://openalex.org/I1281133977": {
+  "lat": 23.7104,
+  "lon": 90.40744,
+  "name": "International Union for Conservation of Nature (Bangladesh)",
+  "country": "BD",
+  "count": 1
+ },
+ "https://openalex.org/I1320721754": {
+  "lat": 44.30012130737305,
+  "lon": -78.31623077392578,
+  "name": "Ministry of Natural Resources and Forestry",
+  "country": "CA",
+  "count": 1
+ },
+ "https://openalex.org/I13460158": {
+  "lat": 54.43260955810547,
+  "lon": -2.961669921875,
+  "name": "Freshwater Biological Association",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I1288675226": {
+  "lat": 43.700111389160156,
+  "lon": -79.41629791259766,
+  "name": "Ministry of the Environment, Conservation and Parks",
+  "country": "CA",
+  "count": 1
+ },
+ "https://openalex.org/I126860399": {
+  "lat": -0.7401800155639648,
+  "lon": -90.31379699707031,
+  "name": "Charles Darwin Foundation",
+  "country": "EC",
+  "count": 1
+ },
+ "https://openalex.org/I139228581": {
+  "lat": 51.54598617553711,
+  "lon": -1.832834005355835,
+  "name": "WRc (United Kingdom)",
+  "country": "GB",
+  "count": 1
+ },
+ "https://openalex.org/I1339905270": {
+  "lat": -27.622825622558594,
+  "lon": 152.7595672607422,
+  "name": "Seqwater",
+  "country": "AU",
+  "count": 1
+ },
+ "https://openalex.org/I1323611508": {
+  "lat": 49.8957633972168,
+  "lon": -97.13477325439453,
+  "name": "International Institute for Sustainable Development",
+  "country": "CA",
+  "count": 1
+ },
+ "https://openalex.org/I110200422": {
+  "lat": -19.871904373168945,
+  "lon": -43.96624755859375,
+  "name": "Universidade Federal de Minas Gerais",
+  "country": "BR",
+  "count": 1
+ },
+ "https://openalex.org/I10660446": {
+  "lat": 25.061561584472656,
+  "lon": 102.69563293457031,
+  "name": "Kunming University of Science and Technology",
+  "country": "CN",
+  "count": 1
+ },
+ "https://openalex.org/I103187081": {
+  "lat": 38.895111083984375,
+  "lon": -77.03636932373047,
+  "name": "Smithsonian Institution",
+  "country": "US",
+  "count": 1
+ },
+ "https://openalex.org/I110026055": {
+  "lat": 38.71667,
+  "lon": -9.13333,
+  "name": "Iscte – Instituto Universitário de Lisboa",
+  "country": "PT",
+  "count": 1
+ },
+ "https://openalex.org/I103390050": {
+  "lat": 35.02106857299805,
+  "lon": 135.75384521484375,
+  "name": "Ryukoku University",
+  "country": "JP",
+  "count": 1
+ },
+ "https://openalex.org/I103043317": {
+  "lat": 43.07305145263672,
+  "lon": -89.40122985839844,
+  "name": "Wisconsin Department of Health Services",
+  "country": "US",
+  "count": 1
+ }
+}

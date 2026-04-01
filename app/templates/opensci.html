@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Practices Score &mdash; Flintstone</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .os-container {
+            background: var(--igb-card);
+            border-radius: var(--radius);
+            padding: 1.4rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.2rem;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .os-container h2 {
+            font-family: var(--font-heading);
+            color: var(--igb-blue);
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--igb-accent);
+        }
+        .os-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+        .os-table th {
+            text-align: left;
+            padding: 0.5rem 0.45rem;
+            background: var(--igb-blue-pale);
+            color: var(--igb-blue);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.72rem;
+            border-bottom: 2px solid var(--igb-accent);
+            cursor: pointer;
+            user-select: none;
+            transition: background var(--transition);
+            white-space: nowrap;
+        }
+        .os-table th:hover { background: #c0dfff; }
+        .os-table th.sorted-asc::after { content: ' \25B2'; font-size: 0.6rem; }
+        .os-table th.sorted-desc::after { content: ' \25BC'; font-size: 0.6rem; }
+        .os-table td { padding: 0.4rem 0.45rem; border-bottom: 1px solid #f0f2f5; vertical-align: middle; }
+        .os-table tr { transition: background var(--transition); }
+        .os-table tr:hover { background: #fafbfc; }
+        .rank-badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 24px; height: 24px; border-radius: 50%;
+            font-size: 0.68rem; font-weight: 700; color: white;
+        }
+        .rank-1 { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .rank-2 { background: linear-gradient(135deg, #9ca3af, #6b7280); }
+        .rank-3 { background: linear-gradient(135deg, #b45309, #92400e); }
+        .rank-other { background: var(--igb-blue-pale); color: var(--igb-blue); font-size: 0.65rem; }
+        .dim-bar-bg {
+            width: 44px; height: 7px; background: #e5e7eb;
+            border-radius: 3px; display: inline-block; vertical-align: middle; margin-right: 0.2rem;
+        }
+        .dim-bar-fill { height: 100%; border-radius: 3px; }
+        .dim-oa { background: linear-gradient(90deg, #2196F3, #64b5f6); }
+        .dim-data { background: linear-gradient(90deg, #4CAF50, #81c784); }
+        .dim-code { background: linear-gradient(90deg, #FF9800, #ffb74d); }
+        .dim-pre { background: linear-gradient(90deg, #9C27B0, #ba68c8); }
+        .dim-repo { background: linear-gradient(90deg, #00897b, #4db6ac); }
+        .score-big { font-family: var(--font-heading); font-weight: 700; color: var(--igb-blue); }
+        .conf-badge {
+            display: inline-block; padding: 0.05rem 0.3rem; border-radius: 4px;
+            font-size: 0.6rem; font-weight: 600;
+        }
+        .conf-high { background: #dcfce7; color: #166534; }
+        .conf-medium { background: #dbeafe; color: #1e40af; }
+        .conf-low { background: #fef3c7; color: #92400e; }
+        .os-filters {
+            display: flex; gap: 1rem; margin-bottom: 0.7rem; flex-wrap: wrap; align-items: center;
+        }
+        .os-filters label { font-size: 0.82rem; color: var(--igb-text-light); }
+        .os-filters select, .os-filters input {
+            padding: 0.3rem 0.5rem; border-radius: 6px; border: 1px solid var(--igb-border);
+            font-size: 0.82rem; font-family: var(--font-body);
+        }
+        .chart-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;
+        }
+        @media (max-width: 768px) { .chart-row { grid-template-columns: 1fr; } }
+        .boost-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0.8rem; margin-top: 0.5rem;
+        }
+        .boost-card {
+            padding: 0.8rem 1rem; border-radius: 8px; border: 1px solid #e5e7eb;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .boost-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .boost-high { background: linear-gradient(135deg, #fef3c7, #fffbeb); border-left: 3px solid #f59e0b; }
+        .boost-medium { background: linear-gradient(135deg, #dbeafe, #eff6ff); border-left: 3px solid #2196F3; }
+        .boost-easy { background: linear-gradient(135deg, #dcfce7, #f0fdf4); border-left: 3px solid #16a34a; }
+        .boost-impact {
+            font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+        }
+        .boost-high .boost-impact { color: #b45309; }
+        .boost-medium .boost-impact { color: #1e40af; }
+        .boost-easy .boost-impact { color: #166534; }
+        .boost-title { font-family: var(--font-heading); font-weight: 600; font-size: 0.88rem; color: #1a2332; margin-bottom: 0.2rem; }
+        .boost-detail { font-size: 0.78rem; color: var(--igb-text-mid); line-height: 1.5; }
+        .boost-detail a { color: var(--igb-blue-light); }
+        .trend-up { color: #16a34a; font-weight: 700; }
+        .trend-down { color: #dc2626; font-weight: 700; }
+        .trend-flat { color: #9ca3af; }
+        .year-score { font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem; }
+        .year-score-good { color: #16a34a; }
+        .year-score-mid { color: var(--igb-blue); }
+        .year-score-low { color: #9ca3af; }
+        .sparkline { display: inline-flex; align-items: flex-end; gap: 2px; height: 20px; vertical-align: middle; }
+        .sparkline-bar { width: 14px; border-radius: 2px 2px 0 0; }
+        @media (max-width: 768px) {
+            .boost-grid { grid-template-columns: 1fr; }
+            div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
+        }
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+    <header>
+        <div class="header-content">
+            <h1>
+                <span class="logo-icon">&#x1FAA8;</span>
+                <a href="/" style="color:white; text-decoration:none;">Flintstone</a>
+                <span class="header-subtitle">Open Practices Score</span>
+            </h1>
+            <p class="header-tagline">Making IGB research more findable, accessible, and reusable &mdash; track your progress and see how to improve</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="map-stats">
+            <div class="stat-chip"><span class="stat-chip-value" id="avgOA">-</span><span class="stat-chip-label">avg. OA rate</span></div>
+            <div class="stat-chip"><span class="stat-chip-value" id="totalOA">-</span><span class="stat-chip-label">OA publications</span></div>
+            <div class="stat-chip"><span class="stat-chip-value" id="totalDS">-</span><span class="stat-chip-label">data-linked pubs</span></div>
+            <div class="stat-chip"><span class="stat-chip-value" id="totalCode">-</span><span class="stat-chip-label">pubs with code</span></div>
+            <div class="stat-chip"><span class="stat-chip-value" id="totalPre">-</span><span class="stat-chip-label">preprints</span></div>
+            <div class="stat-chip"><span class="stat-chip-value" id="avgScore">-</span><span class="stat-chip-label">avg. score</span></div>
+        </div>
+
+        <!-- Why This Matters -->
+        <div class="os-container" style="background: linear-gradient(135deg, #f0f9ff, #f8fafb); border-left: 4px solid var(--igb-blue);">
+            <h2>Why This Matters</h2>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size:0.84rem; color:var(--igb-text-mid); line-height:1.7;">
+                <div>
+                    <p>Open science isn't just a mandate &mdash; it's a <strong>competitive advantage</strong>. Studies consistently show that open access papers receive more citations, shared datasets generate new collaborations, and publicly available code accelerates reproducibility.</p>
+                    <p style="margin-top:0.5rem;">This score tracks how well IGB researchers are adopting open practices &mdash; not to rank, but to <strong>show where we're doing well and where we can improve together</strong>.</p>
+                </div>
+                <div>
+                    <p><strong>Five dimensions, weighted by impact:</strong></p>
+                    <ul style="margin:0.3rem 0 0 1.2rem; padding:0;">
+                        <li><strong>OA Accessibility (30%)</strong> &mdash; is your work openly readable?</li>
+                        <li><strong>Data Openness (25%)</strong> &mdash; can others find and reuse your data?</li>
+                        <li><strong>Code Openness (20%)</strong> &mdash; is your analysis code available?</li>
+                        <li><strong>Repository Licensing (15%)</strong> &mdash; are your FRED deposits downloadable?</li>
+                        <li><strong>Preprint Sharing (10%)</strong> &mdash; do you share results early?</li>
+                    </ul>
+                    <p style="margin-top:0.5rem;">Scores use <strong>empirical Bayes shrinkage</strong> so researchers with few publications aren't penalised &mdash; they're treated as uncertain. <a href="/methodology" style="color:var(--igb-blue-light); font-weight:600;">Full methodology &rarr;</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- How to Boost -->
+        <div class="os-container">
+            <h2>How to Improve Your Score</h2>
+            <div class="boost-grid">
+                <div class="boost-card boost-high">
+                    <div class="boost-impact">High impact</div>
+                    <div class="boost-title">Upload data to FRED with an open license</div>
+                    <div class="boost-detail">Use CC-BY or CC0. Only <strong id="fredOpenPct">-</strong> of FRED deposits are currently downloadable &mdash; be the change.</div>
+                </div>
+                <div class="boost-card boost-high">
+                    <div class="boost-impact">High impact</div>
+                    <div class="boost-title">Publish datasets in data journals</div>
+                    <div class="boost-detail">Scientific Data, Earth System Science Data, or Biodiversity Data Journal. Counts toward both your publication record and Data Openness dimension.</div>
+                </div>
+                <div class="boost-card boost-medium">
+                    <div class="boost-impact">Medium impact</div>
+                    <div class="boost-title">Share code on GitHub/GitLab</div>
+                    <div class="boost-detail">Link your repository in the paper abstract or methods. Verified DOIs (Zenodo) get full credit; abstract mentions get partial credit.</div>
+                </div>
+                <div class="boost-card boost-medium">
+                    <div class="boost-impact">Medium impact</div>
+                    <div class="boost-title">Choose gold or diamond OA journals</div>
+                    <div class="boost-detail">IGB has <a href="https://www.igb-berlin.de/en/open-access" target="_blank">OA funding support</a>. Green OA (self-archiving) also helps but receives less credit.</div>
+                </div>
+                <div class="boost-card boost-easy">
+                    <div class="boost-impact">Quick win</div>
+                    <div class="boost-title">Post a preprint before peer review</div>
+                    <div class="boost-detail">Use bioRxiv, EarthArXiv, or ESSOAr. Takes 10 minutes and makes your work citeable months earlier.</div>
+                </div>
+                <div class="boost-card boost-easy">
+                    <div class="boost-impact">Quick win</div>
+                    <div class="boost-title">Add a data availability statement</div>
+                    <div class="boost-detail">Linking to a repository gets partial credit (0.3). "Available upon request" is scored at 0.1 &mdash; barely above zero.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="chart-row">
+            <div class="os-container">
+                <h2>Top 10 by Score</h2>
+                <canvas id="chartScore" height="220"></canvas>
+            </div>
+            <div class="os-container">
+                <h2>Dimension Breakdown &mdash; Top 10</h2>
+                <canvas id="chartDimensions" height="220"></canvas>
+            </div>
+        </div>
+
+        <!-- Yearly Trends -->
+        <div class="os-container">
+            <h2>Are We Getting More Open? (2024&ndash;2026)</h2>
+            <p style="font-size:0.82rem; color:var(--igb-text-mid); margin-bottom:0.8rem;">
+                Tracking IGB's collective progress. These charts aggregate scores from researchers with 3+ publications per year, using the same shrinkage-adjusted methodology.
+            </p>
+            <div class="chart-row">
+                <div><canvas id="chartYearlyOA" height="200"></canvas></div>
+                <div><canvas id="chartYearlyPractices" height="200"></canvas></div>
+            </div>
+            <div style="margin-top:1rem;">
+                <h3 style="font-size:0.9rem; color:var(--igb-blue); margin-bottom:0.5rem;">Who's Improving? Individual Year-over-Year Progress</h3>
+                <div class="os-filters">
+                    <label>Search: <input type="text" id="searchYearly" placeholder="Name..." oninput="renderYearlyTable()" style="width:160px;"></label>
+                    <label>Min. pubs/year:
+                        <select id="minYearlyPubs" onchange="renderYearlyTable()">
+                            <option value="1">1+</option>
+                            <option value="3">3+</option>
+                            <option value="5" selected>5+</option>
+                            <option value="10">10+</option>
+                        </select>
+                    </label>
+                </div>
+                <div style="overflow-x:auto;">
+                <table class="os-table" id="yearlyTable">
+                    <thead><tr>
+                        <th data-ycol="name">Researcher</th>
+                        <th data-ycol="dept">Dept.</th>
+                        <th data-ycol="score_2024" style="min-width:55px;">Score '24</th>
+                        <th data-ycol="score_2025" style="min-width:55px;">Score '25</th>
+                        <th data-ycol="score_2026" style="min-width:55px;">Score '26</th>
+                        <th data-ycol="trend">Trend</th>
+                        <th data-ycol="oa_2025">OA adj '25</th>
+                        <th data-ycol="data_2025">Data adj '25</th>
+                        <th data-ycol="code_2025">Code adj '25</th>
+                        <th data-ycol="pubs_2025">Pubs '25</th>
+                    </tr></thead>
+                    <tbody id="yearlyBody"></tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leaderboard -->
+        <div class="os-container">
+            <h2>Open Practices Leaderboard &mdash; Learn from the Leaders</h2>
+            <div class="os-filters">
+                <label>Department:
+                    <select id="deptFilter" onchange="renderTable()">
+                        <option value="all">All</option>
+                        <option value="D1">Dept. 1</option>
+                        <option value="D2">Dept. 2</option>
+                        <option value="D3">Dept. 3</option>
+                        <option value="D4">Dept. 4</option>
+                        <option value="D5">Dept. 5</option>
+                    </select>
+                </label>
+                <label>Confidence:
+                    <select id="confFilter" onchange="renderTable()">
+                        <option value="all">All</option>
+                        <option value="high">High only</option>
+                        <option value="medium">Medium+</option>
+                    </select>
+                </label>
+                <label>Search: <input type="text" id="searchName" placeholder="Name..." oninput="renderTable()" style="width:150px;"></label>
+            </div>
+            <div style="overflow-x: auto;">
+            <table class="os-table" id="scoreTable">
+                <thead><tr>
+                    <th data-col="rank" style="width:32px;">#</th>
+                    <th data-col="name">Researcher</th>
+                    <th data-col="dept">Dept.</th>
+                    <th data-col="score">Score</th>
+                    <th data-col="confidence">Conf.</th>
+                    <th data-col="adj_oa">OA</th>
+                    <th data-col="adj_data">Data</th>
+                    <th data-col="adj_code">Code</th>
+                    <th data-col="adj_preprint">Preprint</th>
+                    <th data-col="adj_repo">Repo</th>
+                    <th data-col="total_pubs">Pubs</th>
+                    <th data-col="oa_rate">OA%</th>
+                </tr></thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+            </div>
+        </div>
+
+    </div>
+
+    <footer><div class="footer-content">Flintstone &mdash; IGB Publication Intelligence Tool</div></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script>
+    let allData = [];
+    let currentSort = { col: 'score', dir: 'desc' };
+    const DEPT_COLORS = { 'D1':'#2196F3','D2':'#4CAF50','D3':'#FF9800','D4':'#9C27B0','D5':'#F44336' };
+    const DIM_COLORS = { oa:'#2196F3', data:'#4CAF50', code:'#FF9800', preprint:'#9C27B0', repo:'#00897b' };
+
+    function getDeptKey(dept) { const m = (dept||'').match(/Dept\. (\d)/); return m ? 'D'+m[1] : null; }
+
+    async function init() {
+        const resp = await fetch('/static/open_science.json');
+        allData = await resp.json();
+
+        // Stats
+        const totalOA = allData.reduce((s,r) => s + (r.oa_pubs || 0), 0);
+        const totalDS = allData.reduce((s,r) => s + (r.data_verified || 0) + (r.data_statement || 0), 0);
+        const totalCode = allData.reduce((s,r) => s + (r.code_verified || 0) + (r.code_repo || 0) + (r.code_mention || 0), 0);
+        const avgOA = Math.round(allData.reduce((s,r) => s + (r.oa_rate || 0), 0) / allData.length);
+        const totalPre = allData.reduce((s,r) => s + (r.preprints || 0), 0);
+        const avgScore = (allData.reduce((s,r) => s + r.score, 0) / allData.length).toFixed(1);
+        const fredDL = allData.reduce((s,r) => s + (r.fred_downloadable || 0), 0);
+        const fredTotal = allData.reduce((s,r) => s + (r.fred_total || 0), 0);
+        const fredPct = fredTotal > 0 ? Math.round(100 * fredDL / fredTotal) : 0;
+
+        document.getElementById('totalOA').textContent = totalOA.toLocaleString();
+        document.getElementById('totalDS').textContent = totalDS;
+        document.getElementById('totalCode').textContent = totalCode;
+        document.getElementById('avgOA').textContent = avgOA + '%';
+        document.getElementById('totalPre').textContent = totalPre;
+        document.getElementById('avgScore').textContent = avgScore;
+        document.getElementById('fredOpenPct').textContent = fredPct + '%';
+
+        buildCharts();
+        buildYearlyCharts();
+        renderTable();
+        renderYearlyTable();
+
+        // Main table sort handlers
+        document.querySelectorAll('#scoreTable th').forEach(th => {
+            th.addEventListener('click', () => {
+                const col = th.dataset.col;
+                if (!col) return;
+                if (currentSort.col === col) currentSort.dir = currentSort.dir === 'desc' ? 'asc' : 'desc';
+                else currentSort = { col, dir: col === 'name' ? 'asc' : 'desc' };
+                renderTable();
+            });
+        });
+    }
+
+    function buildCharts() {
+        const top10 = allData.slice(0, 10);
+
+        // Top 10 by score
+        new Chart(document.getElementById('chartScore'), {
+            type: 'bar',
+            data: {
+                labels: top10.map(r => r.name.split(' ').pop()),
+                datasets: [{
+                    data: top10.map(r => r.score),
+                    backgroundColor: top10.map(r => DEPT_COLORS[getDeptKey(r.dept)] || '#607D8B'),
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                indexAxis:'y', responsive:true,
+                plugins:{ legend:{display:false} },
+                scales:{ x:{beginAtZero:true, title:{display:true, text:'Score'}} }
+            }
+        });
+
+        // Dimension breakdown for top 10
+        new Chart(document.getElementById('chartDimensions'), {
+            type: 'bar',
+            data: {
+                labels: top10.map(r => r.name.split(' ').pop()),
+                datasets: [
+                    { label:'OA (30%)', data:top10.map(r => r.adj_oa * 0.30), backgroundColor: DIM_COLORS.oa, borderRadius:2 },
+                    { label:'Data (25%)', data:top10.map(r => r.adj_data * 0.25), backgroundColor: DIM_COLORS.data, borderRadius:2 },
+                    { label:'Code (20%)', data:top10.map(r => r.adj_code * 0.20), backgroundColor: DIM_COLORS.code, borderRadius:2 },
+                    { label:'Preprint (10%)', data:top10.map(r => r.adj_preprint * 0.10), backgroundColor: DIM_COLORS.preprint, borderRadius:2 },
+                    { label:'Repo (15%)', data:top10.map(r => r.adj_repo * 0.15), backgroundColor: DIM_COLORS.repo, borderRadius:2 },
+                ]
+            },
+            options: {
+                indexAxis:'y', responsive:true,
+                plugins:{ legend:{position:'bottom', labels:{boxWidth:10, font:{size:9}}} },
+                scales:{ x:{stacked:true, beginAtZero:true, title:{display:true, text:'Score contribution'}}, y:{stacked:true} }
+            }
+        });
+    }
+
+    function dimBar(val, maxVal, cls) {
+        const w = Math.round(Math.min(val / maxVal, 1) * 44);
+        return '<span class="dim-bar-bg"><span class="dim-bar-fill ' + cls + '" style="width:' + w + 'px;"></span></span> ' + Math.round(val);
+    }
+
+    function renderTable() {
+        const dept = document.getElementById('deptFilter').value;
+        const conf = document.getElementById('confFilter').value;
+        const search = document.getElementById('searchName').value.toLowerCase();
+
+        let filtered = allData.filter(r => {
+            if (dept !== 'all' && getDeptKey(r.dept) !== dept) return false;
+            if (conf === 'high' && r.confidence !== 'high') return false;
+            if (conf === 'medium' && r.confidence === 'low') return false;
+            if (search && !r.name.toLowerCase().includes(search)) return false;
+            return true;
+        });
+
+        filtered.sort((a,b) => {
+            let va = a[currentSort.col], vb = b[currentSort.col];
+            if (va === undefined || va === null) va = currentSort.col === 'name' ? '' : -999;
+            if (vb === undefined || vb === null) vb = currentSort.col === 'name' ? '' : -999;
+            if (currentSort.col === 'name' || currentSort.col === 'confidence')
+                return currentSort.dir === 'asc' ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+            return currentSort.dir === 'asc' ? va - vb : vb - va;
+        });
+
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+
+        filtered.forEach((r, i) => {
+            const rank = i + 1;
+            const rc = rank <= 3 ? 'rank-' + rank : 'rank-other';
+            const sd = (r.dept||'').replace(/\(Dept\. (\d)\).*/, 'Dept. $1');
+            const cc = 'conf-' + r.confidence;
+            const oaW = Math.round((r.oa_rate || 0) * 0.44);
+
+            tbody.innerHTML += '<tr>' +
+                '<td><span class="rank-badge '+rc+'">'+rank+'</span></td>' +
+                '<td><a href="/author/'+r.id+'" style="font-family:var(--font-heading);font-weight:600;color:var(--igb-blue);text-decoration:none;">'+r.name+'</a></td>' +
+                '<td><span class="dept-badge">'+sd+'</span></td>' +
+                '<td class="score-big">'+r.score+'</td>' +
+                '<td><span class="conf-badge '+cc+'">'+r.confidence+'</span></td>' +
+                '<td>'+dimBar(r.adj_oa, 100, 'dim-oa')+'</td>' +
+                '<td>'+dimBar(r.adj_data, 50, 'dim-data')+'</td>' +
+                '<td>'+dimBar(r.adj_code, 30, 'dim-code')+'</td>' +
+                '<td>'+dimBar(r.adj_preprint, 60, 'dim-pre')+'</td>' +
+                '<td>'+dimBar(r.adj_repo, 100, 'dim-repo')+'</td>' +
+                '<td>'+r.total_pubs+'</td>' +
+                '<td><span class="dim-bar-bg"><span class="dim-bar-fill dim-oa" style="width:'+oaW+'px;"></span></span> '+r.oa_rate+'%</td>' +
+                '</tr>';
+        });
+
+        document.querySelectorAll('#scoreTable th').forEach(th => {
+            th.classList.remove('sorted-asc','sorted-desc');
+            if (th.dataset.col === currentSort.col) th.classList.add('sorted-'+currentSort.dir);
+        });
+    }
+
+    function buildYearlyCharts() {
+        const YEARS = ['2024','2025','2026'];
+        const yearAgg = {};
+        YEARS.forEach(y => { yearAgg[y] = { oa:[], data:[], code:[], preprint:[], scores:[], pubs:0 }; });
+
+        allData.forEach(r => {
+            if (!r.yearly) return;
+            YEARS.forEach(y => {
+                const yd = r.yearly[y];
+                if (!yd || yd.total_pubs < 3) return;
+                yearAgg[y].oa.push(yd.oa_adj || yd.oa_rate);
+                yearAgg[y].data.push(yd.data_adj || yd.data_rate);
+                yearAgg[y].code.push(yd.code_adj || yd.code_rate);
+                yearAgg[y].preprint.push(yd.preprint_adj || yd.preprint_rate);
+                yearAgg[y].scores.push(yd.score);
+                yearAgg[y].pubs += yd.total_pubs;
+            });
+        });
+
+        const avg = arr => arr.length ? Math.round(arr.reduce((a,b)=>a+b,0)/arr.length*10)/10 : 0;
+
+        new Chart(document.getElementById('chartYearlyOA'), {
+            type: 'bar',
+            data: {
+                labels: YEARS,
+                datasets: [
+                    { label:'Avg OA (adj)', data:YEARS.map(y => avg(yearAgg[y].oa)), backgroundColor:'rgba(33,150,243,0.7)', borderRadius:4, yAxisID:'y' },
+                    { label:'Avg Score', data:YEARS.map(y => avg(yearAgg[y].scores)), type:'line', borderColor:'#f59e0b', backgroundColor:'#f59e0b', pointRadius:5, borderWidth:2, yAxisID:'y1' }
+                ]
+            },
+            options: {
+                responsive:true,
+                plugins:{ legend:{position:'bottom',labels:{boxWidth:12,font:{size:10}}}, title:{display:true,text:'OA Rate & Score Trend',font:{size:12}} },
+                scales:{ y:{beginAtZero:true,max:100,title:{display:true,text:'OA adj %'}}, y1:{position:'right',beginAtZero:true,max:50,title:{display:true,text:'Avg Score'},grid:{drawOnChartArea:false}} }
+            }
+        });
+
+        new Chart(document.getElementById('chartYearlyPractices'), {
+            type: 'bar',
+            data: {
+                labels: YEARS,
+                datasets: [
+                    { label:'Data (adj %)', data:YEARS.map(y => avg(yearAgg[y].data)), backgroundColor:'rgba(76,175,80,0.7)', borderRadius:4 },
+                    { label:'Code (adj %)', data:YEARS.map(y => avg(yearAgg[y].code)), backgroundColor:'rgba(255,152,0,0.7)', borderRadius:4 },
+                    { label:'Preprint (adj %)', data:YEARS.map(y => avg(yearAgg[y].preprint)), backgroundColor:'rgba(156,39,176,0.7)', borderRadius:4 },
+                ]
+            },
+            options: {
+                responsive:true,
+                plugins:{ legend:{position:'bottom',labels:{boxWidth:12,font:{size:10}}}, title:{display:true,text:'Open Practices Adoption',font:{size:12}} },
+                scales:{ y:{beginAtZero:true,title:{display:true,text:'Adj Rate %'}} }
+            }
+        });
+    }
+
+    let yearlySort = { col: 'score_2025', dir: 'desc' };
+
+    function renderYearlyTable() {
+        const search = document.getElementById('searchYearly').value.toLowerCase();
+        const minPubs = parseInt(document.getElementById('minYearlyPubs').value);
+        const YEARS = ['2024','2025','2026'];
+
+        let rows = allData.filter(r => {
+            if (!r.yearly) return false;
+            if (search && !r.name.toLowerCase().includes(search)) return false;
+            return YEARS.some(y => r.yearly[y] && r.yearly[y].total_pubs >= minPubs);
+        }).map(r => {
+            const y = r.yearly || {};
+            const g = yr => y[yr] || null;
+            const s24 = g('2024'), s25 = g('2025'), s26 = g('2026');
+            return {
+                name: r.name, id: r.id, dept: r.dept,
+                score_2024: s24 ? s24.score : null,
+                score_2025: s25 ? s25.score : null,
+                score_2026: s26 ? s26.score : null,
+                oa_2025: s25 ? (s25.oa_adj || s25.oa_rate) : null,
+                data_2025: s25 ? (s25.data_adj || s25.data_rate) : null,
+                code_2025: s25 ? (s25.code_adj || s25.code_rate) : null,
+                pubs_2025: s25 ? s25.total_pubs : null,
+                trend: (s25 && s24) ? s25.score - s24.score : null,
+            };
+        });
+
+        rows.sort((a,b) => {
+            let va = a[yearlySort.col], vb = b[yearlySort.col];
+            if (va === null) va = -999; if (vb === null) vb = -999;
+            if (yearlySort.col === 'name') return yearlySort.dir === 'asc' ? String(va).localeCompare(String(vb)) : String(vb).localeCompare(String(va));
+            return yearlySort.dir === 'asc' ? va - vb : vb - va;
+        });
+
+        const tbody = document.getElementById('yearlyBody');
+        tbody.innerHTML = '';
+
+        rows.forEach(r => {
+            const sd = (r.dept||'').replace(/\(Dept\. (\d)\).*/, 'Dept. $1');
+            const fmtScore = (v) => {
+                if (v === null) return '<span style="color:#ccc;">-</span>';
+                const cls = v >= 38 ? 'year-score-good' : v >= 28 ? 'year-score-mid' : 'year-score-low';
+                return '<span class="year-score '+cls+'">'+v.toFixed(1)+'</span>';
+            };
+            const fmtAdj = (v) => v === null ? '<span style="color:#ccc;">-</span>' : Math.round(v);
+
+            let trendHTML = '<span class="trend-flat">-</span>';
+            if (r.trend !== null) {
+                const scores = [r.score_2024, r.score_2025, r.score_2026].filter(s => s !== null);
+                const maxS = Math.max(...scores, 1);
+                trendHTML = '<span class="sparkline">';
+                [r.score_2024, r.score_2025, r.score_2026].forEach((s, i) => {
+                    if (s === null) { trendHTML += '<span class="sparkline-bar" style="height:2px;background:#e5e7eb;"></span>'; return; }
+                    const h = Math.max(3, Math.round(s / maxS * 20));
+                    const c = ['#93c5fd','#2196F3','#1565C0'][i];
+                    trendHTML += '<span class="sparkline-bar" style="height:'+h+'px;background:'+c+';"></span>';
+                });
+                trendHTML += '</span> ';
+                if (r.trend > 1) trendHTML += '<span class="trend-up">\u2191'+r.trend.toFixed(1)+'</span>';
+                else if (r.trend < -1) trendHTML += '<span class="trend-down">\u2193'+Math.abs(r.trend).toFixed(1)+'</span>';
+                else trendHTML += '<span class="trend-flat">\u2248</span>';
+            }
+
+            tbody.innerHTML += '<tr>' +
+                '<td><a href="/author/'+r.id+'" style="font-family:var(--font-heading);font-weight:600;color:var(--igb-blue);text-decoration:none;">'+r.name+'</a></td>' +
+                '<td><span class="dept-badge">'+sd+'</span></td>' +
+                '<td>'+fmtScore(r.score_2024)+'</td>' +
+                '<td>'+fmtScore(r.score_2025)+'</td>' +
+                '<td>'+fmtScore(r.score_2026)+'</td>' +
+                '<td>'+trendHTML+'</td>' +
+                '<td>'+fmtAdj(r.oa_2025)+'</td>' +
+                '<td>'+fmtAdj(r.data_2025)+'</td>' +
+                '<td>'+fmtAdj(r.code_2025)+'</td>' +
+                '<td>'+(r.pubs_2025 || '-')+'</td>' +
+                '</tr>';
+        });
+
+        document.querySelectorAll('#yearlyTable th').forEach(th => {
+            th.classList.remove('sorted-asc','sorted-desc');
+            if (th.dataset.ycol === yearlySort.col) th.classList.add('sorted-'+yearlySort.dir);
+        });
+    }
+
+    // Yearly table sorting
+    document.querySelectorAll('#yearlyTable th').forEach(th => {
+        th.addEventListener('click', () => {
+            const col = th.dataset.ycol;
+            if (!col) return;
+            if (yearlySort.col === col) yearlySort.dir = yearlySort.dir === 'desc' ? 'asc' : 'desc';
+            else yearlySort = { col, dir: col === 'name' ? 'asc' : 'desc' };
+            renderYearlyTable();
+        });
+    });
+
+    init();
+    </script>
+</body>
+</html>

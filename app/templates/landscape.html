@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Landscape &mdash; Flintstone</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .landscape-container {
+            background: var(--igb-card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.5rem;
+        }
+        #landscapeCanvas {
+            width: 100%;
+            height: 600px;
+            border: 1px solid var(--igb-border);
+            border-radius: 8px;
+            cursor: crosshair;
+        }
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1rem 0;
+            justify-content: center;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.8rem;
+            color: var(--igb-text-light);
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            background: rgba(0,0,0,0.85);
+            color: white;
+            padding: 0.6rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            max-width: 300px;
+            pointer-events: none;
+            z-index: 100;
+            line-height: 1.4;
+        }
+        .tooltip-title { font-weight: 600; }
+        .tooltip-meta { opacity: 0.7; margin-top: 0.2rem; }
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .controls label { font-size: 0.85rem; color: var(--igb-text-light); }
+        .controls select, .controls input {
+            padding: 0.3rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--igb-border);
+            font-size: 0.85rem;
+        }
+        .query-point {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: #ff4444;
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(255,0,0,0.5);
+            pointer-events: none;
+            z-index: 50;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div>
+                <h1>
+                    <span class="logo-icon">🪨</span>
+                    <a href="/" style="color:white; text-decoration:none;">Flintstone</a>
+                    <span class="header-subtitle">Research Landscape</span>
+                </h1>
+                <p class="header-tagline">Every IGB publication, mapped by semantic similarity</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="landscape-container">
+            <div class="controls">
+                <label>
+                    Color by:
+                    <select id="colorBy">
+                        <option value="dept">Department</option>
+                        <option value="year">Year</option>
+                    </select>
+                </label>
+                <label>
+                    Year range:
+                    <input type="range" id="yearMin" min="1970" max="2026" value="1970" style="width:80px;">
+                    <span id="yearMinLabel">1970</span>
+                    –
+                    <input type="range" id="yearMax" min="1970" max="2026" value="2026" style="width:80px;">
+                    <span id="yearMaxLabel">2026</span>
+                </label>
+                <label>
+                    Search to locate:
+                    <input type="text" id="searchInput" placeholder="e.g. dissolved organic matter" style="width:200px;">
+                </label>
+            </div>
+
+            <div class="legend" id="legend"></div>
+
+            <div style="position:relative;">
+                <canvas id="landscapeCanvas"></canvas>
+                <div class="tooltip" id="tooltip"></div>
+            </div>
+        </div>
+
+        <p><a href="/">&larr; Back to search</a></p>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            🪨 Flintstone &mdash; IGB Publication Intelligence Tool &middot; Prototype
+        </div>
+    </footer>
+
+    <script>
+    const DEPT_COLORS = {
+        '(Dept. 1) Ecohydrology and Biogeochemistry': '#2196F3',
+        '(Dept. 2) Community and Ecosystem Ecology': '#4CAF50',
+        '(Dept. 3) Plankton and Microbial Ecology': '#FF9800',
+        '(Dept. 4) Fish Biology, Fisheries and Aquaculture': '#9C27B0',
+        '(Dept. 5) Evolutionary and Integrative Ecology': '#F44336',
+        'Directorate': '#607D8B',
+        'Administration': '#795548',
+        'Unknown': '#BDBDBD',
+    };
+
+    let allPoints = [];
+    let filteredPoints = [];
+
+    async function init() {
+        const resp = await fetch('/static/landscape.json');
+        allPoints = await resp.json();
+        filteredPoints = [...allPoints];
+
+        buildLegend();
+        draw();
+
+        // Event listeners
+        document.getElementById('colorBy').addEventListener('change', draw);
+        document.getElementById('yearMin').addEventListener('input', onYearFilter);
+        document.getElementById('yearMax').addEventListener('input', onYearFilter);
+        document.getElementById('searchInput').addEventListener('input', onSearch);
+
+        const canvas = document.getElementById('landscapeCanvas');
+        canvas.addEventListener('mousemove', onHover);
+        canvas.addEventListener('click', onClick);
+    }
+
+    function buildLegend() {
+        const legend = document.getElementById('legend');
+        legend.innerHTML = '';
+        for (const [dept, color] of Object.entries(DEPT_COLORS)) {
+            if (dept === 'Unknown') continue;
+            const short = dept.replace(/\(Dept\. \d\) /, '');
+            legend.innerHTML += `<div class="legend-item"><span class="legend-dot" style="background:${color}"></span>${short}</div>`;
+        }
+    }
+
+    function getDeptColor(dept) {
+        return DEPT_COLORS[dept] || DEPT_COLORS['Unknown'];
+    }
+
+    function getYearColor(year) {
+        if (!year) return '#BDBDBD';
+        const t = Math.max(0, Math.min(1, (year - 2000) / 26));
+        const r = Math.round(189 * (1 - t) + 33 * t);
+        const g = Math.round(189 * (1 - t) + 150 * t);
+        const b = Math.round(189 * (1 - t) + 243 * t);
+        return `rgb(${r},${g},${b})`;
+    }
+
+    function draw() {
+        const canvas = document.getElementById('landscapeCanvas');
+        const ctx = canvas.getContext('2d');
+        const dpr = window.devicePixelRatio || 1;
+        const rect = canvas.getBoundingClientRect();
+
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+
+        const w = rect.width;
+        const h = rect.height;
+        const pad = 20;
+
+        ctx.clearRect(0, 0, w, h);
+
+        const colorBy = document.getElementById('colorBy').value;
+
+        for (const p of filteredPoints) {
+            const px = pad + p.x * (w - 2 * pad);
+            const py = pad + p.y * (h - 2 * pad);
+            const color = colorBy === 'dept' ? getDeptColor(p.dept) : getYearColor(p.year);
+
+            ctx.beginPath();
+            ctx.arc(px, py, 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.globalAlpha = 0.6;
+            ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+    }
+
+    function onYearFilter() {
+        const min = parseInt(document.getElementById('yearMin').value);
+        const max = parseInt(document.getElementById('yearMax').value);
+        document.getElementById('yearMinLabel').textContent = min;
+        document.getElementById('yearMaxLabel').textContent = max;
+        filteredPoints = allPoints.filter(p => (!p.year || (p.year >= min && p.year <= max)));
+        draw();
+    }
+
+    function onSearch(e) {
+        const q = e.target.value.toLowerCase();
+        if (q.length < 3) {
+            filteredPoints = [...allPoints];
+            draw();
+            return;
+        }
+        // Highlight matching points
+        filteredPoints = allPoints.map(p => ({
+            ...p,
+            _match: p.title.toLowerCase().includes(q) || (p.authors || '').toLowerCase().includes(q),
+        }));
+        const canvas = document.getElementById('landscapeCanvas');
+        const ctx = canvas.getContext('2d');
+        draw();
+
+        // Overdraw matches as larger bright dots
+        const rect = canvas.getBoundingClientRect();
+        const w = rect.width, h = rect.height, pad = 20;
+        for (const p of filteredPoints) {
+            if (!p._match) continue;
+            const px = pad + p.x * (w - 2 * pad);
+            const py = pad + p.y * (h - 2 * pad);
+            ctx.beginPath();
+            ctx.arc(px, py, 5, 0, Math.PI * 2);
+            ctx.fillStyle = '#ff4444';
+            ctx.globalAlpha = 0.9;
+            ctx.fill();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+    }
+
+    function onHover(e) {
+        const canvas = document.getElementById('landscapeCanvas');
+        const rect = canvas.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+        const w = rect.width, h = rect.height, pad = 20;
+
+        const tooltip = document.getElementById('tooltip');
+        let closest = null;
+        let minDist = 15;
+
+        for (const p of filteredPoints) {
+            const px = pad + p.x * (w - 2 * pad);
+            const py = pad + p.y * (h - 2 * pad);
+            const d = Math.sqrt((mx - px) ** 2 + (my - py) ** 2);
+            if (d < minDist) {
+                minDist = d;
+                closest = p;
+            }
+        }
+
+        if (closest) {
+            tooltip.style.display = 'block';
+            tooltip.style.left = (e.clientX + 12) + 'px';
+            tooltip.style.top = (e.clientY - 10) + 'px';
+            tooltip.innerHTML = `
+                <div class="tooltip-title">${closest.title}</div>
+                <div class="tooltip-meta">${closest.authors || 'Unknown authors'}</div>
+                <div class="tooltip-meta">${closest.year || '?'} · ${closest.dept}</div>
+            `;
+        } else {
+            tooltip.style.display = 'none';
+        }
+    }
+
+    function onClick(e) {
+        const canvas = document.getElementById('landscapeCanvas');
+        const rect = canvas.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+        const w = rect.width, h = rect.height, pad = 20;
+
+        let closest = null;
+        let minDist = 15;
+        for (const p of filteredPoints) {
+            const px = pad + p.x * (w - 2 * pad);
+            const py = pad + p.y * (h - 2 * pad);
+            const d = Math.sqrt((mx - px) ** 2 + (my - py) ** 2);
+            if (d < minDist) { minDist = d; closest = p; }
+        }
+        if (closest && closest.doi) {
+            window.open(closest.doi, '_blank');
+        }
+    }
+
+    init();
+    </script>
+</body>
+</html>

@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open Practices Score Methodology &mdash; Flintstone</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .doc { max-width: 820px; margin: 0 auto; }
+        .doc-section {
+            background: var(--igb-card);
+            border-radius: var(--radius);
+            padding: 1.6rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.2rem;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .doc-section h2 {
+            font-family: var(--font-heading);
+            color: var(--igb-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--igb-accent);
+        }
+        .doc-section h3 {
+            font-family: var(--font-heading);
+            color: var(--igb-blue);
+            font-size: 1rem;
+            margin: 1.2rem 0 0.4rem;
+        }
+        .doc-section p, .doc-section li {
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--igb-text-mid);
+        }
+        .doc-section ul, .doc-section ol { padding-left: 1.2rem; margin: 0.4rem 0; }
+        .doc-section li { margin-bottom: 0.3rem; }
+        .formula-box {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+            padding: 1rem 1.2rem;
+            margin: 0.8rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--igb-text);
+            white-space: pre-wrap;
+        }
+        .weight-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.8rem 0;
+            font-size: 0.84rem;
+        }
+        .weight-table th {
+            text-align: left;
+            padding: 0.5rem 0.6rem;
+            background: var(--igb-blue-pale);
+            color: var(--igb-blue);
+            font-family: var(--font-heading);
+            font-weight: 600;
+            border-bottom: 2px solid var(--igb-accent);
+        }
+        .weight-table td {
+            padding: 0.45rem 0.6rem;
+            border-bottom: 1px solid #f0f2f5;
+            color: var(--igb-text-mid);
+        }
+        .weight-table tr:hover { background: #fafbfc; }
+        .weight-val { font-weight: 700; color: var(--igb-blue); }
+        .callout {
+            background: linear-gradient(135deg, #eef6ff, #fef9e7);
+            border-left: 4px solid var(--igb-blue);
+            padding: 0.8rem 1rem;
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            margin: 0.8rem 0;
+            font-size: 0.88rem;
+            color: var(--igb-text-mid);
+            line-height: 1.6;
+        }
+        .callout-warn {
+            background: linear-gradient(135deg, #fef9e7, #fdf2f8);
+            border-left-color: #f59e0b;
+        }
+        .source-badge {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.72rem;
+            font-weight: 500;
+        }
+        .source-openalex { background: #dbeafe; color: #1e40af; }
+        .source-fred { background: #dcfce7; color: #166534; }
+        .source-abstract { background: #fef3c7; color: #92400e; }
+        .source-datacite { background: #f3e8ff; color: #6b21a8; }
+        .tier-badge {
+            display: inline-block; padding: 0.1rem 0.35rem; border-radius: 4px;
+            font-size: 0.7rem; font-weight: 600;
+        }
+        .tier-1 { background: #dcfce7; color: #166534; }
+        .tier-2 { background: #dbeafe; color: #1e40af; }
+        .tier-3 { background: #fef3c7; color: #92400e; }
+        .section-number {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 22px; height: 22px; border-radius: 50%;
+            background: var(--igb-blue); color: white; font-size: 0.7rem;
+            font-weight: 700; margin-right: 0.4rem; vertical-align: middle;
+        }
+        code { background: #f1f5f9; padding: 0.1rem 0.3rem; border-radius: 3px; font-size: 0.82rem; }
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+
+    <header>
+        <div class="header-content">
+            <h1>
+                <span class="header-subtitle" style="margin-left:0;">Open Practices Score &mdash; Methodology</span>
+            </h1>
+            <p class="header-tagline" style="padding-left:0;">How we measure open research practices at IGB &mdash; version 2, April 2026</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="doc">
+
+            <!-- 1. Overview -->
+            <div class="doc-section">
+                <h2><span class="section-number">1</span> Overview</h2>
+                <p>The Open Practices Score estimates how consistently IGB researchers apply selected open research practices in their IGB-affiliated, OpenAlex-indexed publications. It combines five dimensions &mdash; open access, data openness, code openness, preprint sharing, and repository licensing &mdash; into a single composite indicator.</p>
+                <p>The score is calculated for current IGB staff with at least three indexed publications. Small-sample shrinkage is applied so that researchers with few publications are scored conservatively rather than penalised. The score is intended as a comparative benchmark, not a complete measure of all open science activity. Practices such as open peer review, open educational resources, and community engagement are not yet captured.</p>
+            </div>
+
+            <!-- 2. Eligibility -->
+            <div class="doc-section">
+                <h2><span class="section-number">2</span> Eligibility</h2>
+                <ul>
+                    <li><strong>Current IGB staff</strong> listed in the <a href="https://www.igb-berlin.de/en/people" target="_blank">IGB staff directory</a></li>
+                    <li><strong>At least 3 publications</strong> indexed in OpenAlex with an IGB affiliation</li>
+                    <li><strong>IGB-affiliated publications only</strong> &mdash; work published before joining IGB or with a different affiliation is not included</li>
+                    <li>Authors with multiple OpenAlex IDs (e.g. name variants with/without umlauts) are merged automatically</li>
+                </ul>
+            </div>
+
+            <!-- 3. Data Sources -->
+            <div class="doc-section">
+                <h2><span class="section-number">3</span> Data Sources</h2>
+                <ul>
+                    <li><span class="source-badge source-openalex">OpenAlex</span> Publication metadata, open access classification (gold/hybrid/green/bronze/diamond), publication type, citation counts. Updated weekly. <a href="https://openalex.org" target="_blank">openalex.org</a></li>
+                    <li><span class="source-badge source-fred">FRED</span> IGB's Freshwater Research and Environmental Database. 253 datasets with DOIs. <a href="https://fred.igb-berlin.de" target="_blank">fred.igb-berlin.de</a></li>
+                    <li><span class="source-badge source-datacite">DataCite</span> DOI metadata for FRED datasets, including license/rights fields used to determine open licensing. <a href="https://api.datacite.org" target="_blank">api.datacite.org</a></li>
+                    <li><span class="source-badge source-abstract">Abstracts</span> Text analysis of publication abstracts for data availability statements and code sharing signals</li>
+                </ul>
+            </div>
+
+            <!-- 4. Scoring Dimensions -->
+            <div class="doc-section">
+                <h2><span class="section-number">4</span> Scoring Dimensions</h2>
+                <p>Each dimension captures a <strong>distinct open practice</strong>. A publication contributes at most once to each dimension. A FRED deposit is scored under Repository Licensing; data linked to publications is scored under Data Openness.</p>
+
+                <table class="weight-table">
+                    <thead>
+                        <tr><th>Dimension</th><th>Weight</th><th>What it measures</th><th>Evidence tier</th><th>Shrinkage n</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>OA Accessibility</strong></td>
+                            <td class="weight-val">30%</td>
+                            <td>How much of a researcher's output is openly readable</td>
+                            <td><span class="tier-badge tier-1">Tier 1&ndash;2</span></td>
+                            <td>total_pubs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Data Openness</strong></td>
+                            <td class="weight-val">25%</td>
+                            <td>Whether data behind publications is findable and reusable</td>
+                            <td><span class="tier-badge tier-1">Tier 1</span> <span class="tier-badge tier-3">Tier 3</span></td>
+                            <td>total_pubs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Code Openness</strong></td>
+                            <td class="weight-val">20%</td>
+                            <td>Whether analysis code is publicly available</td>
+                            <td><span class="tier-badge tier-1">Tier 1</span> <span class="tier-badge tier-3">Tier 3</span></td>
+                            <td>total_pubs</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Preprint / Early Sharing</strong></td>
+                            <td class="weight-val">10%</td>
+                            <td>Whether results are shared before formal publication</td>
+                            <td><span class="tier-badge tier-1">Tier 1</span></td>
+                            <td>eligible_articles</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Repository Licensing</strong></td>
+                            <td class="weight-val">15%</td>
+                            <td>Whether FRED deposits carry open licenses</td>
+                            <td><span class="tier-badge tier-1">Tier 1</span></td>
+                            <td>FRED_deposits</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 5. Evidence Tiers -->
+            <div class="doc-section">
+                <h2><span class="section-number">5</span> Evidence Tiers</h2>
+                <p>The scoring is designed to reward verified, reusable openness more than stated intentions. Verified indicators receive 2&ndash;5&times; more credit than text-based signals.</p>
+
+                <table class="weight-table">
+                    <thead>
+                        <tr><th>Tier</th><th>Description</th><th>Examples</th><th>Credit</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="tier-badge tier-1">Tier 1: Verified</span></td>
+                            <td>Directly confirmable via metadata or DOI</td>
+                            <td>Open license in DataCite, OpenAlex OA status, dataset DOI, preprint record</td>
+                            <td><strong>Full (1.0)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tier-badge tier-2">Tier 2: Strong proxy</span></td>
+                            <td>Reliable metadata but not independently verifiable</td>
+                            <td>OpenAlex OA category (hybrid vs green), dataset type classification</td>
+                            <td><strong>High (0.8&ndash;0.9)</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="tier-badge tier-3">Tier 3: Inferred</span></td>
+                            <td>Text-based signal, may be false positive or negative</td>
+                            <td>Abstract mentions of GitHub, "data available at", "available upon request"</td>
+                            <td><strong>Reduced (0.1&ndash;0.5)</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 6. Formula and Calculation -->
+            <div class="doc-section">
+                <h2><span class="section-number">6</span> Formula &amp; Calculation</h2>
+
+                <h3>Empirical Bayes Shrinkage</h3>
+                <p>Instead of a volume multiplier, each dimension's observed rate is adjusted using empirical Bayes shrinkage:</p>
+                <div class="formula-box">Adjusted_rate = (n / (n + k)) &times; observed_rate + (k / (n + k)) &times; IGB_mean_rate
+
+Where:
+  n = publications relevant to that dimension
+  k = 10 (smoothing constant)
+  IGB_mean_rate = institutional average for that dimension</div>
+
+                <p>This means:</p>
+                <ul>
+                    <li>A researcher with 3/3 Gold OA doesn't get 100% &mdash; their rate is pulled toward the IGB average</li>
+                    <li>A researcher with 80/100 Gold OA barely shrinks &mdash; the data speaks for itself</li>
+                    <li>No researcher is penalised by a blanket multiplier; low-n scores are treated as <em>uncertain</em>, not bad</li>
+                </ul>
+
+                <h3>Final Score</h3>
+                <div class="formula-box">Score = 0.30 &times; adj_OA + 0.25 &times; adj_Data + 0.20 &times; adj_Code + 0.10 &times; adj_Preprint + 0.15 &times; adj_Repo</div>
+
+                <h3>Per-Publication Scoring</h3>
+
+                <p><strong>OA Accessibility</strong> (per publication):</p>
+                <div class="formula-box">Gold / Diamond  = 1.0   (verified open journal)
+Hybrid          = 0.9   (OA in subscription journal)
+Green           = 0.7   (self-archived version available)
+Bronze          = 0.2   (free to read, no open license &mdash; can be restricted anytime)
+Closed          = 0.0
+
+OA Rate = sum(per_pub_scores) / total_pubs &times; 100</div>
+
+                <p><strong>Data Openness</strong> (per publication, maximum of applicable tiers):</p>
+                <div class="formula-box">Verified open dataset DOI linked in abstract    = 1.0  (Tier 1)
+OpenAlex "dataset" publication type              = 1.0  (Tier 1)
+Data availability statement in abstract          = 0.3  (Tier 3)
+"Available upon request" only                    = 0.1  (Tier 3)
+None                                             = 0.0
+
+Data Rate = sum(per_pub_data_scores) / total_pubs &times; 100</div>
+                <p>FRED deposits are <strong>not</strong> counted here &mdash; they have their own dimension (Repository Licensing).</p>
+
+                <p><strong>Code Openness</strong> (per publication, maximum of applicable tiers):</p>
+                <div class="formula-box">Verified software DOI (Zenodo, CRAN, PyPI)      = 1.0  (Tier 1)
+Repository link in abstract (GitHub, GitLab...)  = 0.5  (Tier 3)
+Generic code mention in abstract                 = 0.2  (Tier 3)
+None                                             = 0.0
+
+Code Rate = sum(per_pub_code_scores) / total_pubs &times; 100</div>
+                <p>Detected patterns: <code>github.com</code>, <code>gitlab.com</code>, <code>bitbucket.org</code>, <code>codeberg.org</code>, <code>cran.r-project.org</code>, <code>pypi.org</code>, "R package", "Python package", "source code", "code available".</p>
+
+                <p><strong>Preprint Rate</strong>:</p>
+                <div class="formula-box">Preprint Rate = preprints / max(eligible_articles, 1) &times; 100, capped at 100
+
+Eligible articles: research articles, reviews, letters
+Excluded: editorials, corrections, conference abstracts, book chapters</div>
+
+                <p><strong>Repository Licensing</strong>:</p>
+                <div class="formula-box">Repo Rate = openly_licensed_FRED_deposits / max(total_FRED_deposits, 1) &times; 100
+
+"Openly licensed" = CC-BY, CC0, CC-BY-SA, or similar in DataCite metadata
+No FRED deposits: shrinkage assigns the IGB mean for this dimension</div>
+            </div>
+
+            <!-- 7. Worked Example -->
+            <div class="doc-section">
+                <h2><span class="section-number">7</span> Worked Example</h2>
+                <p><strong>Dr. A. M&uuml;ller</strong> (hypothetical) &mdash; 25 IGB-affiliated publications, 4 FRED deposits</p>
+
+                <table class="weight-table">
+                    <thead>
+                        <tr><th>Dimension</th><th>Observed</th><th>n</th><th>IGB mean</th><th>Adjusted</th><th>Weight</th><th>Contribution</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>OA Accessibility</td>
+                            <td>84.8%</td>
+                            <td>25</td>
+                            <td>67.4%</td>
+                            <td>79.8%</td>
+                            <td>0.30</td>
+                            <td><strong>23.9</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Data Openness</td>
+                            <td>32.0%</td>
+                            <td>25</td>
+                            <td>3.9%</td>
+                            <td>24.0%</td>
+                            <td>0.25</td>
+                            <td><strong>6.0</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Code Openness</td>
+                            <td>20.0%</td>
+                            <td>25</td>
+                            <td>0.5%</td>
+                            <td>14.4%</td>
+                            <td>0.20</td>
+                            <td><strong>2.9</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Preprint Rate</td>
+                            <td>13.6%</td>
+                            <td>22</td>
+                            <td>20.3%</td>
+                            <td>15.7%</td>
+                            <td>0.10</td>
+                            <td><strong>1.6</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Repository Licensing</td>
+                            <td>75.0%</td>
+                            <td>4</td>
+                            <td>49.0%</td>
+                            <td>56.4%</td>
+                            <td>0.15</td>
+                            <td><strong>8.5</strong></td>
+                        </tr>
+                        <tr style="background:#f0f9ff;">
+                            <td colspan="5"></td>
+                            <td><strong>Total</strong></td>
+                            <td><strong>42.9</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>Note how the Repository Licensing score (75% observed) is pulled toward the IGB mean (49%) because n=4 is small. The OA score barely moves because n=25 gives the data enough weight to resist shrinkage.</p>
+                <p><strong>Reported as:</strong> Score: 43 | 25 publications | Medium confidence</p>
+            </div>
+
+            <!-- 8. Confidence Labels -->
+            <div class="doc-section">
+                <h2><span class="section-number">8</span> Confidence Labels</h2>
+                <p>Scores based on few publications are more uncertain. We label each score by the researcher's total publication count:</p>
+                <table class="weight-table">
+                    <thead>
+                        <tr><th>Publications</th><th>Label</th><th>Interpretation</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>&ge; 30</td><td><strong>High confidence</strong></td><td>Sufficient data; score is a reliable estimate</td></tr>
+                        <tr><td>10&ndash;29</td><td><strong>Medium confidence</strong></td><td>Reasonable estimate; individual practices matter more at this scale</td></tr>
+                        <tr><td>3&ndash;9</td><td><strong>Low confidence</strong></td><td>Score heavily influenced by shrinkage; treat as indicative only</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 9. Limitations -->
+            <div class="doc-section">
+                <h2><span class="section-number">9</span> Limitations</h2>
+                <ul>
+                    <li><strong>Abstract scanning is imperfect.</strong> Tier 3 indicators (code mentions, data statements) are detected via keyword matching in abstracts. This misses sharing mentioned only in the full text, and may produce false positives. Tier 3 signals receive reduced credit (0.1&ndash;0.5) to account for this.</li>
+                    <li><strong>Not all open practices are captured.</strong> Open peer review, open educational resources, open science mentoring, community engagement, preregistration, and FAIR compliance are not yet measured.</li>
+                    <li><strong>Only IGB-affiliated publications.</strong> Work published before joining IGB or with a different affiliation is not included.</li>
+                    <li><strong>Author disambiguation is imperfect.</strong> OpenAlex sometimes splits a single researcher into multiple IDs. We merge by name (with umlaut normalization), but some may still be missed.</li>
+                    <li><strong>FRED downloadability is checked via license metadata</strong> in DataCite. Some datasets may be practically accessible even without an explicit open license.</li>
+                    <li><strong>Citation differential is not included in the score.</strong> The OA citation advantage is heavily confounded (self-selection, field differences, sample size). It is reported as a contextual statistic but does not affect the composite score.</li>
+                </ul>
+            </div>
+
+            <!-- 10. Anti-Gaming Design -->
+            <div class="doc-section">
+                <h2><span class="section-number">10</span> Design Against Gaming</h2>
+                <table class="weight-table">
+                    <thead>
+                        <tr><th>Gaming risk</th><th>Countermeasure</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Adding "github" to abstracts without accessible code</td>
+                            <td>Verified software DOIs (Tier 1) get full credit; abstract mentions (Tier 3) get only 0.2&ndash;0.5</td>
+                        </tr>
+                        <tr>
+                            <td>Depositing restricted FRED records for score points</td>
+                            <td>Repository dimension scores open-licensed deposits only; restricted deposits get zero</td>
+                        </tr>
+                        <tr>
+                            <td>Splitting one dataset into multiple deposits</td>
+                            <td>Repository score is a <em>rate</em> (open/total), not a count &mdash; splitting has no effect</td>
+                        </tr>
+                        <tr>
+                            <td>Chasing low-value preprints</td>
+                            <td>Preprints carry only 10% weight; shrinkage prevents small-n inflation</td>
+                        </tr>
+                        <tr>
+                            <td>"Available upon request" as empty gesture</td>
+                            <td>Scored at 0.1, barely above zero</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 11. Current Benchmark Data -->
+            <div class="doc-section">
+                <h2><span class="section-number">11</span> Current Benchmark Data <span style="font-size:0.75rem; font-weight:400; color:var(--igb-text-light);">(April 2026)</span></h2>
+                <div class="callout">
+                    <strong>Only ~10% of FRED datasets are openly downloadable.</strong> Of 253 FRED datasets with DOIs, only 25 have open licenses (CC-BY, CC0, or similar). The remaining 228 are deposited but restricted. This is the single largest opportunity to improve IGB's open data practices.
+                </div>
+                <div class="callout">
+                    <strong>IGB-wide average OA rate: ~67%</strong> (weighted by per-publication OA quality score). Gold OA accounts for 1,496 publications, hybrid 887, green 979, bronze 597, diamond 107.
+                </div>
+                <div class="callout">
+                    <strong>Code sharing is rare.</strong> Only ~0.5% of publications have detectable code sharing signals in abstracts. This is likely an undercount (many share code in supplementary materials), but even so represents a major growth area.
+                </div>
+                <div class="callout">
+                    <strong>Preprints are growing.</strong> 552 preprints from IGB researchers indexed in OpenAlex. The IGB-wide preprint rate is ~20% of eligible articles.
+                </div>
+            </div>
+
+            <!-- 12. Future Improvements -->
+            <div class="doc-section">
+                <h2><span class="section-number">12</span> Future Improvements (v3)</h2>
+                <ul>
+                    <li><strong>Field normalisation:</strong> Show percentile rank within broad field categories (ecology, hydrology, social science)</li>
+                    <li><strong>Career-stage adjustment:</strong> Normalise by years since first publication, or show cohort percentiles</li>
+                    <li><strong>Better code/data detection:</strong> Cross-reference with Zenodo and GitHub APIs directly</li>
+                    <li><strong>FAIR compliance:</strong> Check metadata quality, persistent identifiers, and machine-readability</li>
+                    <li><strong>Preregistration:</strong> Add as a dimension when common enough at IGB</li>
+                    <li><strong>Sensitivity analysis:</strong> Vary weights &plusmn;5% and shrinkage k from 5&ndash;20 to test ranking stability</li>
+                    <li><strong>Manual audit:</strong> Sample 30&ndash;50 profiles to verify code/data detection accuracy</li>
+                </ul>
+            </div>
+
+            <p style="text-align:center; margin-top:1.5rem;">
+                <a href="/opensci" class="nav-link" style="display:inline-flex;">Back to the Open Practices Score</a>
+            </p>
+        </div>
+    </div>
+
+    <footer><div class="footer-content">Flintstone &mdash; IGB Publication Intelligence Tool</div></footer>
+</body>
+</html>

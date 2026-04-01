@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flintstone &mdash; IGB Publication Intelligence</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    {% include 'nav.html' %}
+    <header>
+        <div class="header-content">
+            <div>
+                <h1>
+                    <span class="logo-icon">🪨</span>
+                    Flintstone
+                    <span class="header-subtitle">IGB Publication Intelligence</span>
+                </h1>
+                <p class="header-tagline">Your companion to <a href="https://fred.igb-berlin.de" target="_blank" style="color:#8ecae6; text-decoration:underline;">FRED</a> — surface relevant prior work, identify collaborators, and discover what's new</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        {% if stats and not publications %}
+        <div class="stats-bar">
+            <div class="stat-chip">
+                <span class="stat-chip-value">{{ "{:,}".format(stats.total_pubs) }}</span>
+                <span class="stat-chip-label">publications</span>
+            </div>
+            <div class="stat-chip">
+                <span class="stat-chip-value">{{ "{:,}".format(stats.igb_authors) }}</span>
+                <span class="stat-chip-label">IGB authors</span>
+            </div>
+            <div class="stat-chip">
+                <span class="stat-chip-value">{{ stats.current_staff }}</span>
+                <span class="stat-chip-label">current staff matched</span>
+            </div>
+            <div class="stat-chip">
+                <span class="stat-chip-value">{{ stats.year_min }}–{{ stats.year_max }}</span>
+                <span class="stat-chip-label">year range</span>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="search-section">
+            <form method="post" action="/search" id="searchForm">
+                <label for="query">Paste your project abstract or idea</label>
+                <textarea name="query" id="query" placeholder="Describe your research idea or paste an abstract... &#10;&#10;Try something like: 'We study the effects of warming on plankton communities in shallow lakes using mesocosm experiments.'">{{ query or '' }}</textarea>
+                <div class="search-controls">
+                    <button type="submit" class="btn-search" id="searchBtn">
+                        <span class="btn-icon">🔍</span> Search
+                    </button>
+                    <label class="filter-label">
+                        Results:
+                        <select name="top_k" class="filter-select">
+                            <option value="10" {{ 'selected' if top_k == 10 else '' }}>10</option>
+                            <option value="20" {{ 'selected' if top_k == 20 or not top_k else '' }}>20</option>
+                            <option value="50" {{ 'selected' if top_k == 50 else '' }}>50</option>
+                        </select>
+                    </label>
+                    <label class="filter-label">
+                        From:
+                        <input type="number" name="year_min" class="filter-input" placeholder="1970" min="1970" max="2026" value="{{ year_min or '' }}">
+                    </label>
+                    <label class="filter-label">
+                        To:
+                        <input type="number" name="year_max" class="filter-input" placeholder="2026" min="1970" max="2026" value="{{ year_max or '' }}">
+                    </label>
+                </div>
+            </form>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            Searching across IGB publications...
+        </div>
+
+        {% if publications %}
+
+        <!-- Year Trend Chart -->
+        {% if year_labels %}
+        <div class="results-section chart-section">
+            <h2>📊 Temporal Distribution of Matches</h2>
+            <div class="chart-container">
+                <canvas id="yearChart" height="120"></canvas>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="results-grid">
+            <!-- Relevant Publications -->
+            <div class="results-section">
+                <div class="section-header">
+                    <h2>📄 Relevant Publications ({{ publications|length }})</h2>
+                    <button type="button" class="btn-export" onclick="document.getElementById('exportForm').submit()">
+                        📥 Export CSV
+                    </button>
+                </div>
+                {% for pub in publications %}
+                <div class="pub-item">
+                    <div class="pub-title-row">
+                        <span class="score-badge" style="background: hsl({{ (pub.score * 120)|int }}, 60%, 45%);">{{ "%.0f"|format(pub.score * 100) }}%</span>
+                        {% if pub.doi %}
+                        <a href="{{ pub.doi }}" target="_blank" class="pub-title">{{ pub.title }}</a>
+                        {% else %}
+                        <span class="pub-title">{{ pub.title }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="pub-authors">
+                        {% for author in pub.authors_list %}
+                            {% if author.is_igb_affiliated %}
+                                <a href="/author/{{ author.id }}" class="igb-author">{{ author.display_name }}</a>{% if author.department %}<span class="dept-tag">{{ author.department | replace('(Dept. ', 'D') | replace(') ', ': ') }}</span>{% endif %}{% if not loop.last %}, {% endif %}
+                            {% else %}
+                                {{ author.display_name }}{% if not loop.last %}, {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="pub-meta">
+                        <span class="meta-year">{{ pub.year }}</span>
+                        <span class="meta-sep">&middot;</span>
+                        {{ pub.journal or 'Unknown journal' }}
+                        <span class="meta-sep">&middot;</span>
+                        <span class="meta-citations">{{ pub.cited_by_count }} citations</span>
+                    </div>
+                    {% if pub.abstract_short %}
+                    <div class="pub-abstract">{{ pub.abstract_short }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Potential Collaborators -->
+            {% if collaborators %}
+            <div class="results-section">
+                <h2>🤝 Potential Collaborators</h2>
+                {% for collab in collaborators %}
+                <div class="collab-item">
+                    <div class="collab-header">
+                        <a href="/author/{{ collab.id }}" class="collab-name">{{ collab.display_name }}</a>
+                        {% if collab.department %}
+                        <span class="dept-badge">{{ collab.department }}</span>
+                        {% endif %}
+                        {% if collab.is_current_staff %}
+                        <span class="staff-badge" title="Current IGB staff">✓ current</span>
+                        {% endif %}
+                    </div>
+                    <span class="collab-count">{{ collab.relevant_count }} relevant publication{{ 's' if collab.relevant_count != 1 else '' }}</span>
+                    {% if collab.top_papers %}
+                    <ul class="collab-papers">
+                        {% for paper in collab.top_papers %}
+                        <li>
+                            {% if paper.doi %}
+                            <a href="{{ paper.doi }}" target="_blank">{{ paper.title }}</a>
+                            {% else %}
+                            {{ paper.title }}
+                            {% endif %}
+                            ({{ paper.year }})
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Novelty Assessment -->
+            {% if novelty %}
+            <div class="results-section">
+                <h2>💡 Novelty Assessment</h2>
+                <div class="novelty-summary">{{ novelty.summary | md_bold }}</div>
+
+                {% if novelty.novel_terms %}
+                <div class="term-group">
+                    <h3>Potentially Novel Concepts</h3>
+                    {% for term in novelty.novel_terms[:15] %}
+                    <span class="term-tag term-novel">{{ term }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if novelty.covered_terms %}
+                <div class="term-group">
+                    <h3>Well-Covered Topics</h3>
+                    {% for term in novelty.covered_terms[:15] %}
+                    <span class="term-tag term-covered">{{ term }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if novelty.novel_bigrams %}
+                <div class="term-group">
+                    <h3>Novel Research Angles</h3>
+                    {% for term in novelty.novel_bigrams[:10] %}
+                    <span class="term-tag term-novel">{{ term }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            <!-- Citation Network -->
+            {% if citation_edges and citation_edges|length > 0 %}
+            <div class="results-section">
+                <h2>🔗 Citation Network</h2>
+                <p style="font-size:0.85rem; color:var(--igb-text-light); margin-bottom:0.8rem;">
+                    {{ citation_edges|length }} citation link{{ 's' if citation_edges|length != 1 else '' }} found among the top results.
+                    {% if citation_stats.get('most_cited_count') %}
+                    The most cited paper within this set is referenced {{ citation_stats.most_cited_count }} time{{ 's' if citation_stats.most_cited_count != 1 else '' }}.
+                    {% endif %}
+                </p>
+                <div class="citation-graph-container">
+                    <canvas id="citationCanvas" height="300"></canvas>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- FTS bonus results -->
+            {% if fts_extra %}
+            <div class="results-section fts-section">
+                <h2>🔤 Additional Keyword Matches</h2>
+                <p class="fts-note">These publications match your keywords but ranked lower in semantic similarity.</p>
+                {% for pub in fts_extra %}
+                <div class="pub-item pub-item-fts">
+                    {% if pub.doi %}
+                    <a href="{{ pub.doi }}" target="_blank" class="pub-title">{{ pub.title }}</a>
+                    {% else %}
+                    <span class="pub-title">{{ pub.title }}</span>
+                    {% endif %}
+                    <div class="pub-meta">{{ pub.year }} &middot; {{ pub.journal or 'Unknown journal' }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Hidden export form -->
+        <form id="exportForm" method="post" action="/export" style="display:none;">
+            <input type="hidden" name="query" value="{{ query }}">
+            <input type="hidden" name="top_k" value="{{ top_k }}">
+            <input type="hidden" name="year_min" value="{{ year_min or '' }}">
+            <input type="hidden" name="year_max" value="{{ year_max or '' }}">
+        </form>
+        {% endif %}
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            🪨 Flintstone &mdash; IGB Publication Intelligence Tool
+            <br>Data from <a href="https://openalex.org" target="_blank">OpenAlex</a> &middot; Staff from <a href="https://www.igb-berlin.de" target="_blank">igb-berlin.de</a> &middot; Datasets from <a href="https://fred.igb-berlin.de" target="_blank">FRED</a>
+        </div>
+    </footer>
+
+    <!-- Chart.js for temporal trends -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+    <script>
+        // Search form loading state
+        document.getElementById('searchForm').addEventListener('submit', function() {
+            document.getElementById('searchBtn').disabled = true;
+            document.getElementById('searchBtn').innerHTML = '<span class="btn-icon">⏳</span> Searching...';
+            document.getElementById('loading').classList.add('active');
+        });
+
+        // Year trend chart
+        // Citation network visualization
+        {% if citation_edges is defined and citation_edges|length > 0 %}
+        (function() {
+            const pubs = {{ publications | tojson }};
+            const edges = {{ citation_edges | tojson }};
+            const canvas = document.getElementById('citationCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * dpr;
+            canvas.height = 300 * dpr;
+            ctx.scale(dpr, dpr);
+            const w = rect.width, h = 300;
+
+            // Build nodes from publications that appear in edges
+            const edgeIds = new Set();
+            edges.forEach(e => { edgeIds.add(e.source); edgeIds.add(e.target); });
+            const nodes = pubs.filter(p => edgeIds.has(p.id)).map((p, i) => ({
+                id: p.id,
+                title: p.title ? p.title.substring(0, 40) + '...' : '?',
+                fullTitle: p.title,
+                score: p.score || 0,
+            }));
+
+            if (nodes.length === 0) return;
+
+            // Simple force-directed layout (just initial placement in a circle)
+            const cx = w / 2, cy = h / 2;
+            const radius = Math.min(w, h) / 2.5;
+            const nodeMap = {};
+            nodes.forEach((n, i) => {
+                const angle = (2 * Math.PI * i) / nodes.length;
+                n.x = cx + radius * Math.cos(angle);
+                n.y = cy + radius * Math.sin(angle);
+                nodeMap[n.id] = n;
+            });
+
+            // Draw edges
+            ctx.strokeStyle = 'rgba(0,79,124,0.2)';
+            ctx.lineWidth = 1.5;
+            edges.forEach(e => {
+                const s = nodeMap[e.source];
+                const t = nodeMap[e.target];
+                if (!s || !t) return;
+                ctx.beginPath();
+                ctx.moveTo(s.x, s.y);
+                ctx.lineTo(t.x, t.y);
+                ctx.stroke();
+
+                // Arrow
+                const angle = Math.atan2(t.y - s.y, t.x - s.x);
+                const ax = t.x - 12 * Math.cos(angle);
+                const ay = t.y - 12 * Math.sin(angle);
+                ctx.beginPath();
+                ctx.moveTo(ax, ay);
+                ctx.lineTo(ax - 6 * Math.cos(angle - 0.4), ay - 6 * Math.sin(angle - 0.4));
+                ctx.lineTo(ax - 6 * Math.cos(angle + 0.4), ay - 6 * Math.sin(angle + 0.4));
+                ctx.fillStyle = 'rgba(0,79,124,0.4)';
+                ctx.fill();
+            });
+
+            // Draw nodes
+            nodes.forEach(n => {
+                const r = 6 + n.score * 10;
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, r, 0, Math.PI * 2);
+                ctx.fillStyle = `hsl(${Math.round(n.score * 120)}, 60%, 50%)`;
+                ctx.fill();
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Label
+                ctx.fillStyle = '#333';
+                ctx.font = '10px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(n.title, n.x, n.y + r + 12);
+            });
+        })();
+        {% endif %}
+
+        {% if year_labels is defined and year_labels %}
+        const ctx = document.getElementById('yearChart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ year_labels | tojson }},
+                    datasets: [{
+                        label: 'Matching publications',
+                        data: {{ year_data | tojson }},
+                        backgroundColor: 'rgba(0, 79, 124, 0.6)',
+                        borderColor: 'rgba(0, 79, 124, 1)',
+                        borderWidth: 1,
+                        borderRadius: 3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 },
+                            title: { display: true, text: 'Publications' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Year' }
+                        }
+                    }
+                }
+            });
+        }
+        {% endif %}
+    </script>
+</body>
+</html>

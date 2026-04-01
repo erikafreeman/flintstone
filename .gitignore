@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.env
+data/query_log.jsonl
+data/model/
+data/embeddings.npy
+data/tsne_coords.npy
+.claude/

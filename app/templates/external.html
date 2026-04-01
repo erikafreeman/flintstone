@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>External Partners &mdash; Flintstone</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #extMap { height: 350px; border-radius: var(--radius-sm); border: 1px solid var(--igb-border); }
+        .ext-container {
+            background: var(--igb-card);
+            border-radius: var(--radius);
+            padding: 1.4rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.2rem;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .ext-container h2 {
+            font-family: var(--font-heading);
+            color: var(--igb-blue);
+            font-size: 1.15rem;
+            margin-bottom: 0.9rem;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--igb-accent);
+        }
+        .ext-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .ext-filters label { font-size: 0.82rem; color: var(--igb-text-light); }
+        .ext-filters select, .ext-filters input {
+            padding: 0.3rem 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--igb-border);
+            font-size: 0.82rem;
+            font-family: var(--font-body);
+        }
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+    <header>
+        <div class="header-content">
+            <h1>
+                <span class="logo-icon">🪨</span>
+                <a href="/" style="color:white; text-decoration:none;">Flintstone</a>
+                <span class="header-subtitle">External Partners</span>
+            </h1>
+            <p class="header-tagline">IGB's worldwide collaboration network — who we publish with and what expertise they bring</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="map-stats">
+            <div class="stat-chip"><span class="stat-chip-value">{{ stats.total_partners }}</span><span class="stat-chip-label">external partners</span></div>
+            <div class="stat-chip"><span class="stat-chip-value">{{ stats.institutions }}</span><span class="stat-chip-label">institutions</span></div>
+            <div class="stat-chip"><span class="stat-chip-value">{{ stats.countries }}</span><span class="stat-chip-label">countries</span></div>
+        </div>
+
+        <!-- World map of partner institutions -->
+        <div class="ext-container">
+            <h2>🌍 Partner Institutions Worldwide</h2>
+            <div id="extMap"></div>
+        </div>
+
+        <!-- Top institutions table -->
+        <div class="ext-container">
+            <h2>🏛️ Top Partner Institutions</h2>
+            <table class="ext-table">
+                <thead>
+                    <tr>
+                        <th>Institution</th>
+                        <th>Country</th>
+                        <th>Researchers</th>
+                        <th>Shared Papers</th>
+                        <th>Research Expertise</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for inst in top_institutions %}
+                    <tr>
+                        <td><span class="inst-name">{{ inst.name }}</span></td>
+                        <td><span class="country-badge">{{ inst.country }}</span></td>
+                        <td>{{ inst.author_count }}</td>
+                        <td>{{ inst.paper_count }}</td>
+                        <td><span class="concepts-list">{{ inst.concepts }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Top individual collaborators -->
+        <div class="ext-container">
+            <h2>👥 Top External Collaborators</h2>
+            <div class="ext-filters">
+                <label>Min. shared papers:
+                    <select id="minPapers" onchange="filterTable()">
+                        <option value="5">5+</option>
+                        <option value="10" selected>10+</option>
+                        <option value="20">20+</option>
+                        <option value="30">30+</option>
+                    </select>
+                </label>
+                <label>Search:
+                    <input type="text" id="searchExt" placeholder="Name or institution..." oninput="filterTable()" style="width:180px;">
+                </label>
+            </div>
+            <table class="ext-table" id="collabTable">
+                <thead>
+                    <tr>
+                        <th>Researcher</th>
+                        <th>Institution</th>
+                        <th>Country</th>
+                        <th>Shared Papers</th>
+                        <th>Research Topics</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for collab in collaborators %}
+                    <tr data-papers="{{ collab.shared_papers }}" data-search="{{ collab.name|lower }} {{ collab.institution|lower }} {{ collab.concepts|lower }}">
+                        <td>
+                            <span class="inst-name">{{ collab.name }}</span>
+                            {% if collab.orcid %}
+                            <a href="{{ collab.orcid }}" target="_blank" style="font-size:0.7rem; color:var(--igb-green);">ORCID</a>
+                            {% endif %}
+                        </td>
+                        <td>{{ collab.institution }}</td>
+                        <td><span class="country-badge">{{ collab.country }}</span></td>
+                        <td>{{ collab.shared_papers }}</td>
+                        <td><span class="concepts-list">{{ collab.concepts }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <footer><div class="footer-content">🪨 Flintstone &mdash; IGB Publication Intelligence Tool</div></footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+    // Institution map
+    const institutions = {{ institution_coords | tojson }};
+    const map = L.map('extMap').setView([30, 10], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap', maxZoom: 18
+    }).addTo(map);
+
+    institutions.forEach(function(inst) {
+        if (!inst.lat || !inst.lon) return;
+        const r = Math.min(4 + Math.sqrt(inst.count) * 1.5, 18);
+        L.circleMarker([inst.lat, inst.lon], {
+            radius: r,
+            fillColor: '#2196F3',
+            color: 'white',
+            weight: 1.5,
+            fillOpacity: 0.7,
+        }).bindPopup(
+            '<div class="popup-title">' + inst.name + '</div>' +
+            '<div class="popup-meta">' + inst.country + '</div>' +
+            '<div class="popup-meta">' + inst.count + ' collaborating researchers</div>'
+        ).addTo(map);
+    });
+
+    // Table filter
+    function filterTable() {
+        const minPapers = parseInt(document.getElementById('minPapers').value);
+        const search = document.getElementById('searchExt').value.toLowerCase();
+        const rows = document.querySelectorAll('#collabTable tbody tr');
+        rows.forEach(function(row) {
+            const papers = parseInt(row.dataset.papers);
+            const text = row.dataset.search;
+            const show = papers >= minPapers && (!search || text.includes(search));
+            row.style.display = show ? '' : 'none';
+        });
+    }
+    filterTable();
+    </script>
+</body>
+</html>
