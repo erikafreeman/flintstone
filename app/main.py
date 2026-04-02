@@ -1,4 +1,4 @@
-"""Flintstone — IGB Publication Intelligence Tool."""
+"""Feuerstein — IGB Publication Intelligence Tool."""
 
 import csv
 import io
@@ -15,7 +15,23 @@ from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from . import search, models, analysis, citations
+from . import search, models, analysis, citations, synthesize
+
+# Import Scopefish sub-app for mounting
+os.environ["SCOPEFISH_PREFIX"] = "/scopefish"
+scopefish_app = None
+_sf_base = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "scopefish"))
+if os.path.isdir(_sf_base):
+    try:
+        import sys
+        sys.path.insert(0, _sf_base)
+        import sfapp.main as _sf_main
+        scopefish_app = _sf_main.app
+        _sf_main.templates.env.globals["prefix"] = "/scopefish"
+        _sf_main.templates.env.globals["feuerstein_url"] = "/"
+    except Exception as e:
+        logging.warning(f"Could not load Scopefish sub-app: {e}")
+        scopefish_app = None
 
 # Query logging
 QUERY_LOG_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "query_log.jsonl")
@@ -36,10 +52,12 @@ def _log_query(query: str, top_k: int, n_results: int, year_min=None, year_max=N
     except Exception:
         pass  # Don't let logging break the app
 
-app = FastAPI(title="Flintstone")
+app = FastAPI(title="Feuerstein")
 
 BASE_DIR = os.path.dirname(__file__)
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
+if scopefish_app:
+    app.mount("/scopefish", scopefish_app)
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
 
@@ -194,8 +212,30 @@ async def export_csv(
     return StreamingResponse(
         iter([output.getvalue()]),
         media_type="text/csv",
-        headers={"Content-Disposition": "attachment; filename=flintstone_results.csv"},
+        headers={"Content-Disposition": "attachment; filename=feuerstein_results.csv"},
     )
+
+
+@app.post("/api/synthesize")
+async def api_synthesize(
+    query: str = Form(...),
+    top_k: int = Form(10),
+    year_min: Optional[int] = Form(None),
+    year_max: Optional[int] = Form(None),
+):
+    """Generate a citation-backed synthesis of search results."""
+    if not synthesize.is_available():
+        return {"error": "Synthesis unavailable. Set ANTHROPIC_API_KEY.", "synthesis": "", "references": []}
+
+    publications, _, _, _, _, _ = _run_search(query, top_k, year_min, year_max)
+    result = synthesize.synthesize(query, publications, refine=True)
+    return result
+
+
+@app.get("/api/synthesize/status")
+async def synthesize_status():
+    """Check if synthesis feature is available."""
+    return {"available": synthesize.is_available()}
 
 
 @app.get("/author/{author_id:path}", response_class=HTMLResponse)

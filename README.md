@@ -1,5 +1,5 @@
 ---
-title: Flintstone
+title: Feuerstein
 emoji: "\U0001FAA8"
 colorFrom: blue
 colorTo: green
@@ -8,11 +8,11 @@ pinned: false
 license: mit
 ---
 
-# Flintstone — IGB Publication Intelligence Tool
+# Feuerstein — IGB Publication Intelligence Tool
 
 Semantic search across 6,700+ IGB publications, collaborator discovery, study site maps, external partner network, and Open Practices Score.
 
-Built as a companion to [FRED](https://fred.igb-berlin.de) (hence the name — Fred Flintstone).
+Built as a companion to [FRED](https://fred.igb-berlin.de) (hence the name — Fred Feuerstein).
 
 ## Local Setup
 

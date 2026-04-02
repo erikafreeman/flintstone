@@ -1,4 +1,4 @@
-/* Flintstone Design System — IGB Publication Intelligence */
+/* Feuerstein Design System — IGB Publication Intelligence */
 
 @import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
 
@@ -653,3 +653,114 @@ footer a:hover { color: var(--igb-blue); }
     color: var(--igb-text-light);
     line-height: 1.4;
 }
+
+/* Synthesis Panel */
+.btn-synthesize {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: white;
+    border: none;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.btn-synthesize:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-synthesize:disabled { opacity: 0.5; cursor: wait; transform: none; }
+
+.synthesis-panel {
+    background: linear-gradient(135deg, #faf5ff, #f0f0ff);
+    border: 1px solid #ddd6fe;
+    border-radius: 10px;
+    padding: 1.2rem;
+    margin-bottom: 1.2rem;
+}
+.synthesis-header {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.8rem;
+}
+.synthesis-header h3 { margin: 0; font-size: 1rem; color: #4c1d95; }
+.synthesis-badge {
+    font-size: 0.7rem;
+    background: #8b5cf6;
+    color: white;
+    padding: 0.15rem 0.5rem;
+    border-radius: 10px;
+    font-weight: 500;
+}
+.synthesis-loading {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem 0;
+    color: #6d28d9;
+    font-size: 0.9rem;
+}
+.synthesis-error {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #991b1b;
+    padding: 0.7rem 1rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+.synthesis-content {
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #1e1b4b;
+}
+.synthesis-content p { margin: 0 0 0.8rem 0; }
+.cite-link {
+    color: #6d28d9;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.8rem;
+    vertical-align: super;
+}
+.cite-link:hover { text-decoration: underline; }
+
+.synthesis-refs {
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid #ddd6fe;
+}
+.synthesis-refs h4 { margin: 0 0 0.5rem; color: #4c1d95; font-size: 0.9rem; }
+.synth-ref-list {
+    padding-left: 1.5rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #374151;
+}
+.synth-ref-list li { margin-bottom: 0.5rem; }
+.synth-ref-list a { color: var(--igb-blue); }
+
+.synthesis-meta {
+    margin-top: 0.8rem;
+}
+.synthesis-meta summary {
+    cursor: pointer;
+    color: #6d28d9;
+    font-size: 0.82rem;
+    font-weight: 500;
+}
+.synthesis-steps { padding: 0.8rem 0; }
+.synth-step {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 0.8rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+.synth-step h4 {
+    margin: 0 0 0.4rem;
+    font-size: 0.8rem;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.synth-step p { margin: 0 0 0.3rem; }

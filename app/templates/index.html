@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flintstone &mdash; IGB Publication Intelligence</title>
+    <title>Feuerstein &mdash; IGB Publication Intelligence</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -13,7 +13,7 @@
             <div>
                 <h1>
                     <span class="logo-icon">🪨</span>
-                    Flintstone
+                    Feuerstein
                     <span class="header-subtitle">IGB Publication Intelligence</span>
                 </h1>
                 <p class="header-tagline">Your companion to <a href="https://fred.igb-berlin.de" target="_blank" style="color:#8ecae6; text-decoration:underline;">FRED</a> — surface relevant prior work, identify collaborators, and discover what's new</p>
@@ -93,9 +93,44 @@
             <div class="results-section">
                 <div class="section-header">
                     <h2>📄 Relevant Publications ({{ publications|length }})</h2>
-                    <button type="button" class="btn-export" onclick="document.getElementById('exportForm').submit()">
-                        📥 Export CSV
-                    </button>
+                    <div style="display:flex; gap:0.5rem;">
+                        <button type="button" class="btn-synthesize" id="synthesizeBtn" onclick="runSynthesis()">
+                            🧠 Synthesize
+                        </button>
+                        <button type="button" class="btn-export" onclick="document.getElementById('exportForm').submit()">
+                            📥 Export CSV
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Synthesis Panel -->
+                <div id="synthesisPanel" class="synthesis-panel" style="display:none;">
+                    <div class="synthesis-header">
+                        <h3>🧠 AI Literature Synthesis</h3>
+                        <span class="synthesis-badge">Powered by Claude</span>
+                    </div>
+                    <div id="synthesisLoading" class="synthesis-loading" style="display:none;">
+                        <div class="loading-spinner"></div>
+                        <span>Generating synthesis with self-feedback refinement...</span>
+                    </div>
+                    <div id="synthesisError" class="synthesis-error" style="display:none;"></div>
+                    <div id="synthesisContent" class="synthesis-content" style="display:none;"></div>
+                    <div id="synthesisRefs" class="synthesis-refs" style="display:none;"></div>
+                    <div id="synthesisMeta" class="synthesis-meta" style="display:none;">
+                        <details>
+                            <summary>View refinement process</summary>
+                            <div class="synthesis-steps">
+                                <div class="synth-step">
+                                    <h4>Initial Draft</h4>
+                                    <div id="synthDraft"></div>
+                                </div>
+                                <div class="synth-step">
+                                    <h4>Self-Critique</h4>
+                                    <div id="synthFeedback"></div>
+                                </div>
+                            </div>
+                        </details>
+                    </div>
                 </div>
                 {% for pub in publications %}
                 <div class="pub-item">
@@ -247,7 +282,7 @@
 
     <footer>
         <div class="footer-content">
-            🪨 Flintstone &mdash; IGB Publication Intelligence Tool
+            🪨 Feuerstein &mdash; IGB Publication Intelligence Tool
             <br>Data from <a href="https://openalex.org" target="_blank">OpenAlex</a> &middot; Staff from <a href="https://www.igb-berlin.de" target="_blank">igb-berlin.de</a> &middot; Datasets from <a href="https://fred.igb-berlin.de" target="_blank">FRED</a>
         </div>
     </footer>
@@ -343,6 +378,102 @@
                 ctx.fillText(n.title, n.x, n.y + r + 12);
             });
         })();
+        {% endif %}
+
+        // Synthesis feature
+        async function runSynthesis() {
+            const btn = document.getElementById('synthesizeBtn');
+            const panel = document.getElementById('synthesisPanel');
+            const loading = document.getElementById('synthesisLoading');
+            const error = document.getElementById('synthesisError');
+            const content = document.getElementById('synthesisContent');
+            const refs = document.getElementById('synthesisRefs');
+            const meta = document.getElementById('synthesisMeta');
+
+            // Show panel and loading
+            panel.style.display = 'block';
+            loading.style.display = 'flex';
+            error.style.display = 'none';
+            content.style.display = 'none';
+            refs.style.display = 'none';
+            meta.style.display = 'none';
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Synthesizing...';
+
+            try {
+                const formData = new FormData();
+                formData.append('query', document.getElementById('query').value);
+                formData.append('top_k', '10');
+                {% if year_min %}formData.append('year_min', '{{ year_min }}');{% endif %}
+                {% if year_max %}formData.append('year_max', '{{ year_max }}');{% endif %}
+
+                const resp = await fetch('/api/synthesize', { method: 'POST', body: formData });
+                const data = await resp.json();
+
+                loading.style.display = 'none';
+
+                if (data.error) {
+                    error.style.display = 'block';
+                    error.textContent = data.error;
+                    btn.disabled = false;
+                    btn.innerHTML = '🧠 Synthesize';
+                    return;
+                }
+
+                // Render synthesis with citation links
+                let html = data.synthesis.replace(/\[(\d+)\]/g, function(match, num) {
+                    return '<a href="#ref-' + num + '" class="cite-link">[' + num + ']</a>';
+                });
+                // Convert paragraphs
+                html = html.split('\n\n').map(p => p.trim()).filter(p => p).map(p => '<p>' + p + '</p>').join('');
+                content.innerHTML = html;
+                content.style.display = 'block';
+
+                // Render references
+                if (data.references && data.references.length > 0) {
+                    let refHtml = '<h4>References</h4><ol class="synth-ref-list">';
+                    data.references.forEach(function(r) {
+                        const doiLink = r.doi ? '<a href="' + r.doi + '" target="_blank">DOI</a>' : '';
+                        refHtml += '<li id="ref-' + r.number + '">' +
+                            '<strong>' + r.title + '</strong><br>' +
+                            r.authors + ' (' + r.year + '). <em>' + (r.journal || '') + '</em> ' + doiLink +
+                            '</li>';
+                    });
+                    refHtml += '</ol>';
+                    refs.innerHTML = refHtml;
+                    refs.style.display = 'block';
+                }
+
+                // Show refinement process if available
+                if (data.draft && data.feedback) {
+                    document.getElementById('synthDraft').innerHTML =
+                        data.draft.split('\n\n').map(p => '<p>' + p + '</p>').join('');
+                    document.getElementById('synthFeedback').innerHTML =
+                        data.feedback.split('\n').map(l => '<p>' + l + '</p>').join('');
+                    meta.style.display = 'block';
+                }
+
+                btn.innerHTML = '🧠 Re-synthesize';
+                btn.disabled = false;
+
+            } catch (e) {
+                loading.style.display = 'none';
+                error.style.display = 'block';
+                error.textContent = 'Network error: ' + e.message;
+                btn.disabled = false;
+                btn.innerHTML = '🧠 Synthesize';
+            }
+        }
+
+        // Check synthesis availability on load
+        {% if publications %}
+        fetch('/api/synthesize/status').then(r => r.json()).then(data => {
+            const btn = document.getElementById('synthesizeBtn');
+            if (btn && !data.available) {
+                btn.title = 'Set ANTHROPIC_API_KEY to enable AI synthesis';
+                btn.style.opacity = '0.5';
+            }
+        }).catch(() => {});
         {% endif %}
 
         {% if year_labels is defined and year_labels %}

@@ -1,5 +1,5 @@
 """
-Full-text pipeline for Flintstone.
+Full-text pipeline for Feuerstein.
 
 1. Downloads OA PDFs (respecting rate limits)
 2. Extracts text with pypdf
@@ -42,7 +42,7 @@ MIN_CHUNK_WORDS = 50   # skip tiny chunks
 MAX_RETRIES = 2
 TIMEOUT = 30
 RATE_LIMIT_DELAY = 0.5  # seconds between downloads
-USER_AGENT = "Flintstone/1.0 (IGB Publication Intelligence; mailto:flintstone@igb-berlin.de)"
+USER_AGENT = "Feuerstein/1.0 (IGB Publication Intelligence; mailto:feuerstein@igb-berlin.de)"
 
 
 def setup_db():
@@ -130,7 +130,7 @@ def download_pdf(url, dest_path):
     doi_match = re.search(r'10\.\d{4,}/[^\s?#]+', url)
     if doi_match:
         doi = doi_match.group()
-        unpaywall_url = f"https://api.unpaywall.org/v2/{doi}?email=flintstone@igb-berlin.de"
+        unpaywall_url = f"https://api.unpaywall.org/v2/{doi}?email=feuerstein@igb-berlin.de"
         try:
             req = urllib.request.Request(unpaywall_url, headers={"User-Agent": USER_AGENT})
             with urllib.request.urlopen(req, timeout=15) as resp:

@@ -277,7 +277,7 @@ def rebuild_fts(conn):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Update Flintstone database")
+    parser = argparse.ArgumentParser(description="Update Feuerstein database")
     parser.add_argument("--full", action="store_true", help="Full re-fetch (not incremental)")
     parser.add_argument("--since", type=str, help="Fetch works updated since this date (YYYY-MM-DD)")
     parser.add_argument("--skip-embeddings", action="store_true", help="Skip embedding generation")

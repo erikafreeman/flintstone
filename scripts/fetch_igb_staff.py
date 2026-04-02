@@ -58,7 +58,7 @@ def fetch_all_staff():
     for page in range(TOTAL_PAGES):
         url = f"{BASE_URL}?page={page}"
         print(f"  Fetching page {page + 1}/{TOTAL_PAGES}...")
-        resp = requests.get(url, timeout=15, headers={"User-Agent": "Flintstone/1.0 IGB-internal-tool"})
+        resp = requests.get(url, timeout=15, headers={"User-Agent": "Feuerstein/1.0 IGB-internal-tool"})
         resp.raise_for_status()
 
         staff = parse_staff_page(resp.text)

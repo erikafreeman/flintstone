@@ -29,7 +29,7 @@ MODEL_DIR = BASE / "data" / "model_specter2"
 CHUNK_SIZE = 400
 CHUNK_OVERLAP = 80
 MIN_CHUNK_WORDS = 50
-USER_AGENT = "Flintstone/1.0 (IGB Publication Intelligence; mailto:flintstone@igb-berlin.de)"
+USER_AGENT = "Feuerstein/1.0 (IGB Publication Intelligence; mailto:feuerstein@igb-berlin.de)"
 
 
 def pdf_url_for(oa_url):
