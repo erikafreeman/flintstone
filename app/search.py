@@ -36,6 +36,12 @@ _pub_ids = None
 _pub_meta = None  # {pub_id: {title_lower, year, type, cited_by_count, title, abstract}}
 _using_mpnet = False
 
+# Chunk search state
+_chunk_embeddings = None
+_chunk_ids = None      # numpy array of chunk DB IDs
+_chunk_pub_map = None  # {chunk_db_id: publication_id}
+_chunk_texts = None    # {chunk_db_id: chunk_text} (for re-ranker context)
+
 # Peer review artifacts to filter
 REVIEW_PREFIXES = (
     "reply on rc", "comment on ", "author comment", "referee comment",
@@ -195,7 +201,34 @@ def load():
         }
     conn.close()
 
-    print(f"Loaded {len(_pub_ids)} embeddings ({_embeddings.shape[1]}-dim), "
+    # Load chunk embeddings if available
+    global _chunk_embeddings, _chunk_ids, _chunk_pub_map, _chunk_texts
+    chunk_emb_path = os.path.join(DATA_DIR, "chunk_embeddings.npy")
+    chunk_ids_path = os.path.join(DATA_DIR, "chunk_ids.npy")
+
+    if os.path.exists(chunk_emb_path) and os.path.exists(chunk_ids_path):
+        _chunk_embeddings = np.load(chunk_emb_path)
+        _chunk_ids = np.load(chunk_ids_path)
+        # Normalize chunk embeddings
+        cn = np.linalg.norm(_chunk_embeddings, axis=1, keepdims=True)
+        cn[cn == 0] = 1
+        _chunk_embeddings = _chunk_embeddings / cn
+
+        # Build chunk_id -> publication_id map from DB
+        _chunk_pub_map = {}
+        _chunk_texts = {}
+        try:
+            cconn = sqlite3.connect(DB_PATH)
+            for row in cconn.execute("SELECT id, publication_id, chunk_text FROM chunks"):
+                _chunk_pub_map[row[0]] = row[1]
+                _chunk_texts[row[0]] = row[2][:300]  # keep first 300 chars for re-ranker
+            cconn.close()
+        except Exception:
+            _chunk_embeddings = None  # table doesn't exist yet
+
+    n_chunks = len(_chunk_ids) if _chunk_ids is not None else 0
+    print(f"Loaded {len(_pub_ids)} abstract embeddings ({_embeddings.shape[1]}-dim), "
+          f"{n_chunks} chunk embeddings, "
           f"re-ranker: {'yes' if _reranker_session else 'no'}")
 
 
@@ -214,6 +247,24 @@ def _semantic_search(query_emb, n_candidates):
     similarities = np.dot(_embeddings, query_emb.T).flatten()
     top_indices = np.argsort(similarities)[::-1][:n_candidates]
     return [(int(idx), float(similarities[idx])) for idx in top_indices]
+
+
+def _chunk_search(query_emb, n_candidates=100):
+    """Search chunk embeddings, return {pub_id: best_chunk_score}."""
+    if _chunk_embeddings is None or len(_chunk_embeddings) == 0:
+        return {}
+
+    similarities = np.dot(_chunk_embeddings, query_emb.T).flatten()
+    top_indices = np.argsort(similarities)[::-1][:n_candidates]
+
+    pub_best = {}  # pub_id -> best chunk similarity
+    for idx in top_indices:
+        chunk_db_id = int(_chunk_ids[idx])
+        pub_id = _chunk_pub_map.get(chunk_db_id)
+        if pub_id and pub_id not in pub_best:
+            pub_best[pub_id] = float(similarities[idx])
+
+    return pub_best
 
 
 def _fts_search(query: str, limit: int = 50) -> list:
@@ -270,16 +321,25 @@ def search(query: str, top_k: int = 20, year_min: int = None, year_max: int = No
     # Step 1: Query expansion
     expanded_query = expand_query(query)
 
-    # Step 2: Semantic search (get more candidates for re-ranking)
+    # Step 2: Semantic search on abstracts (get more candidates for re-ranking)
     n_candidates = top_k * 5
     query_emb = _encode([expanded_query])
     semantic_results = _semantic_search(query_emb, n_candidates)
 
+    # Step 2b: Semantic search on full-text chunks
+    chunk_scores = _chunk_search(query_emb, n_candidates=200)
+
     # Step 3: Full-text search
     fts_results = _fts_search(query, limit=50)
 
-    # Step 4: Reciprocal rank fusion
+    # Step 4: Reciprocal rank fusion (now with 3 sources)
     rrf_scores = _reciprocal_rank_fusion(semantic_results, fts_results)
+
+    # Merge chunk results into RRF scores
+    # Sort chunk results by score to create a ranking
+    chunk_ranked = sorted(chunk_scores.items(), key=lambda x: -x[1])
+    for rank, (pub_id, sim) in enumerate(chunk_ranked):
+        rrf_scores[pub_id] = rrf_scores.get(pub_id, 0) + 1.0 / (60 + rank + 1)
 
     # Get original semantic scores for display
     semantic_scores = {}
