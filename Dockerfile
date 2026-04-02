@@ -16,11 +16,10 @@ COPY app/ ./app/
 COPY data/ ./data/
 COPY scripts/ ./scripts/
 
+# Copy Scopefish sub-app
+COPY scopefish/ ./scopefish/
+
 # HF Spaces exposes port 7860
 EXPOSE 7860
-
-# NOTE: To include Scopefish as a sub-app, use the SEASONS-level Dockerfile
-# or copy scopefish/sfapp/ into ./scopefish/sfapp/ before building.
-# Scopefish is auto-detected at startup if present at ../scopefish/sfapp/
 
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "7860"]

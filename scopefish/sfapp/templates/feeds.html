@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Custom Feeds{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h1>Custom Feeds</h1>
+                <p>Create personalized paper feeds based on your own research interests.</p>
+            </div>
+            <a href="{{ prefix }}/feeds/new" class="btn-primary">+ New Feed</a>
+        </div>
+    </div>
+
+    {% if feeds %}
+    <div class="feeds-grid">
+        {% for feed in feeds %}
+        <a href="{{ prefix }}/feeds/{{ feed.id }}" class="feed-card">
+            <div class="feed-card-header">
+                <span class="feed-icon">&#x1F4E1;</span>
+                <h3>{{ feed.name }}</h3>
+            </div>
+            {% if feed.description %}
+            <p class="feed-desc">{{ feed.description }}</p>
+            {% endif %}
+            <div class="feed-keywords">
+                {% for kw in feed.keyword_list[:6] %}
+                <span class="keyword-tag">{{ kw }}</span>
+                {% endfor %}
+                {% if feed.keyword_count > 6 %}
+                <span class="keyword-more">+{{ feed.keyword_count - 6 }} more</span>
+                {% endif %}
+            </div>
+            <div class="feed-meta">
+                <span>{{ feed.keyword_count }} keywords</span>
+                <span class="sep">&middot;</span>
+                <span>Updated {{ feed.updated_at[:10] if feed.updated_at else 'recently' }}</span>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">&#x1F4E1;</div>
+        <h3>No custom feeds yet</h3>
+        <p>Create a feed tailored to your specific research interests. Add keywords and topics to get a personalized paper digest.</p>
+        <div style="margin-top: 1.5rem;">
+            <a href="{{ prefix }}/feeds/new" class="btn-primary">Create Your First Feed</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

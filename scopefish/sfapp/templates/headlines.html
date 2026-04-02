@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Headlines{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>&#x1F4F0; Headlines</h1>
+        <p>This week's most important papers — ranked by journal quality, relevance to IGB, social buzz, and citations.</p>
+    </div>
+
+    {% if headlines %}
+    <div class="headlines-list">
+        {% for paper in headlines %}
+        <div class="headline-card {% if loop.index <= 3 %}headline-featured{% endif %}">
+            {% if loop.index <= 3 %}
+            <div class="headline-rank">#{{ loop.index }}</div>
+            {% endif %}
+            <div class="headline-content">
+                <div class="headline-badges">
+                    {% if paper.journal_tier %}
+                    <span class="journal-tier {{ paper.journal_tier }}">
+                        {% if paper.journal_tier == 'top' %}&#x2B50; Top Journal{% elif paper.journal_tier == 'high' %}&#x1F31F; High Impact{% else %}&#x2728; Notable{% endif %}
+                    </span>
+                    {% endif %}
+                    {% if paper.relevance_score %}
+                    <span class="relevance-badge" style="background: {{ paper.relevance_score | score_color }};">{{ paper.relevance_score | score_pct }}% relevant</span>
+                    {% endif %}
+                    {% if paper.news_count and paper.news_count > 0 %}
+                    <span class="buzz-badge news">&#x1F4F0; {{ paper.news_count }} news</span>
+                    {% endif %}
+                    {% if paper.twitter_count and paper.twitter_count > 0 %}
+                    <span class="buzz-badge social">&#x1F426; {{ paper.twitter_count }} tweets</span>
+                    {% endif %}
+                    {% if paper.social_count and paper.social_count > 0 %}
+                    <span class="buzz-badge social">&#x1F98B; {{ paper.social_count }} Bluesky</span>
+                    {% endif %}
+                    {% if paper.get('data_available') %}
+                    <span class="buzz-badge data">&#x1F4BE; Data available</span>
+                    {% endif %}
+                </div>
+
+                <h2 class="headline-title">
+                    {% if paper.doi %}
+                    <a href="{{ paper.doi }}" target="_blank">{{ paper.title }}</a>
+                    {% else %}
+                    <a href="{{ prefix }}/paper/{{ paper.id }}">{{ paper.title }}</a>
+                    {% endif %}
+                </h2>
+
+                <div class="headline-meta">
+                    <span class="headline-authors">{{ paper.authors_str }}</span>
+                    <span class="sep">&middot;</span>
+                    <span>{{ paper.year }}</span>
+                    <span class="sep">&middot;</span>
+                    <span class="journal">{{ paper.journal or "Preprint" }}</span>
+                    {% if paper.cited_by_count and paper.cited_by_count > 0 %}
+                    <span class="sep">&middot;</span>
+                    <span class="citations">{{ paper.cited_by_count }} citations</span>
+                    {% endif %}
+                </div>
+
+                {% if paper.abstract_short %}
+                <p class="headline-abstract">{{ paper.abstract_short }}</p>
+                {% endif %}
+
+                {% if paper.get('key_messages') %}
+                <div class="key-messages">
+                    <span class="km-label">&#x1F4A1; Key Messages</span>
+                    {% for msg in paper.key_messages.split('\n') %}
+                    {% if msg.strip() %}
+                    <div class="km-item">{{ msg.strip().lstrip('- ') }}</div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if paper.concepts %}
+                <div class="paper-concepts" style="padding-left: 0;">
+                    {% for c in paper.concepts %}
+                    <span class="concept-tag">{{ c }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="headline-actions">
+                    <a href="{{ prefix }}/paper/{{ paper.id }}" class="headline-link">Full details &rarr;</a>
+                    {% if paper.doi %}
+                    <a href="{{ paper.doi }}" target="_blank" class="headline-link">DOI &nearr;</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">&#x1F4F0;</div>
+        <h3>No headlines yet</h3>
+        <p>Headlines will appear after the weekly fetch pipeline runs and discovers papers.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

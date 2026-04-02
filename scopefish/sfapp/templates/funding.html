@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Funding Calls{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>&#x1F4B0; Funding &amp; Opportunities</h1>
+        <p>Relevant funding calls and portals for freshwater ecology and environmental research.</p>
+    </div>
+
+    {% if calls %}
+    <div class="section-subheader">
+        <h2>Open Calls</h2>
+        <p>Active funding calls matching IGB research topics.</p>
+    </div>
+    <div class="funding-list">
+        {% for call in calls %}
+        <div class="funding-card">
+            <div class="funding-header">
+                <div>
+                    <h3>
+                        {% if call.url %}
+                        <a href="{{ call.url }}" target="_blank">{{ call.title }}</a>
+                        {% else %}
+                        {{ call.title }}
+                        {% endif %}
+                    </h3>
+                    <div class="funding-funder">{{ call.funder }}</div>
+                </div>
+                {% if call.deadline %}
+                <div class="funding-deadline">
+                    <span class="deadline-label">Deadline</span>
+                    <span class="deadline-date">{{ call.deadline }}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% if call.description %}
+            <p class="funding-desc">{{ call.description }}</p>
+            {% endif %}
+            <div class="funding-meta">
+                {% if call.amount %}
+                <span class="funding-amount">&#x1F4B6; {{ call.amount }}</span>
+                {% endif %}
+                {% if call.region %}
+                <span class="funding-region">&#x1F30D; {{ call.region }}</span>
+                {% endif %}
+                {% if call.keyword_list %}
+                <div class="funding-keywords">
+                    {% for kw in call.keyword_list[:5] %}
+                    <span class="concept-tag">{{ kw }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="section-subheader" style="margin-top: 3rem;">
+        <h2>Funding Portals</h2>
+        <p>Browse open calls from major funders relevant to freshwater and environmental research.</p>
+    </div>
+
+    <div class="funding-portals-grid">
+        {% for portal in portals %}
+        <a href="{{ portal.url }}" target="_blank" class="portal-card">
+            <div class="portal-header">
+                <span class="portal-icon">&#x1F3E6;</span>
+                <h3>{{ portal.funder }}</h3>
+            </div>
+            <p>{{ portal.description }}</p>
+            {% if portal.region %}
+            <span class="portal-region">&#x1F30D; {{ portal.region }}</span>
+            {% endif %}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

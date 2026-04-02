@@ -1,0 +1,20 @@
+<nav class="topnav">
+    <div class="topnav-inner">
+        <a href="{{ prefix }}/" class="topnav-brand">
+            <span class="brand-icon">&#x1F3A3;</span> Scopefish
+        </a>
+        <div class="topnav-links">
+            <a href="{{ prefix }}/headlines" class="topnav-link {% if active == 'headlines' %}active{% endif %}">Headlines</a>
+            <a href="{{ prefix }}/digest" class="topnav-link {% if active == 'digest' %}active{% endif %}">Digest</a>
+            <a href="{{ prefix }}/search" class="topnav-link {% if active == 'search' %}active{% endif %}">Search</a>
+            <a href="{{ prefix }}/departments" class="topnav-link {% if active == 'departments' %}active{% endif %}">Depts</a>
+            <a href="{{ prefix }}/feeds" class="topnav-link {% if active == 'feeds' %}active{% endif %}">My Feeds</a>
+            <a href="{{ prefix }}/funding" class="topnav-link {% if active == 'funding' %}active{% endif %}">Funding</a>
+            <a href="{{ prefix }}/projects" class="topnav-link {% if active == 'projects' %}active{% endif %}">Projects</a>
+        </div>
+        <div class="topnav-ext">
+            <a href="{{ flintstone_url }}" target="_blank">Flintstone &#x2197;</a>
+            <a href="{{ fred_url }}" target="_blank">FRED &#x2197;</a>
+        </div>
+    </div>
+</nav>

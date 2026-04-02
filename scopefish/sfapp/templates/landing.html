@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scopefish &mdash; Discover What's New in Freshwater Research</title>
+    <link rel="stylesheet" href="{{ prefix }}/static/style.css">
+</head>
+<body>
+    {% include 'nav.html' %}
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                &#x1F3A3; AI-powered paper discovery for IGB
+            </div>
+            <h1>
+                The easiest way to<br>
+                <span class="gradient-text">discover new research</span>
+            </h1>
+            <p class="hero-subtitle">
+                AI-curated weekly digests of new papers relevant to IGB's research.
+                Powered by semantic search across OpenAlex, Semantic Scholar, and CrossRef.
+            </p>
+            <div class="hero-actions">
+                <a href="{{ prefix }}/digest" class="btn-primary">
+                    This Week's Digest &rarr;
+                </a>
+                <a href="{{ prefix }}/search" class="btn-secondary">
+                    Search Papers &rarr;
+                </a>
+            </div>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value">{{ "{:,}".format(stats.total_papers) if stats.total_papers else "0" }}</div>
+                    <div class="stat-label">Papers Discovered</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">{{ stats.topics_tracked or "100+" }}</div>
+                    <div class="stat-label">Topics Tracked</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">{{ stats.sources }}</div>
+                    <div class="stat-label">Data Sources</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">5</div>
+                    <div class="stat-label">Department Feeds</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section" id="features">
+        <div class="section-header">
+            <h2>Built for IGB researchers</h2>
+            <p>Everything you need to stay on top of the freshwater literature, without the noise.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card animate-in">
+                <div class="feature-icon blue">&#x1F4E8;</div>
+                <h3>Weekly Digest</h3>
+                <p>Every week, we scan thousands of new papers and surface the ones most relevant to IGB's five research departments.</p>
+            </div>
+            <div class="feature-card animate-in">
+                <div class="feature-icon cyan">&#x1F50D;</div>
+                <h3>Semantic Search</h3>
+                <p>Paste an abstract or describe an idea. We use AI embeddings to find the most relevant recent papers&mdash;far beyond keyword matching.</p>
+            </div>
+            <div class="feature-card animate-in">
+                <div class="feature-icon green">&#x1F9EC;</div>
+                <h3>Relevance Explanations</h3>
+                <p>Every paper comes with a plain-language explanation of why it matters to IGB's specific research areas and concepts.</p>
+            </div>
+            <div class="feature-card animate-in">
+                <div class="feature-icon purple">&#x1F3DB;</div>
+                <h3>Department Feeds</h3>
+                <p>Personalized feeds for each of IGB's five departments. See what's new in ecohydrology, plankton ecology, fish biology, and more.</p>
+            </div>
+            <div class="feature-card animate-in">
+                <div class="feature-icon amber">&#x1F465;</div>
+                <h3>Researcher Tracking</h3>
+                <p>Follow key external researchers and get notified when they publish new work that intersects with IGB's interests.</p>
+            </div>
+            <div class="feature-card animate-in">
+                <div class="feature-icon red">&#x1F517;</div>
+                <h3>Linked to Flintstone &amp; FRED</h3>
+                <p>Seamlessly cross-reference with IGB's own publication database and FRED research data repository.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section">
+        <div class="section-header">
+            <h2>How it works</h2>
+            <p>Three steps from raw publications to your personalized digest.</p>
+        </div>
+        <div class="steps">
+            <div class="step animate-in">
+                <div class="step-number">1</div>
+                <h3>Fetch</h3>
+                <p>Every week we query OpenAlex, Semantic Scholar, and CrossRef for papers matching IGB's top 100+ research concepts.</p>
+            </div>
+            <div class="step animate-in">
+                <div class="step-number">2</div>
+                <h3>Rank</h3>
+                <p>Each paper is scored by semantic similarity to IGB's research profile, concept overlap, citation proximity, and recency.</p>
+            </div>
+            <div class="step animate-in">
+                <div class="step-number">3</div>
+                <h3>Discover</h3>
+                <p>Papers are organized into your weekly digest with relevance explanations, department tags, and direct links to full text.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Departments Preview -->
+    <section class="section">
+        <div class="section-header">
+            <h2>Five department feeds</h2>
+            <p>Each IGB department gets a tailored feed based on their unique research profile.</p>
+        </div>
+        <div class="dept-grid">
+            {% for key, dept in departments.items() %}
+            <a href="{{ prefix }}/department/{{ key }}" class="dept-card animate-in">
+                <div class="dept-card-header">
+                    <div class="dept-icon" style="background: {{ dept.color }}20; color: {{ dept.color }};">
+                        {% if dept.icon == 'droplet' %}&#x1F4A7;{% endif %}
+                        {% if dept.icon == 'trees' %}&#x1F332;{% endif %}
+                        {% if dept.icon == 'microscope' %}&#x1F52C;{% endif %}
+                        {% if dept.icon == 'fish' %}&#x1F41F;{% endif %}
+                        {% if dept.icon == 'dna' %}&#x1F9EC;{% endif %}
+                    </div>
+                    <h3>{{ dept.name }}</h3>
+                </div>
+                <p>{{ dept.description }}</p>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-brand">&#x1F3A3; Scopefish</div>
+        <div class="footer-links">
+            <a href="{{ prefix }}/digest">Weekly Digest</a>
+            <a href="{{ prefix }}/search">Search</a>
+            <a href="{{ prefix }}/departments">Departments</a>
+            <a href="{{ flintstone_url }}" target="_blank">Flintstone</a>
+            <a href="{{ fred_url }}" target="_blank">FRED</a>
+        </div>
+        <div class="footer-copy">
+            Data from <a href="https://openalex.org" target="_blank">OpenAlex</a>,
+            <a href="https://www.semanticscholar.org" target="_blank">Semantic Scholar</a> &amp;
+            <a href="https://www.crossref.org" target="_blank">CrossRef</a>
+            &middot; Built for <a href="https://www.igb-berlin.de" target="_blank">IGB</a>
+        </div>
+    </footer>
+
+    <script src="{{ prefix }}/static/app.js"></script>
+</body>
+</html>

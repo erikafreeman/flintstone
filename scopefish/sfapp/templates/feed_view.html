@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}{{ feed.name }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <div style="display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <div style="display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.3rem;">
+                    <span style="font-size: 1.4rem;">&#x1F4E1;</span>
+                    <h1>{{ feed.name }}</h1>
+                </div>
+                {% if feed.description %}
+                <p>{{ feed.description }}</p>
+                {% endif %}
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <a href="{{ prefix }}/feeds/{{ feed.id }}/edit" class="btn-secondary" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">Edit</a>
+                <a href="{{ prefix }}/feeds" class="btn-secondary" style="padding: 0.5rem 1.2rem; font-size: 0.85rem;">All Feeds</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="feed-keywords-bar">
+        <span class="feed-keywords-label">Tracking:</span>
+        {% for kw in feed.keyword_list %}
+        <span class="keyword-tag">{{ kw }}</span>
+        {% endfor %}
+    </div>
+
+    {% if papers %}
+    <div class="feed-results-header">
+        <h2>{{ papers | length }} matching papers</h2>
+        <p>Ranked by keyword relevance and journal quality</p>
+    </div>
+
+    <div class="paper-list">
+        {% for paper in papers %}
+        <div class="paper-card">
+            <div class="paper-card-header">
+                {% if paper.custom_score %}
+                <span class="relevance-badge" style="background: {{ paper.custom_score | score_color }};">{{ paper.custom_score | score_pct }}%</span>
+                {% endif %}
+                {% if paper.doi %}
+                <a href="{{ paper.doi }}" target="_blank" class="paper-title">{{ paper.title }}</a>
+                {% else %}
+                <a href="{{ prefix }}/paper/{{ paper.id }}" class="paper-title">{{ paper.title }}</a>
+                {% endif %}
+            </div>
+            <div class="paper-authors">{{ paper.authors_str }}</div>
+            <div class="paper-meta">
+                <span>{{ paper.year }}</span>
+                <span class="sep">&middot;</span>
+                <span class="journal">{{ paper.journal or "Unknown journal" }}</span>
+                {% if paper.journal_tier %}
+                <span class="journal-tier {{ paper.journal_tier }}">
+                    {% if paper.journal_tier == 'top' %}&#x2B50; Top Journal{% elif paper.journal_tier == 'high' %}&#x1F31F; High Impact{% else %}&#x2728; Notable Journal{% endif %}
+                </span>
+                {% endif %}
+                {% if paper.cited_by_count and paper.cited_by_count > 0 %}
+                <span class="sep">&middot;</span>
+                <span class="citations">{{ paper.cited_by_count }} citations</span>
+                {% endif %}
+            </div>
+            {% if paper.abstract_short %}
+            <div class="paper-abstract">{{ paper.abstract_short }}</div>
+            {% endif %}
+            {% if paper.matched_keywords %}
+            <div class="paper-concepts" style="margin-top: 0.4rem;">
+                <span style="font-size: 0.7rem; color: var(--text-muted); margin-right: 0.2rem;">Matched:</span>
+                {% for kw in paper.matched_keywords %}
+                <span class="keyword-tag matched">{{ kw }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if paper.concepts %}
+            <div class="paper-concepts">
+                {% for c in paper.concepts %}
+                <span class="concept-tag">{{ c }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">&#x1F50D;</div>
+        <h3>No matching papers found</h3>
+        <p>Try adding more keywords or broader terms to your feed. Papers are matched against the current week's discovered papers.</p>
+        <div style="margin-top: 1.5rem;">
+            <a href="{{ prefix }}/feeds/{{ feed.id }}/edit" class="btn-primary">Edit Keywords</a>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

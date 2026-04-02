@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+{% block title %}{{ paper.title[:60] }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="paper-detail">
+        <h1>{{ paper.title }}</h1>
+
+        <div class="paper-detail-meta">
+            {% if paper.year %}
+            <span class="meta-chip">{{ paper.year }}</span>
+            {% endif %}
+            {% if paper.journal %}
+            <span class="meta-chip">{{ paper.journal }}</span>
+            {% endif %}
+            {% if paper.cited_by_count %}
+            <span class="meta-chip">{{ paper.cited_by_count }} citations</span>
+            {% endif %}
+            {% if paper.source %}
+            <span class="meta-chip">via {{ paper.source }}</span>
+            {% endif %}
+            {% if paper.type %}
+            <span class="meta-chip">{{ paper.type }}</span>
+            {% endif %}
+        </div>
+
+        <!-- Authors -->
+        {% if paper.authors %}
+        <div style="margin-bottom: 1rem;">
+            <h3 style="font-family: var(--font-heading); font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Authors</h3>
+            {% for author in paper.authors %}
+            <span style="font-size: 0.88rem;">
+                {{ author.author_name }}{% if author.institution %} <span style="color: var(--text-muted); font-size: 0.78rem;">({{ author.institution }})</span>{% endif %}{% if not loop.last %}, {% endif %}
+            </span>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Abstract -->
+        {% if paper.abstract %}
+        <div class="paper-detail-abstract">
+            {{ paper.abstract }}
+        </div>
+        {% endif %}
+
+        <!-- Concepts -->
+        {% if paper.concepts %}
+        <div style="margin-bottom: 1.5rem;">
+            <h3 style="font-family: var(--font-heading); font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Concepts</h3>
+            <div class="paper-concepts" style="padding-left: 0;">
+                {% for c in paper.concepts %}
+                <span class="concept-tag">{{ c.concept_name }} <span style="opacity: 0.6;">{{ "%.0f" | format(c.score * 100) }}%</span></span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Key Messages -->
+        {% if paper.enrichment and paper.enrichment.key_messages %}
+        <div class="paper-section">
+            <h3 class="paper-section-title">&#x1F4A1; Key Messages</h3>
+            <div class="key-messages-detail">
+                {% for msg in paper.enrichment.key_messages.split('\n') %}
+                {% if msg.strip() %}
+                <div class="km-item">{{ msg.strip().lstrip('- ') }}</div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Data Availability -->
+        {% if paper.enrichment and paper.enrichment.data_available %}
+        <div class="paper-section data-section">
+            <h3 class="paper-section-title">&#x1F4BE; Data Availability</h3>
+            <div class="data-info">
+                <span class="data-badge">&#x2705; Data available</span>
+                {% if paper.enrichment.data_repository %}
+                <span class="data-repo">Repository: <strong>{{ paper.enrichment.data_repository }}</strong></span>
+                {% endif %}
+                {% if paper.enrichment.data_url %}
+                <a href="{{ paper.enrichment.data_url }}" target="_blank" class="btn-secondary" style="font-size: 0.82rem; padding: 0.35rem 0.8rem;">
+                    Download Data &darr;
+                </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Links -->
+        <div style="display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.5rem;">
+            {% if paper.doi %}
+            <a href="{{ paper.doi }}" target="_blank" class="btn-primary" style="font-size: 0.88rem; padding: 0.5rem 1.2rem;">
+                View Paper &rarr;
+            </a>
+            {% endif %}
+            {% if paper.open_access_url %}
+            <a href="{{ paper.open_access_url }}" target="_blank" class="btn-secondary" style="font-size: 0.88rem; padding: 0.5rem 1.2rem;">
+                Open Access PDF &rarr;
+            </a>
+            {% endif %}
+            <a href="{{ flintstone_url }}" target="_blank" class="btn-secondary" style="font-size: 0.88rem; padding: 0.5rem 1.2rem;">
+                Search IGB's own work &rarr;
+            </a>
+        </div>
+
+        <!-- Altmetric + Social Buzz -->
+        {% if paper.altmetric or paper.social %}
+        <div class="paper-section" style="margin-top: 2rem;">
+            <h3 class="paper-section-title">&#x1F4E2; Attention &amp; Social Buzz</h3>
+
+            {% if paper.altmetric %}
+            <div class="altmetric-summary">
+                <div class="altmetric-score-badge">
+                    <span class="alt-score">{{ "%.0f" | format(paper.altmetric.altmetric_score) }}</span>
+                    <span class="alt-label">Altmetric</span>
+                </div>
+                <div class="altmetric-breakdown">
+                    {% if paper.altmetric.news_count > 0 %}
+                    <span class="alt-item">&#x1F4F0; {{ paper.altmetric.news_count }} news outlets</span>
+                    {% endif %}
+                    {% if paper.altmetric.twitter_count > 0 %}
+                    <span class="alt-item">&#x1F426; {{ paper.altmetric.twitter_count }} X/Twitter posts</span>
+                    {% endif %}
+                    {% if paper.altmetric.blog_count > 0 %}
+                    <span class="alt-item">&#x1F4DD; {{ paper.altmetric.blog_count }} blog posts</span>
+                    {% endif %}
+                    {% if paper.altmetric.policy_count > 0 %}
+                    <span class="alt-item">&#x1F3DB; {{ paper.altmetric.policy_count }} policy documents</span>
+                    {% endif %}
+                </div>
+                {% if paper.altmetric.news_sources %}
+                <div class="altmetric-news">
+                    <span style="font-size: 0.78rem; color: var(--text-muted);">Press: </span>
+                    <span style="font-size: 0.82rem;">{{ paper.altmetric.news_sources }}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endif %}
+
+            {% if paper.social %}
+            <div class="social-posts">
+                <h4 style="font-size: 0.9rem; margin-bottom: 0.6rem; color: var(--text-secondary);">&#x1F98B; Bluesky Discussion</h4>
+                {% for post in paper.social[:5] %}
+                <div class="social-post">
+                    <div class="social-post-header">
+                        <strong>{{ post.author_name }}</strong>
+                        <span class="social-handle">@{{ post.author_handle }}</span>
+                    </div>
+                    <p class="social-text">{{ post.text }}</p>
+                    <div class="social-stats">
+                        {% if post.likes > 0 %}<span>&#x2764; {{ post.likes }}</span>{% endif %}
+                        {% if post.reposts > 0 %}<span>&#x1F501; {{ post.reposts }}</span>{% endif %}
+                        {% if post.posted_at %}<span>{{ post.posted_at[:10] }}</span>{% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Relevance -->
+        {% if paper.relevance %}
+        <div class="relevance-section">
+            <h2>Why this matters to IGB</h2>
+            {% for rel in paper.relevance %}
+            <div class="relevance-card">
+                <div class="relevance-card-header">
+                    <span class="relevance-card-dept">
+                        {% if rel.department == 'all' %}Institute-wide{% else %}{{ rel.department }}{% endif %}
+                    </span>
+                    <span class="relevance-card-score">{{ "%.0f" | format(rel.relevance_score * 100) }}% match</span>
+                </div>
+                {% if rel.explanation %}
+                <p>{{ rel.explanation | md_bold }}</p>
+                {% endif %}
+                <div style="display: flex; gap: 1rem; margin-top: 0.5rem; font-size: 0.78rem; color: var(--text-muted);">
+                    <span>Semantic: {{ "%.0f" | format((rel.semantic_score or 0) * 100) }}%</span>
+                    <span>Concept overlap: {{ "%.0f" | format((rel.concept_overlap_score or 0) * 100) }}%</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

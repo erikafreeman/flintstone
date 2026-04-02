@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}Weekly Digest{% endblock %}
+
+{% block body %}
+<div class="container">
+    {% if digest %}
+    <div class="page-header">
+        <h1>Weekly Digest &mdash; {{ digest.week }}</h1>
+        <p>{{ digest.date_from or "?" }} to {{ digest.date_to or "?" }} &middot; {{ digest.paper_count or digest.papers|length }} papers discovered</p>
+    </div>
+
+    <!-- Week navigation -->
+    {% if digest.available_weeks and digest.available_weeks|length > 1 %}
+    <div class="week-nav">
+        {% for w in digest.available_weeks %}
+        <a href="{{ prefix }}/digest/{{ w }}" class="{% if w == digest.week %}current{% endif %}">{{ w }}</a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Summary chips -->
+    <div class="digest-meta">
+        <div class="digest-chip">
+            <span style="color: var(--accent-green);">&#x25CF;</span>
+            <strong>{{ digest.high_count }}</strong> high relevance
+        </div>
+        <div class="digest-chip">
+            <span style="color: var(--accent-blue);">&#x25CF;</span>
+            <strong>{{ digest.medium_count }}</strong> medium
+        </div>
+        <div class="digest-chip">
+            <span style="color: var(--accent-purple);">&#x25CF;</span>
+            <strong>{{ digest.notable_count }}</strong> notable
+        </div>
+    </div>
+
+    <!-- High Relevance -->
+    {% set high_papers = digest.papers | selectattr("tier", "equalto", "high") | list %}
+    {% if high_papers %}
+    <div class="tier-header">
+        <div class="tier-dot high"></div>
+        <h2>High Relevance</h2>
+        <span class="tier-count">{{ high_papers|length }} papers</span>
+    </div>
+    <div class="paper-list">
+        {% for paper in high_papers %}
+        {% include "partials/paper_card.html" ignore missing %}
+        {% if not "partials/paper_card.html" is string %}{% endif %}
+        <div class="paper-card">
+            <div class="paper-card-header">
+                <span class="relevance-badge" style="background: {{ (paper.relevance_score or 0) | score_color }};">{{ (paper.relevance_score or 0) | score_pct }}%</span>
+                {% if paper.doi %}
+                <a href="{{ paper.doi }}" target="_blank" class="paper-title">{{ paper.title }}</a>
+                {% else %}
+                <span class="paper-title">{{ paper.title }}</span>
+                {% endif %}
+            </div>
+            <div class="paper-authors">{{ paper.authors_str }}</div>
+            <div class="paper-meta">
+                <span>{{ paper.year }}</span>
+                <span class="sep">&middot;</span>
+                <span class="journal">{{ paper.journal or "Unknown journal" }}</span>
+                {% if paper.cited_by_count %}
+                <span class="sep">&middot;</span>
+                <span class="citations">{{ paper.cited_by_count }} citations</span>
+                {% endif %}
+            </div>
+            {% if paper.abstract_short %}
+            <div class="paper-abstract">{{ paper.abstract_short }}</div>
+            {% endif %}
+            {% if paper.concepts %}
+            <div class="paper-concepts">
+                {% for c in paper.concepts %}
+                <span class="concept-tag">{{ c.concept_name }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if paper.explanation %}
+            <div class="paper-explanation">{{ paper.explanation | md_bold }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Medium Relevance -->
+    {% set medium_papers = digest.papers | selectattr("tier", "equalto", "medium") | list %}
+    {% if medium_papers %}
+    <div class="tier-header">
+        <div class="tier-dot medium"></div>
+        <h2>Medium Relevance</h2>
+        <span class="tier-count">{{ medium_papers|length }} papers</span>
+    </div>
+    <div class="paper-list">
+        {% for paper in medium_papers %}
+        <div class="paper-card">
+            <div class="paper-card-header">
+                <span class="relevance-badge" style="background: {{ (paper.relevance_score or 0) | score_color }};">{{ (paper.relevance_score or 0) | score_pct }}%</span>
+                {% if paper.doi %}
+                <a href="{{ paper.doi }}" target="_blank" class="paper-title">{{ paper.title }}</a>
+                {% else %}
+                <span class="paper-title">{{ paper.title }}</span>
+                {% endif %}
+            </div>
+            <div class="paper-authors">{{ paper.authors_str }}</div>
+            <div class="paper-meta">
+                <span>{{ paper.year }}</span>
+                <span class="sep">&middot;</span>
+                <span class="journal">{{ paper.journal or "Unknown journal" }}</span>
+            </div>
+            {% if paper.abstract_short %}
+            <div class="paper-abstract">{{ paper.abstract_short }}</div>
+            {% endif %}
+            {% if paper.concepts %}
+            <div class="paper-concepts">
+                {% for c in paper.concepts %}
+                <span class="concept-tag">{{ c.concept_name }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Notable -->
+    {% set notable_papers = digest.papers | selectattr("tier", "equalto", "notable") | list %}
+    {% if notable_papers %}
+    <div class="tier-header">
+        <div class="tier-dot notable"></div>
+        <h2>Notable</h2>
+        <span class="tier-count">{{ notable_papers|length }} papers</span>
+    </div>
+    <div class="paper-list">
+        {% for paper in notable_papers %}
+        <div class="paper-card">
+            <div class="paper-card-header">
+                <span class="relevance-badge" style="background: {{ (paper.relevance_score or 0) | score_color }};">{{ (paper.relevance_score or 0) | score_pct }}%</span>
+                {% if paper.doi %}
+                <a href="{{ paper.doi }}" target="_blank" class="paper-title">{{ paper.title }}</a>
+                {% else %}
+                <span class="paper-title">{{ paper.title }}</span>
+                {% endif %}
+            </div>
+            <div class="paper-meta">
+                <span>{{ paper.year }}</span>
+                <span class="sep">&middot;</span>
+                <span class="journal">{{ paper.journal or "Unknown journal" }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <!-- No digest yet -->
+    <div class="empty-state">
+        <div class="empty-icon">&#x1F4E8;</div>
+        <h3>No digest yet</h3>
+        <p>Run the weekly fetch pipeline to discover papers and generate your first digest.</p>
+        <br>
+        <code style="color: var(--accent-cyan); font-size: 0.85rem;">python scripts/fetch_weekly.py</code>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

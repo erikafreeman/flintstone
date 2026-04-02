@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}{{ dept.name }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.3rem;">
+            <div class="dept-icon" style="background: {{ dept.color }}20; color: {{ dept.color }}; width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem;">
+                {% if dept.icon == 'droplet' %}&#x1F4A7;{% endif %}
+                {% if dept.icon == 'trees' %}&#x1F332;{% endif %}
+                {% if dept.icon == 'microscope' %}&#x1F52C;{% endif %}
+                {% if dept.icon == 'fish' %}&#x1F41F;{% endif %}
+                {% if dept.icon == 'dna' %}&#x1F9EC;{% endif %}
+            </div>
+            <h1>{{ dept.name }}</h1>
+        </div>
+        <p>{{ dept.description }}</p>
+    </div>
+
+    {% if papers %}
+    <div class="paper-list">
+        {% for paper in papers %}
+        <div class="paper-card">
+            <div class="paper-card-header">
+                {% if paper.relevance_score %}
+                <span class="relevance-badge" style="background: {{ paper.relevance_score | score_color }};">{{ paper.relevance_score | score_pct }}%</span>
+                {% endif %}
+                {% if paper.doi %}
+                <a href="{{ paper.doi }}" target="_blank" class="paper-title">{{ paper.title }}</a>
+                {% else %}
+                <span class="paper-title">{{ paper.title }}</span>
+                {% endif %}
+            </div>
+            <div class="paper-authors">{{ paper.authors_str }}</div>
+            <div class="paper-meta">
+                <span>{{ paper.year }}</span>
+                <span class="sep">&middot;</span>
+                <span class="journal">{{ paper.journal or "Unknown journal" }}</span>
+            </div>
+            {% if paper.abstract_short %}
+            <div class="paper-abstract">{{ paper.abstract_short }}</div>
+            {% endif %}
+            {% if paper.concepts %}
+            <div class="paper-concepts">
+                {% for c in paper.concepts %}
+                <span class="concept-tag">{{ c }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if paper.explanation %}
+            <div class="paper-explanation">{{ paper.explanation | md_bold }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">&#x1F3DB;</div>
+        <h3>No papers yet for this department</h3>
+        <p>Papers will appear here after the next weekly fetch and relevance scoring.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

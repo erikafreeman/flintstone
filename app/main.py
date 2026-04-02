@@ -20,18 +20,25 @@ from . import search, models, analysis, citations, synthesize
 # Import Scopefish sub-app for mounting
 os.environ["SCOPEFISH_PREFIX"] = "/scopefish"
 scopefish_app = None
-_sf_base = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "scopefish"))
-if os.path.isdir(_sf_base):
-    try:
-        import sys
-        sys.path.insert(0, _sf_base)
-        import sfapp.main as _sf_main
-        scopefish_app = _sf_main.app
-        _sf_main.templates.env.globals["prefix"] = "/scopefish"
-        _sf_main.templates.env.globals["feuerstein_url"] = "/"
-    except Exception as e:
-        logging.warning(f"Could not load Scopefish sub-app: {e}")
-        scopefish_app = None
+# Look for scopefish: first inside repo (Docker), then sibling dir (local dev)
+_sf_candidates = [
+    os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "scopefish")),
+    os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "..", "scopefish")),
+]
+for _sf_base in _sf_candidates:
+    if os.path.isdir(os.path.join(_sf_base, "sfapp")):
+        try:
+            import sys
+            sys.path.insert(0, _sf_base)
+            import sfapp.main as _sf_main
+            scopefish_app = _sf_main.app
+            _sf_main.templates.env.globals["prefix"] = "/scopefish"
+            _sf_main.templates.env.globals["feuerstein_url"] = "/"
+            logging.info(f"Loaded Scopefish from {_sf_base}")
+            break
+        except Exception as e:
+            logging.warning(f"Could not load Scopefish from {_sf_base}: {e}")
+            scopefish_app = None
 
 # Query logging
 QUERY_LOG_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "query_log.jsonl")

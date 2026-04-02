@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Funded Projects{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>&#x1F3D7; Funded Projects</h1>
+        <p>Freshwater and environmental science projects funded by major agencies. Discover who's working on what.</p>
+    </div>
+
+    {% if stats.total > 0 %}
+    <div class="project-stats-bar">
+        <div class="project-stat">
+            <div class="project-stat-value">{{ stats.total }}</div>
+            <div class="project-stat-label">Projects</div>
+        </div>
+        <div class="project-stat">
+            <div class="project-stat-value">{{ stats.funders }}</div>
+            <div class="project-stat-label">Funders</div>
+        </div>
+        {% for source, count in stats.by_source.items() %}
+        <div class="project-stat">
+            <div class="project-stat-value">{{ count }}</div>
+            <div class="project-stat-label">{{ source | upper }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Filter tabs -->
+    <div class="project-filters">
+        <a href="{{ prefix }}/projects" class="filter-tab {% if not active_source %}active{% endif %}">All</a>
+        <a href="{{ prefix }}/projects?source=cordis" class="filter-tab {% if active_source == 'cordis' %}active{% endif %}">&#x1F1EA;&#x1F1FA; EU / CORDIS</a>
+        <a href="{{ prefix }}/projects?source=nsf" class="filter-tab {% if active_source == 'nsf' %}active{% endif %}">&#x1F1FA;&#x1F1F8; NSF</a>
+        <a href="{{ prefix }}/projects?source=openalex" class="filter-tab {% if active_source == 'openalex' %}active{% endif %}">&#x1F4DA; OpenAlex</a>
+    </div>
+
+    {% if projects %}
+    <div class="project-list">
+        {% for p in projects %}
+        <div class="project-card">
+            <div class="project-card-header">
+                <div>
+                    <div class="project-badges">
+                        {% if p.source == 'cordis' %}
+                        <span class="project-source-badge eu">EU</span>
+                        {% elif p.source == 'nsf' %}
+                        <span class="project-source-badge nsf">NSF</span>
+                        {% else %}
+                        <span class="project-source-badge oa">OA</span>
+                        {% endif %}
+                        {% if p.status %}
+                        <span class="project-status {{ p.status | lower }}">{{ p.status }}</span>
+                        {% endif %}
+                        {% if p.cost_display %}
+                        <span class="project-cost">{{ p.cost_display }}</span>
+                        {% endif %}
+                    </div>
+                    <h3>
+                        {% if p.url %}
+                        <a href="{{ p.url }}" target="_blank">
+                            {% if p.acronym %}{{ p.acronym }}: {% endif %}{{ p.title }}
+                        </a>
+                        {% else %}
+                        {% if p.acronym %}{{ p.acronym }}: {% endif %}{{ p.title }}
+                        {% endif %}
+                    </h3>
+                </div>
+            </div>
+            <div class="project-meta">
+                {% if p.funder %}
+                <span class="project-funder">&#x1F3E6; {{ p.funder }}</span>
+                {% endif %}
+                {% if p.programme %}
+                <span class="project-programme">{{ p.programme }}</span>
+                {% endif %}
+                {% if p.start_date %}
+                <span>{{ p.start_date[:7] }}{% if p.end_date %} &mdash; {{ p.end_date[:7] }}{% endif %}</span>
+                {% endif %}
+            </div>
+            {% if p.coordinator %}
+            <div class="project-coordinator">
+                &#x1F464; {{ p.coordinator }}
+            </div>
+            {% endif %}
+            {% if p.description %}
+            <p class="project-desc">{{ p.description[:300] }}{% if p.description | length > 300 %}...{% endif %}</p>
+            {% endif %}
+            {% if p.keywords %}
+            <div class="project-keywords">
+                {% for kw in p.keywords.split(',')[:5] %}
+                <span class="concept-tag">{{ kw.strip() }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <div class="empty-icon">&#x1F3D7;</div>
+        <h3>No projects yet</h3>
+        <p>Run the project fetcher to discover funded freshwater research projects.</p>
+        <br>
+        <code style="color: var(--accent-cyan); font-size: 0.85rem;">python -c "from app.fetchers.projects import fetch_all_projects; ..."</code>
+    </div>
+    {% endif %}
+
+    <!-- Press Releases -->
+    {% if press %}
+    <div class="section-subheader" style="margin-top: 3rem;">
+        <h2>&#x1F4F0; Science News</h2>
+        <p>Recent press releases on freshwater and environmental research.</p>
+    </div>
+    <div class="press-list">
+        {% for r in press %}
+        <div class="press-card">
+            <a href="{{ r.url }}" target="_blank" class="press-title">{{ r.title }}</a>
+            <div class="press-meta">
+                <span class="press-source">{{ r.source }}</span>
+                {% if r.pub_date %}
+                <span>{{ r.pub_date[:16] }}</span>
+                {% endif %}
+            </div>
+            {% if r.description %}
+            <p class="press-desc">{{ r.description }}</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

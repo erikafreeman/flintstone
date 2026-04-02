@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Scopefish{% endblock %} &mdash; IGB Paper Discovery</title>
+    <link rel="stylesheet" href="{{ prefix }}/static/style.css">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% include 'nav.html' %}
+    {% block body %}{% endblock %}
+
+    <footer>
+        <div class="footer-brand">&#x1F3A3; Scopefish</div>
+        <div class="footer-links">
+            <a href="{{ prefix }}/digest">Weekly Digest</a>
+            <a href="{{ prefix }}/search">Search</a>
+            <a href="{{ prefix }}/departments">Departments</a>
+            <a href="{{ flintstone_url }}" target="_blank">Flintstone</a>
+            <a href="{{ fred_url }}" target="_blank">FRED</a>
+        </div>
+        <div class="footer-copy">
+            Data from <a href="https://openalex.org" target="_blank">OpenAlex</a>,
+            <a href="https://www.semanticscholar.org" target="_blank">Semantic Scholar</a> &amp;
+            <a href="https://www.crossref.org" target="_blank">CrossRef</a>
+            &middot; Built for <a href="https://www.igb-berlin.de" target="_blank">IGB</a>
+        </div>
+    </footer>
+
+    <script src="{{ prefix }}/static/app.js"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

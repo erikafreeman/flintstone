@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Department Feeds{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>Department Feeds</h1>
+        <p>Tailored paper recommendations for each of IGB's five research departments.</p>
+    </div>
+
+    <div class="dept-grid">
+        {% for key, dept in dept_meta.items() %}
+        <a href="{{ prefix }}/department/{{ key }}" class="dept-card">
+            <div class="dept-card-header">
+                <div class="dept-icon" style="background: {{ dept.color }}20; color: {{ dept.color }};">
+                    {% if dept.icon == 'droplet' %}&#x1F4A7;{% endif %}
+                    {% if dept.icon == 'trees' %}&#x1F332;{% endif %}
+                    {% if dept.icon == 'microscope' %}&#x1F52C;{% endif %}
+                    {% if dept.icon == 'fish' %}&#x1F41F;{% endif %}
+                    {% if dept.icon == 'dna' %}&#x1F9EC;{% endif %}
+                </div>
+                <h3>{{ dept.name }}</h3>
+            </div>
+            <p>{{ dept.description }}</p>
+            {% for d in depts %}
+            {% if d.department == dept.db_name %}
+            <div class="dept-stat"><strong>{{ d.paper_count }}</strong> relevant papers this period</div>
+            {% endif %}
+            {% endfor %}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

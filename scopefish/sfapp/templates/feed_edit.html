@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}{{ "Edit " + feed.name if feed else "New Feed" }}{% endblock %}
+
+{% block body %}
+<div class="container" style="max-width: 720px;">
+    <div class="page-header">
+        <h1>{{ "Edit Feed" if feed else "Create a Custom Feed" }}</h1>
+        <p>{{ "Update your feed's interests and keywords." if feed else "Define your research interests to get a personalized paper feed." }}</p>
+    </div>
+
+    <form method="post" class="feed-form">
+        <div class="form-group">
+            <label for="name">Feed Name</label>
+            <input type="text" id="name" name="name" required
+                   placeholder="e.g. My eDNA Research, Lake Carbon Dynamics..."
+                   value="{{ feed.name if feed else '' }}"
+                   class="form-input">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description <span class="form-hint">(optional)</span></label>
+            <input type="text" id="description" name="description"
+                   placeholder="Brief description of this feed's focus"
+                   value="{{ feed.description if feed else '' }}"
+                   class="form-input">
+        </div>
+
+        <div class="form-group">
+            <label for="keywords">Keywords &amp; Topics</label>
+            <p class="form-help">Enter comma-separated keywords, phrases, or topics. These will be matched against paper titles, abstracts, and concepts.</p>
+            <textarea id="keywords" name="keywords" required
+                      placeholder="e.g. environmental DNA, metabarcoding, fish biodiversity, eDNA, lake monitoring, species detection"
+                      class="form-textarea">{{ feed.keywords if feed else '' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Suggestions</label>
+            <p class="form-help">Click to add common freshwater research topics:</p>
+            <div class="keyword-suggestions">
+                <button type="button" class="suggestion-chip" data-kw="dissolved organic matter">dissolved organic matter</button>
+                <button type="button" class="suggestion-chip" data-kw="environmental DNA">environmental DNA</button>
+                <button type="button" class="suggestion-chip" data-kw="cyanobacteria bloom">cyanobacteria bloom</button>
+                <button type="button" class="suggestion-chip" data-kw="fish migration">fish migration</button>
+                <button type="button" class="suggestion-chip" data-kw="microplastics">microplastics</button>
+                <button type="button" class="suggestion-chip" data-kw="nutrient cycling">nutrient cycling</button>
+                <button type="button" class="suggestion-chip" data-kw="lake stratification">lake stratification</button>
+                <button type="button" class="suggestion-chip" data-kw="biodiversity monitoring">biodiversity monitoring</button>
+                <button type="button" class="suggestion-chip" data-kw="stable isotopes">stable isotopes</button>
+                <button type="button" class="suggestion-chip" data-kw="aquatic food web">aquatic food web</button>
+                <button type="button" class="suggestion-chip" data-kw="macroinvertebrates">macroinvertebrates</button>
+                <button type="button" class="suggestion-chip" data-kw="water quality">water quality</button>
+                <button type="button" class="suggestion-chip" data-kw="remote sensing">remote sensing</button>
+                <button type="button" class="suggestion-chip" data-kw="climate change freshwater">climate change freshwater</button>
+                <button type="button" class="suggestion-chip" data-kw="river restoration">river restoration</button>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">
+                {{ "Save Changes" if feed else "Create Feed" }} &rarr;
+            </button>
+            <a href="{{ prefix + '/feeds/' + feed.id if feed else prefix + '/feeds' }}" class="btn-secondary">Cancel</a>
+        </div>
+    </form>
+
+    {% if feed %}
+    <div class="feed-danger-zone">
+        <h3>Danger Zone</h3>
+        <form method="post" action="{{ prefix }}/feeds/{{ feed.id }}/delete" style="display: inline;"
+              onsubmit="return confirm('Delete this feed? This cannot be undone.')">
+            <button type="submit" class="btn-danger">Delete Feed</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+
+{% block scripts %}
+<script>
+document.querySelectorAll('.suggestion-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const ta = document.getElementById('keywords');
+        const current = ta.value.trim();
+        const kw = btn.dataset.kw;
+        if (current.toLowerCase().includes(kw.toLowerCase())) return;
+        ta.value = current ? current + ', ' + kw : kw;
+        btn.classList.add('used');
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Search{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="page-header">
+        <h1>Search Recent Papers</h1>
+        <p>Find recent papers relevant to your research idea or abstract.</p>
+    </div>
+
+    <div class="search-section">
+        <form method="post" action="{{ prefix }}/search" id="searchForm">
+            <label for="query">Describe your research interest</label>
+            <textarea name="query" id="query" placeholder="Paste an abstract or describe a research idea...&#10;&#10;Try: 'dissolved organic matter transformation in stratified lakes during summer warming events'">{{ query or '' }}</textarea>
+            <div class="search-controls">
+                <button type="submit" class="btn-primary" id="searchBtn">
+                    Search &rarr;
+                </button>
+                <label>
+                    Results:
+                    <select name="top_k">
+                        <option value="10" {{ 'selected' if top_k == 10 else '' }}>10</option>
+                        <option value="30" {{ 'selected' if top_k == 30 or not top_k else '' }}>30</option>
+                        <option value="50" {{ 'selected' if top_k == 50 else '' }}>50</option>
+                    </select>
+                </label>
+            </div>
+        </form>
+    </div>
+
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+        Searching across discovered papers...
+    </div>
+
+    {% if papers %}
+    <div class="page-header" style="margin-top: 1rem;">
+        <h2 style="font-family: var(--font-heading); font-size: 1.2rem;">{{ papers|length }} results</h2>
+    </div>
+    <div class="paper-list">
+        {% for paper in papers %}
+        <div class="paper-card">
+            <div class="paper-card-header">
+                {% if paper.relevance_score %}
+                <span class="relevance-badge" style="background: {{ paper.relevance_score | score_color }};">{{ paper.relevance_score | score_pct }}%</span>
+                {% endif %}
+                {% if paper.doi %}
+                <a href="{{ paper.doi }}" target="_blank" class="paper-title">{{ paper.title }}</a>
+                {% else %}
+                <span class="paper-title">{{ paper.title }}</span>
+                {% endif %}
+            </div>
+            <div class="paper-authors">{{ paper.authors_str }}</div>
+            <div class="paper-meta">
+                <span>{{ paper.year }}</span>
+                <span class="sep">&middot;</span>
+                <span class="journal">{{ paper.journal or "Unknown journal" }}</span>
+            </div>
+            {% if paper.abstract_short %}
+            <div class="paper-abstract">{{ paper.abstract_short }}</div>
+            {% endif %}
+            {% if paper.concepts %}
+            <div class="paper-concepts">
+                {% for c in paper.concepts %}
+                <span class="concept-tag">{{ c }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% if paper.explanation %}
+            <div class="paper-explanation">{{ paper.explanation | md_bold }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if query %}
+    <div style="text-align: center; margin-top: 2rem;">
+        <a href="{{ flintstone_url }}" target="_blank" class="btn-secondary">
+            Search IGB's own publications in Flintstone &rarr;
+        </a>
+    </div>
+    {% endif %}
+
+    {% elif query %}
+    <div class="empty-state">
+        <div class="empty-icon">&#x1F50D;</div>
+        <h3>No results found</h3>
+        <p>Try broadening your search terms or check back after the next weekly fetch.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
