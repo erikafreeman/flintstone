@@ -223,10 +223,12 @@ async def api_synthesize(
     year_min: Optional[int] = Form(None),
     year_max: Optional[int] = Form(None),
 ):
-    """Generate a citation-backed synthesis of search results."""
-    if not synthesize.is_available():
-        return {"error": "Synthesis unavailable. Set ANTHROPIC_API_KEY.", "synthesis": "", "references": []}
+    """Generate a citation-backed synthesis of search results.
 
+    Works in two modes:
+    - With ANTHROPIC_API_KEY: full LLM synthesis with self-feedback loop
+    - Without API key: extractive synthesis from abstracts + S2 verification
+    """
     publications, _, _, _, _, _ = _run_search(query, top_k, year_min, year_max)
     result = synthesize.synthesize(query, publications, refine=True)
     return result
@@ -234,8 +236,11 @@ async def api_synthesize(
 
 @app.get("/api/synthesize/status")
 async def synthesize_status():
-    """Check if synthesis feature is available."""
-    return {"available": synthesize.is_available()}
+    """Check synthesis mode (generative with API key, extractive without)."""
+    return {
+        "available": True,
+        "mode": "generative" if os.environ.get("ANTHROPIC_API_KEY") else "extractive",
+    }
 
 
 @app.get("/author/{author_id:path}", response_class=HTMLResponse)

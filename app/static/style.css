@@ -764,3 +764,36 @@ footer a:hover { color: var(--igb-blue); }
     letter-spacing: 0.05em;
 }
 .synth-step p { margin: 0 0 0.3rem; }
+
+/* S2 verification badges */
+.s2-verified {
+    display: inline-block;
+    background: #d1fae5;
+    color: #065f46;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    margin-left: 0.3rem;
+    vertical-align: middle;
+}
+.s2-badge {
+    display: inline-block;
+    background: #dbeafe;
+    color: #1e40af;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    margin-left: 0.3rem;
+    vertical-align: middle;
+}
+.synth-supp {
+    margin-top: 0.8rem;
+    padding-top: 0.6rem;
+    border-top: 1px dashed #c4b5fd;
+}
+.synth-supp h4 { font-size: 0.85rem; color: #4c1d95; margin: 0 0 0.4rem; }
+.synth-supp ul { font-size: 0.8rem; padding-left: 1.3rem; color: #374151; }
+.synth-supp li { margin-bottom: 0.3rem; }
+.synth-supp a { color: var(--igb-blue); }

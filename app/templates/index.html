@@ -429,19 +429,34 @@
                 content.innerHTML = html;
                 content.style.display = 'block';
 
-                // Render references
+                // Render references with S2 verification badges
                 if (data.references && data.references.length > 0) {
                     let refHtml = '<h4>References</h4><ol class="synth-ref-list">';
                     data.references.forEach(function(r) {
-                        const doiLink = r.doi ? '<a href="' + r.doi + '" target="_blank">DOI</a>' : '';
+                        const doiLink = r.doi ? ' <a href="' + r.doi + '" target="_blank">DOI</a>' : '';
+                        const s2Link = r.s2_url ? ' <a href="' + r.s2_url + '" target="_blank">S2</a>' : '';
+                        const verified = r.s2_verified ? ' <span class="s2-verified" title="Verified on Semantic Scholar">&#10003; verified</span>' : '';
+                        const source = r.source === 'Semantic Scholar' ? ' <span class="s2-badge">S2 supplementary</span>' : '';
                         refHtml += '<li id="ref-' + r.number + '">' +
-                            '<strong>' + r.title + '</strong><br>' +
-                            r.authors + ' (' + r.year + '). <em>' + (r.journal || '') + '</em> ' + doiLink +
+                            '<strong>' + r.title + '</strong>' + verified + source + '<br>' +
+                            r.authors + ' (' + r.year + '). <em>' + (r.journal || '') + '</em>' + doiLink + s2Link +
                             '</li>';
                     });
                     refHtml += '</ol>';
                     refs.innerHTML = refHtml;
                     refs.style.display = 'block';
+                }
+
+                // Show supplementary papers from S2
+                if (data.supplementary && data.supplementary.length > 0) {
+                    let suppHtml = '<div class="synth-supp"><h4>Supplementary literature from Semantic Scholar</h4><ul>';
+                    data.supplementary.forEach(function(s) {
+                        const link = s.url ? '<a href="' + s.url + '" target="_blank">' + s.title + '</a>' : s.title;
+                        suppHtml += '<li>' + link + ' (' + (s.year || '?') + ') — ' + s.authors +
+                            (s.citations ? ', ' + s.citations + ' citations' : '') + '</li>';
+                    });
+                    suppHtml += '</ul></div>';
+                    refs.innerHTML += suppHtml;
                 }
 
                 // Show refinement process if available
@@ -465,13 +480,16 @@
             }
         }
 
-        // Check synthesis availability on load
+        // Check synthesis mode on load
         {% if publications %}
         fetch('/api/synthesize/status').then(r => r.json()).then(data => {
             const btn = document.getElementById('synthesizeBtn');
-            if (btn && !data.available) {
-                btn.title = 'Set ANTHROPIC_API_KEY to enable AI synthesis';
-                btn.style.opacity = '0.5';
+            if (btn) {
+                if (data.mode === 'extractive') {
+                    btn.title = 'Extractive synthesis (add ANTHROPIC_API_KEY for AI-powered synthesis)';
+                } else {
+                    btn.title = 'AI-powered synthesis with self-feedback refinement';
+                }
             }
         }).catch(() => {});
         {% endif %}
