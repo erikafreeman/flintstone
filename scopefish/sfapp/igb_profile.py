@@ -1,4 +1,4 @@
-"""Extract IGB research profile from Flintstone's database."""
+"""Extract IGB research profile from Feuerstein's database."""
 
 import json
 import os
@@ -20,7 +20,7 @@ DEPARTMENTS = {
 
 
 def extract_profile(output_path: str = None) -> dict:
-    """Read Flintstone's DB and build an IGB research profile.
+    """Read Feuerstein's DB and build an IGB research profile.
 
     Returns a dict with:
       - institute_concepts: [{concept_name, paper_count, avg_score}, ...]
@@ -30,7 +30,7 @@ def extract_profile(output_path: str = None) -> dict:
       - openalex_concept_ids: list of concept IDs for OpenAlex filtering (if available)
     """
     if not os.path.exists(FLINTSTONE_DB):
-        print(f"Flintstone DB not found at {FLINTSTONE_DB}")
+        print(f"Feuerstein DB not found at {FLINTSTONE_DB}")
         return _empty_profile()
 
     conn = sqlite3.connect(FLINTSTONE_DB)

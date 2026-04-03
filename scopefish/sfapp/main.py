@@ -21,11 +21,11 @@ BASE_DIR = os.path.dirname(__file__)
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "static")), name="static")
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
-# Flintstone / FRED URLs (configurable)
-FLINTSTONE_URL = os.environ.get("FLINTSTONE_URL", "http://localhost:7860")
+# Feuerstein / FRED URLs (configurable)
+FEUERSTEIN_URL = os.environ.get("FEUERSTEIN_URL", "http://localhost:7860")
 FRED_URL = os.environ.get("FRED_URL", "https://fred.igb-berlin.de")
 
-# URL prefix for mounting as sub-app (e.g. "/scopefish" when mounted under Flintstone)
+# URL prefix for mounting as sub-app (e.g. "/scopefish" when mounted under Feuerstein)
 PREFIX = os.environ.get("SCOPEFISH_PREFIX", "")
 
 
@@ -55,7 +55,7 @@ def _score_pct(score):
 templates.env.filters["md_bold"] = _md_bold
 templates.env.filters["score_color"] = _score_color
 templates.env.filters["score_pct"] = _score_pct
-templates.env.globals["flintstone_url"] = FLINTSTONE_URL
+templates.env.globals["flintstone_url"] = FEUERSTEIN_URL
 templates.env.globals["fred_url"] = FRED_URL
 templates.env.globals["now"] = datetime.now
 templates.env.globals["prefix"] = PREFIX

@@ -1,6 +1,6 @@
 """Query expansion for scientific abbreviations in freshwater/ecology research.
 
-Copied from Flintstone with the same abbreviation mappings.
+Copied from Feuerstein with the same abbreviation mappings.
 """
 
 import re

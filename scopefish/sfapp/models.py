@@ -731,10 +731,18 @@ def get_funding_calls(conn: sqlite3.Connection, active_only: bool = True) -> lis
         """)
     else:
         cur = conn.execute("SELECT * FROM funding_calls ORDER BY deadline ASC NULLS LAST")
-    calls = [dict(r) for r in cur.fetchall()]
-    for call in calls:
+    all_calls = [dict(r) for r in cur.fetchall()]
+    # Deduplicate by title (SEDIA API returns sub-lots with same title)
+    seen_titles = set()
+    calls = []
+    for call in all_calls:
+        title_key = (call.get("title") or "")[:60].lower()
+        if title_key in seen_titles:
+            continue
+        seen_titles.add(title_key)
         kw = call.get("keywords") or ""
         call["keyword_list"] = [k.strip() for k in kw.split(",") if k.strip()]
+        calls.append(call)
     return calls
 
 

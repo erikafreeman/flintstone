@@ -1,6 +1,6 @@
 """Semantic search for Scopefish.
 
-Uses the same ONNX embedding approach as Flintstone's search.py.
+Uses the same ONNX embedding approach as Feuerstein's search.py.
 For now, wraps the keyword search in models.py.
 When SPECTER2 model is available, will add embedding-based search.
 """
