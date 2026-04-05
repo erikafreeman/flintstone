@@ -11,13 +11,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy Feuerstein app code and data
+# Copy app code, data, and scripts
 COPY app/ ./app/
 COPY data/ ./data/
 COPY scripts/ ./scripts/
-
-# Copy Scopefish sub-app
 COPY scopefish/ ./scopefish/
+
+# Download ONNX models from HuggingFace Hub (too large for git)
+RUN python scripts/download_models.py
 
 # HF Spaces exposes port 7860
 EXPOSE 7860

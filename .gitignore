@@ -3,6 +3,9 @@ __pycache__/
 .env
 data/query_log.jsonl
 data/model/
+data/model_specter2/
+data/model_reranker/
 data/embeddings.npy
 data/tsne_coords.npy
+*.pdf
 .claude/
