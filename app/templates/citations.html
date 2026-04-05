@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Citation Tracker &mdash; Feuerstein</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .source-card {
+            background: var(--igb-accent);
+            border-radius: var(--radius);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--igb-blue);
+        }
+        .source-card h3 { font-family: var(--font-heading); color: var(--igb-blue); margin-bottom: 0.3rem; }
+        .cit-stats {
+            display: flex; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap;
+        }
+        .cit-stat {
+            background: var(--igb-card); border-radius: var(--radius-sm); padding: 0.8rem 1.2rem;
+            box-shadow: var(--shadow-sm); text-align: center; min-width: 120px;
+            border: 1px solid rgba(0,0,0,0.04);
+        }
+        .cit-stat-value { font-size: 1.5rem; font-weight: 700; color: var(--igb-blue); }
+        .cit-stat-label { font-size: 0.75rem; color: var(--igb-text-light); margin-top: 0.2rem; }
+        .citing-item {
+            padding: 0.8rem 0; border-bottom: 1px solid var(--igb-border);
+        }
+        .citing-item:last-child { border-bottom: none; }
+        .citing-title { font-weight: 500; color: var(--igb-text); }
+        .citing-title a { color: var(--igb-blue); text-decoration: none; }
+        .citing-title a:hover { text-decoration: underline; }
+        .igb-badge {
+            display: inline-block; padding: 0.1rem 0.4rem; border-radius: 4px;
+            font-size: 0.7rem; font-weight: 600; background: var(--igb-green);
+            color: white; margin-left: 0.4rem; vertical-align: middle;
+        }
+        .year-chart-row { display: flex; align-items: end; gap: 2px; height: 80px; margin: 1rem 0; }
+        .year-bar-wrap { display: flex; flex-direction: column; align-items: center; flex: 1; }
+        .year-bar {
+            width: 100%; background: var(--igb-blue); border-radius: 3px 3px 0 0;
+            min-height: 2px; transition: height 0.3s;
+        }
+        .year-bar-label { font-size: 0.65rem; color: var(--igb-text-light); margin-top: 2px; writing-mode: vertical-rl; transform: rotate(180deg); }
+        .year-bar-count { font-size: 0.7rem; color: var(--igb-text-mid); font-weight: 600; }
+        .cocite-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .cocite-count {
+            background: var(--igb-blue-pale); color: var(--igb-blue); font-weight: 600;
+            padding: 0.2rem 0.5rem; border-radius: 12px; font-size: 0.8rem;
+            white-space: nowrap;
+        }
+        .tab-bar { display: flex; gap: 0.3rem; margin-bottom: 1rem; }
+        .tab-btn {
+            padding: 0.4rem 1rem; border-radius: 6px; border: 1px solid var(--igb-border);
+            background: white; cursor: pointer; font-size: 0.85rem; font-weight: 500;
+            color: var(--igb-text-mid); transition: all var(--transition);
+        }
+        .tab-btn.active { background: var(--igb-blue); color: white; border-color: var(--igb-blue); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+    <header>
+        <div class="header-content">
+            <h1><span class="logo-icon">📊</span> Citation Tracker</h1>
+            <p class="header-tagline">Who cited this paper? Co-citation analysis.</p>
+        </div>
+    </header>
+
+    <div class="container">
+        {% if pub %}
+        <div class="source-card">
+            <h3>{% if pub.doi %}<a href="{{ pub.doi }}" target="_blank" style="color:var(--igb-blue);text-decoration:none;">{{ pub.title }}</a>{% else %}{{ pub.title }}{% endif %}</h3>
+            <div style="font-size:0.85rem; color:var(--igb-text-mid); margin-top:0.3rem;">
+                {% for author in pub.authors_list[:6] %}{{ author.display_name }}{% if not loop.last %}, {% endif %}{% endfor %}
+                {% if pub.authors_list|length > 6 %} et al.{% endif %}
+                &middot; {{ pub.year }} &middot; {{ pub.journal or '' }}
+            </div>
+            <div style="margin-top:0.5rem;">
+                <a href="/similar/{{ pub.id }}" style="font-size:0.8rem; color:var(--igb-blue-light);">🔗 Similar Papers</a>
+            </div>
+        </div>
+
+        {% if stats %}
+        <div class="cit-stats">
+            <div class="cit-stat">
+                <div class="cit-stat-value">{{ stats.total_citations }}</div>
+                <div class="cit-stat-label">Total Citations</div>
+            </div>
+            <div class="cit-stat">
+                <div class="cit-stat-value">{{ stats.get('igb_self_citations', 0) }}</div>
+                <div class="cit-stat-label">IGB Self-Citations</div>
+            </div>
+            <div class="cit-stat">
+                <div class="cit-stat-value">{{ stats.get('external_citations', 0) }}</div>
+                <div class="cit-stat-label">External Citations</div>
+            </div>
+            <div class="cit-stat">
+                <div class="cit-stat-value">{{ citing_papers|length }}</div>
+                <div class="cit-stat-label">Shown Here</div>
+            </div>
+        </div>
+
+        {% if stats.get('citing_years') %}
+        <div class="results-section">
+            <h2>📈 Citations Over Time</h2>
+            <div class="year-chart-row">
+                {% set max_count = stats.citing_years.values()|max if stats.citing_years else 1 %}
+                {% for year, count in stats.citing_years.items()|sort %}
+                <div class="year-bar-wrap">
+                    <div class="year-bar-count">{{ count }}</div>
+                    <div class="year-bar" style="height: {{ (count / max_count * 70)|int }}px;"></div>
+                    <div class="year-bar-label">{{ year }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% endif %}
+
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="showTab('citing')">📄 Citing Papers ({{ citing_papers|length }})</button>
+            <button class="tab-btn" onclick="showTab('cocited')">🔗 Co-Cited With ({{ co_cited|length }})</button>
+        </div>
+
+        <div id="tab-citing" class="tab-content active">
+            <div class="results-section">
+                {% if stats.get('top_citing_journals') %}
+                <p style="font-size:0.85rem; color:var(--igb-text-light); margin-bottom:0.8rem;">
+                    Top citing journals:
+                    {% for journal, count in stats.top_citing_journals %}
+                        <strong>{{ journal }}</strong> ({{ count }}){% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                {% endif %}
+
+                {% for paper in citing_papers %}
+                <div class="citing-item">
+                    <div class="citing-title">
+                        {% if paper.doi %}
+                        <a href="{{ paper.doi }}" target="_blank">{{ paper.title }}</a>
+                        {% else %}
+                        {{ paper.title }}
+                        {% endif %}
+                        {% if paper.is_igb %}<span class="igb-badge">IGB</span>{% endif %}
+                        {% if paper.in_feuerstein %}
+                        <a href="/similar/{{ paper.id }}" style="font-size:0.75rem; margin-left:0.3rem;">🔗</a>
+                        <a href="/citations/{{ paper.id }}" style="font-size:0.75rem;">📊</a>
+                        {% endif %}
+                    </div>
+                    <div style="font-size:0.8rem; color:var(--igb-text-light);">
+                        {{ paper.authors_str }} &middot; {{ paper.year or '?' }} &middot; {{ paper.journal or '' }}
+                        {% if paper.cited_by_count %} &middot; {{ paper.cited_by_count }} citations{% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% if not citing_papers %}
+                <p style="color:var(--igb-text-light); padding:1rem 0;">No citing papers found yet. This paper may be very recent.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div id="tab-cocited" class="tab-content">
+            <div class="results-section">
+                <p style="font-size:0.85rem; color:var(--igb-text-light); margin-bottom:0.8rem;">
+                    Papers that frequently appear alongside this one in reference lists — likely related work in the same field.
+                </p>
+                {% for paper in co_cited %}
+                <div class="cocite-item">
+                    <div style="flex:1;">
+                        <div class="citing-title">
+                            {% if paper.doi %}
+                            <a href="{{ paper.doi }}" target="_blank">{{ paper.title }}</a>
+                            {% else %}
+                            {{ paper.title }}
+                            {% endif %}
+                        </div>
+                        <div style="font-size:0.8rem; color:var(--igb-text-light);">
+                            {{ paper.authors_str }} &middot; {{ paper.year or '?' }} &middot; {{ paper.journal or '' }}
+                        </div>
+                    </div>
+                    <div class="cocite-count">{{ paper.co_citation_count }}x co-cited</div>
+                </div>
+                {% endfor %}
+
+                {% if not co_cited %}
+                <p style="color:var(--igb-text-light); padding:1rem 0;">No co-citation data available yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+
+    <footer>
+        <div class="footer-content">🪨 Feuerstein &mdash; IGB Publication Intelligence Tool</div>
+    </footer>
+
+    <script>
+    function showTab(name) {
+        document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('tab-' + name).classList.add('active');
+        event.target.classList.add('active');
+    }
+    </script>
+</body>
+</html>

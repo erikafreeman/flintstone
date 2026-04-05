@@ -49,6 +49,9 @@
                     <div class="stat-label">Department Feeds</div>
                 </div>
             </div>
+            <div id="pipeline-status" class="pipeline-status" style="margin-top: 1rem; font-size: 0.85rem; color: #94a3b8; text-align: center;">
+                Loading pipeline status...
+            </div>
         </div>
     </section>
 
@@ -160,5 +163,34 @@
     </footer>
 
     <script src="{{ prefix }}/static/app.js"></script>
+    <script>
+    (function() {
+        fetch("{{ prefix }}/api/status")
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                var el = document.getElementById("pipeline-status");
+                if (!el) return;
+                var parts = [];
+                if (data.pipeline && data.pipeline.last_run) {
+                    var d = new Date(data.pipeline.last_run);
+                    parts.push("Last updated: " + d.toLocaleDateString(undefined, {year:"numeric",month:"short",day:"numeric"}) +
+                               " " + d.toLocaleTimeString(undefined, {hour:"2-digit",minute:"2-digit"}));
+                    if (data.pipeline.last_status === "error") {
+                        parts[parts.length - 1] += " (with errors)";
+                    }
+                }
+                if (data.pipeline && data.pipeline.next_run) {
+                    var nd = new Date(data.pipeline.next_run);
+                    parts.push("Next run: " + nd.toLocaleDateString(undefined, {weekday:"short",month:"short",day:"numeric"}) +
+                               " " + nd.toLocaleTimeString(undefined, {hour:"2-digit",minute:"2-digit"}));
+                }
+                el.textContent = parts.length ? parts.join(" \u00b7 ") : "Pipeline not yet run";
+            })
+            .catch(function() {
+                var el = document.getElementById("pipeline-status");
+                if (el) el.textContent = "";
+            });
+    })();
+    </script>
 </body>
 </html>

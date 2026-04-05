@@ -24,6 +24,41 @@
                         <option value="50" {{ 'selected' if top_k == 50 else '' }}>50</option>
                     </select>
                 </label>
+                <button type="button" class="btn-secondary" style="font-size: 0.8rem; margin-left: auto;" onclick="var el=document.getElementById('advFilters'); el.style.display = el.style.display === 'none' ? 'grid' : 'none';">
+                    Advanced filters
+                </button>
+            </div>
+
+            <div id="advFilters" style="{{ 'display: none;' if not (year_min or year_max or open_access or journal_tier or department) else 'display: grid;' }} margin-top: 0.75rem; padding: 0.75rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; align-items: end;">
+                <label style="color: var(--text-secondary); font-size: 0.8rem;">
+                    Year min
+                    <input type="number" name="year_min" placeholder="2020" value="{{ year_min or '' }}" style="width: 100%; margin-top: 0.25rem; padding: 0.35rem 0.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.85rem;">
+                </label>
+                <label style="color: var(--text-secondary); font-size: 0.8rem;">
+                    Year max
+                    <input type="number" name="year_max" placeholder="2026" value="{{ year_max or '' }}" style="width: 100%; margin-top: 0.25rem; padding: 0.35rem 0.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.85rem;">
+                </label>
+                <label style="color: var(--text-secondary); font-size: 0.8rem; display: flex; align-items: center; gap: 0.4rem; padding-top: 1.1rem;">
+                    <input type="checkbox" name="open_access" value="1" {{ 'checked' if open_access else '' }}>
+                    Open Access only
+                </label>
+                <label style="color: var(--text-secondary); font-size: 0.8rem;">
+                    Journal tier
+                    <select name="journal_tier" style="width: 100%; margin-top: 0.25rem; padding: 0.35rem 0.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.85rem;">
+                        <option value="" {{ 'selected' if not journal_tier else '' }}>Any</option>
+                        <option value="top" {{ 'selected' if journal_tier == 'top' else '' }}>Top-tier</option>
+                        <option value="high" {{ 'selected' if journal_tier == 'high' else '' }}>High-impact</option>
+                    </select>
+                </label>
+                <label style="color: var(--text-secondary); font-size: 0.8rem;">
+                    Department
+                    <select name="department" style="width: 100%; margin-top: 0.25rem; padding: 0.35rem 0.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.85rem;">
+                        <option value="" {{ 'selected' if not department else '' }}>Any</option>
+                        {% for did, dmeta in departments.items() %}
+                        <option value="{{ did }}" {{ 'selected' if department == did else '' }}>{{ dmeta.short }} &mdash; {{ dmeta.name }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
             </div>
         </form>
     </div>
@@ -34,8 +69,18 @@
     </div>
 
     {% if papers %}
-    <div class="page-header" style="margin-top: 1rem;">
-        <h2 style="font-family: var(--font-heading); font-size: 1.2rem;">{{ papers|length }} results</h2>
+    <div class="page-header" style="margin-top: 1rem; display: flex; align-items: center; justify-content: space-between;">
+        <h2 style="font-family: var(--font-heading); font-size: 1.2rem;">{{ papers|length }} results{% if search_mode == 'semantic' %} <span style="font-size: 0.75rem; color: var(--text-muted);">(semantic)</span>{% endif %}</h2>
+        <form method="post" action="{{ prefix }}/export/search" style="display: inline;">
+            <input type="hidden" name="query" value="{{ query }}">
+            <input type="hidden" name="top_k" value="{{ top_k }}">
+            <input type="hidden" name="year_min" value="{{ year_min or '' }}">
+            <input type="hidden" name="year_max" value="{{ year_max or '' }}">
+            <input type="hidden" name="open_access" value="{{ '1' if open_access else '' }}">
+            <input type="hidden" name="journal_tier" value="{{ journal_tier or '' }}">
+            <input type="hidden" name="department" value="{{ department or '' }}">
+            <button type="submit" class="btn-secondary" style="font-size: 0.8rem;">Export CSV</button>
+        </form>
     </div>
     <div class="paper-list">
         {% for paper in papers %}

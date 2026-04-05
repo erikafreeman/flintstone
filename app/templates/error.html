@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ error_code }} &mdash; Feuerstein</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    {% include 'nav.html' %}
+
+    <header>
+        <div class="header-content">
+            <h1><span class="logo-icon">&#x1FAA8;</span> Feuerstein</h1>
+        </div>
+    </header>
+
+    <div class="container" style="text-align: center; padding: 4rem 1rem;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">
+            {% if error_code == 404 %}&#x1F50D;{% else %}&#x26A0;{% endif %}
+        </div>
+        <h2>{{ error_code }} &mdash; {{ error_title }}</h2>
+        <p style="color: var(--igb-text-light); max-width: 400px; margin: 1rem auto 2rem;">{{ error_message }}</p>
+        <a href="/" class="btn-primary">&larr; Back to Search</a>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            &#x1FAA8; Feuerstein &mdash; IGB Publication Intelligence Tool
+        </div>
+    </footer>
+</body>
+</html>

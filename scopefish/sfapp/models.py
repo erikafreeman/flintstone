@@ -301,6 +301,91 @@ def get_digest(conn: sqlite3.Connection, week: str) -> Optional[dict]:
     return digest
 
 
+def get_department_analytics(conn: sqlite3.Connection, department_db_name: str) -> dict:
+    """Return analytics for a department's relevant papers (relevance >= 0.4)."""
+    cur = conn.cursor()
+
+    # Total papers with relevance >= 0.4
+    cur.execute(
+        "SELECT COUNT(*) FROM paper_relevance WHERE department = ? AND relevance_score >= 0.4",
+        (department_db_name,),
+    )
+    total_papers = cur.fetchone()[0]
+
+    # Average relevance score
+    cur.execute(
+        "SELECT AVG(relevance_score) FROM paper_relevance WHERE department = ? AND relevance_score >= 0.4",
+        (department_db_name,),
+    )
+    avg_rel = cur.fetchone()[0]
+    avg_relevance = round(avg_rel, 3) if avg_rel else 0
+
+    # High relevance count (>= 0.7)
+    cur.execute(
+        "SELECT COUNT(*) FROM paper_relevance WHERE department = ? AND relevance_score >= 0.7",
+        (department_db_name,),
+    )
+    high_relevance_count = cur.fetchone()[0]
+
+    # Open access count
+    cur.execute("""
+        SELECT COUNT(*) FROM papers p
+        JOIN paper_relevance pr ON p.id = pr.paper_id
+        WHERE pr.department = ? AND pr.relevance_score >= 0.4
+          AND p.open_access_url IS NOT NULL AND p.open_access_url != ''
+    """, (department_db_name,))
+    open_access_count = cur.fetchone()[0]
+
+    # Top 5 journals by paper count
+    cur.execute("""
+        SELECT p.journal, COUNT(*) as cnt
+        FROM papers p
+        JOIN paper_relevance pr ON p.id = pr.paper_id
+        WHERE pr.department = ? AND pr.relevance_score >= 0.4
+          AND p.journal IS NOT NULL AND p.journal != ''
+        GROUP BY p.journal
+        ORDER BY cnt DESC
+        LIMIT 5
+    """, (department_db_name,))
+    top_journals = [{"journal": r[0], "count": r[1]} for r in cur.fetchall()]
+
+    # Top 10 concepts
+    cur.execute("""
+        SELECT pc.concept_name, COUNT(*) as cnt
+        FROM paper_concepts pc
+        JOIN paper_relevance pr ON pc.paper_id = pr.paper_id
+        WHERE pr.department = ? AND pr.relevance_score >= 0.4
+        GROUP BY pc.concept_name
+        ORDER BY cnt DESC
+        LIMIT 10
+    """, (department_db_name,))
+    top_concepts = [{"name": r[0], "count": r[1]} for r in cur.fetchall()]
+
+    # Papers by week (last 8 weeks)
+    now = datetime.now()
+    papers_by_week = {}
+    for i in range(7, -1, -1):
+        d = now - timedelta(weeks=i)
+        week_str = d.strftime("%G-W%V")
+        cur.execute("""
+            SELECT COUNT(*) FROM papers p
+            JOIN paper_relevance pr ON p.id = pr.paper_id
+            WHERE pr.department = ? AND pr.relevance_score >= 0.4
+              AND p.digest_week = ?
+        """, (department_db_name, week_str))
+        papers_by_week[week_str] = cur.fetchone()[0]
+
+    return {
+        "total_papers": total_papers,
+        "avg_relevance": avg_relevance,
+        "high_relevance_count": high_relevance_count,
+        "open_access_count": open_access_count,
+        "top_journals": top_journals,
+        "top_concepts": top_concepts,
+        "papers_by_week": papers_by_week,
+    }
+
+
 def get_department_feed(conn: sqlite3.Connection, department: str, limit: int = 50) -> list:
     """Get papers relevant to a specific department."""
     cur = conn.cursor()
@@ -582,6 +667,42 @@ def get_custom_feed_papers(conn: sqlite3.Connection, keywords: list, limit: int 
     return papers
 
 
+def get_papers_by_ids(conn: sqlite3.Connection, paper_ids: list) -> list:
+    """Fetch full paper data for a list of paper IDs (preserving order)."""
+    if not paper_ids:
+        return []
+
+    placeholders = ",".join("?" for _ in paper_ids)
+    cur = conn.execute(f"""
+        SELECT p.*, pr.relevance_score, pr.explanation
+        FROM papers p
+        LEFT JOIN paper_relevance pr ON p.id = pr.paper_id AND pr.department = 'all'
+        WHERE p.id IN ({placeholders})
+    """, paper_ids)
+    rows = {r["id"]: dict(r) for r in cur.fetchall()}
+
+    # Preserve input order
+    papers = [rows[pid] for pid in paper_ids if pid in rows]
+
+    for paper in papers:
+        cur2 = conn.execute(
+            "SELECT concept_name FROM paper_concepts WHERE paper_id = ? ORDER BY score DESC LIMIT 5",
+            (paper["id"],),
+        )
+        paper["concepts"] = [r[0] for r in cur2.fetchall()]
+
+        cur2 = conn.execute(
+            "SELECT author_name FROM paper_authors WHERE paper_id = ? ORDER BY position LIMIT 5",
+            (paper["id"],),
+        )
+        paper["authors_str"] = ", ".join(r[0] for r in cur2.fetchall())
+
+        abstract_s = paper.get("abstract") or ""
+        paper["abstract_short"] = abstract_s[:200] + ("..." if len(abstract_s) > 200 else "")
+
+    return papers
+
+
 def search_papers(conn: sqlite3.Connection, query: str, limit: int = 30) -> list:
     """Simple keyword search across papers."""
     import re
@@ -606,6 +727,105 @@ def search_papers(conn: sqlite3.Connection, query: str, limit: int = 30) -> list
     """, params + [limit])
 
     papers = [dict(r) for r in cur.fetchall()]
+    for paper in papers:
+        cur2 = conn.execute(
+            "SELECT concept_name FROM paper_concepts WHERE paper_id = ? ORDER BY score DESC LIMIT 5",
+            (paper["id"],),
+        )
+        paper["concepts"] = [r[0] for r in cur2.fetchall()]
+
+        cur2 = conn.execute(
+            "SELECT author_name FROM paper_authors WHERE paper_id = ? ORDER BY position LIMIT 5",
+            (paper["id"],),
+        )
+        paper["authors_str"] = ", ".join(r[0] for r in cur2.fetchall())
+
+        abstract_s = paper.get("abstract") or ""
+        paper["abstract_short"] = abstract_s[:200] + ("..." if len(abstract_s) > 200 else "")
+
+    return papers
+
+
+def search_papers_filtered(
+    conn: sqlite3.Connection,
+    query: str,
+    limit: int = 30,
+    year_min: int = None,
+    year_max: int = None,
+    open_access: bool = False,
+    journal_tier: str = None,
+    department: str = None,
+    paper_ids: list = None,
+) -> list:
+    """Keyword search with additional filters for year, OA, journal tier, and department.
+
+    If paper_ids is provided, restricts results to those IDs (used with semantic search).
+    journal_tier filtering ('top' >= 0.9, 'high' >= 0.75) is applied in Python after fetch.
+    """
+    import re as _re
+
+    words = _re.findall(r'[a-zA-Z0-9][\w-]{2,}', query)
+    if not words and not paper_ids:
+        return []
+
+    # Build WHERE conditions and params
+    where_parts = []
+    where_params = []
+
+    if paper_ids:
+        placeholders = ",".join("?" for _ in paper_ids)
+        where_parts.append(f"p.id IN ({placeholders})")
+        where_params.extend(paper_ids)
+    else:
+        kw_conds = []
+        for word in words[:10]:
+            kw_conds.append("(p.title LIKE ? OR p.abstract LIKE ?)")
+            where_params.extend([f"%{word}%", f"%{word}%"])
+        where_parts.append("(" + " OR ".join(kw_conds) + ")")
+
+    if year_min is not None:
+        where_parts.append("p.year >= ?")
+        where_params.append(year_min)
+    if year_max is not None:
+        where_parts.append("p.year <= ?")
+        where_params.append(year_max)
+    if open_access:
+        where_parts.append("p.open_access_url IS NOT NULL AND p.open_access_url != ''")
+
+    # Department join
+    dept_join_sql = ""
+    dept_join_params = []
+    if department:
+        dept_join_sql = "JOIN paper_relevance pr2 ON p.id = pr2.paper_id AND pr2.department = ?"
+        dept_join_params.append(department)
+
+    where_sql = " AND ".join(where_parts) if where_parts else "1=1"
+
+    # Fetch extra rows when journal_tier will be filtered in Python
+    fetch_limit = limit * 3 if journal_tier else limit
+
+    sql = f"""
+        SELECT p.*, pr.relevance_score, pr.explanation
+        FROM papers p
+        LEFT JOIN paper_relevance pr ON p.id = pr.paper_id AND pr.department = 'all'
+        {dept_join_sql}
+        WHERE {where_sql}
+        ORDER BY pr.relevance_score DESC NULLS LAST
+        LIMIT ?
+    """
+    all_params = dept_join_params + where_params + [fetch_limit]
+
+    cur = conn.execute(sql, all_params)
+    papers = [dict(r) for r in cur.fetchall()]
+
+    # Post-fetch journal tier filtering
+    if journal_tier:
+        min_boost = 0.9 if journal_tier == "top" else 0.75
+        papers = [p for p in papers if _journal_boost(p.get("journal") or "") >= min_boost]
+
+    papers = papers[:limit]
+
+    # Attach concepts, authors, abstract snippet
     for paper in papers:
         cur2 = conn.execute(
             "SELECT concept_name FROM paper_concepts WHERE paper_id = ? ORDER BY score DESC LIMIT 5",

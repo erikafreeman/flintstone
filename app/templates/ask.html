@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Assistant &mdash; Feuerstein</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .ask-section {
+            background: var(--igb-card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0,79,124,0.06);
+        }
+        .ask-section label {
+            display: block; font-family: var(--font-heading); font-weight: 600;
+            margin-bottom: 0.4rem; color: var(--igb-blue); font-size: 1rem;
+        }
+        .ask-input {
+            width: 100%; padding: 0.8rem 1rem; border: 2px solid var(--igb-border);
+            border-radius: var(--radius-sm); font-size: 1rem; font-family: var(--font-body);
+            transition: border-color var(--transition);
+        }
+        .ask-input:focus { outline: none; border-color: var(--igb-blue); }
+        .ask-btn {
+            background: var(--igb-blue); color: white; border: none; padding: 0.7rem 1.5rem;
+            border-radius: var(--radius-sm); font-weight: 600; font-size: 0.95rem;
+            cursor: pointer; margin-top: 0.8rem; transition: background var(--transition);
+        }
+        .ask-btn:hover { background: var(--igb-blue-mid); }
+        .ask-btn:disabled { background: #94a3b8; cursor: not-allowed; }
+        .answer-card {
+            background: var(--igb-card); border-radius: var(--radius); padding: 1.5rem;
+            box-shadow: var(--shadow-md); margin-bottom: 1.5rem; line-height: 1.75;
+            border-left: 4px solid var(--igb-blue);
+        }
+        .answer-card p { margin-bottom: 0.8rem; }
+        .answer-card p:last-child { margin-bottom: 0; }
+        .source-ref {
+            color: var(--igb-blue); font-weight: 600; font-size: 0.85rem;
+            text-decoration: none; cursor: pointer;
+        }
+        .source-ref:hover { text-decoration: underline; }
+        .sources-panel {
+            background: var(--igb-card); border-radius: var(--radius); padding: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .sources-panel h3 { font-family: var(--font-heading); color: var(--igb-blue); margin-bottom: 0.8rem; }
+        .source-item {
+            padding: 0.5rem 0; border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; gap: 0.5rem;
+        }
+        .source-item:last-child { border-bottom: none; }
+        .source-num {
+            background: var(--igb-blue); color: white; width: 24px; height: 24px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; font-weight: 700; flex-shrink: 0;
+        }
+        .source-title { font-weight: 500; font-size: 0.88rem; }
+        .source-title a { color: var(--igb-blue); text-decoration: none; }
+        .source-title a:hover { text-decoration: underline; }
+        .mode-badge {
+            display: inline-block; padding: 0.2rem 0.6rem; border-radius: 12px;
+            font-size: 0.75rem; font-weight: 600; margin-left: 0.5rem;
+        }
+        .mode-generative { background: #dcfce7; color: #166534; }
+        .mode-extractive { background: #fef3c7; color: #92400e; }
+        .example-questions {
+            display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;
+        }
+        .example-q {
+            padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.82rem;
+            background: var(--igb-blue-pale); color: var(--igb-blue); cursor: pointer;
+            border: none; font-family: var(--font-body); transition: all var(--transition);
+        }
+        .example-q:hover { background: var(--igb-blue); color: white; }
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+    <header>
+        <div class="header-content">
+            <h1><span class="logo-icon">🤖</span> Research Assistant</h1>
+            <p class="header-tagline">Ask questions about IGB's research — answers grounded in {{ "22,000+" }} publication text chunks</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="ask-section">
+            <form method="post" action="/ask" id="askForm">
+                <label for="question">Ask a research question</label>
+                <input type="text" name="question" id="question" class="ask-input"
+                       placeholder="What do we know about phosphorus cycling in shallow lakes?"
+                       value="{{ question or '' }}" autofocus>
+                <button type="submit" class="ask-btn" id="askBtn">🤖 Ask Feuerstein</button>
+            </form>
+
+            {% if not answer %}
+            <div class="example-questions">
+                <button class="example-q" onclick="setQ(this)">What methods has IGB used to study microplastics?</button>
+                <button class="example-q" onclick="setQ(this)">How does warming affect plankton communities?</button>
+                <button class="example-q" onclick="setQ(this)">What are the main threats to fish migration in European rivers?</button>
+                <button class="example-q" onclick="setQ(this)">What is known about cyanobacteria bloom prediction?</button>
+                <button class="example-q" onclick="setQ(this)">How does land use affect dissolved organic carbon in streams?</button>
+            </div>
+            {% endif %}
+        </div>
+
+        {% if answer %}
+        <div class="answer-card">
+            <h2 style="font-family:var(--font-heading); color:var(--igb-blue); margin-bottom:0.8rem;">
+                Answer
+                {% if mode == 'generative' %}
+                <span class="mode-badge mode-generative">AI-generated</span>
+                {% elif mode == 'extractive' %}
+                <span class="mode-badge mode-extractive">Extractive</span>
+                {% endif %}
+            </h2>
+            {% for para in answer.split('\n') %}
+                {% if para.strip() %}
+                <p>{{ para | md_bold }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        {% if sources %}
+        <div class="sources-panel">
+            <h3>📚 Sources ({{ sources|length }} publications, {{ chunks_used }} text chunks used)</h3>
+            {% for src in sources %}
+            <div class="source-item" id="source-{{ src.number }}">
+                <div class="source-num">{{ src.number }}</div>
+                <div>
+                    <div class="source-title">
+                        {% if src.doi %}
+                        <a href="{{ src.doi }}" target="_blank">{{ src.title }}</a>
+                        {% else %}
+                        {{ src.title }}
+                        {% endif %}
+                    </div>
+                    <div style="font-size:0.78rem; color:var(--igb-text-light);">
+                        {{ src.year or '?' }}
+                        &middot; Relevance: {{ "%.0f"|format(src.similarity * 100) }}%
+                        {% if src.publication_id %}
+                        &middot; <a href="/similar/{{ src.publication_id }}" style="color:var(--igb-blue-light);">Similar</a>
+                        &middot; <a href="/citations/{{ src.publication_id }}" style="color:var(--igb-blue-light);">Citations</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+
+    <footer>
+        <div class="footer-content">🪨 Feuerstein &mdash; IGB Publication Intelligence Tool</div>
+    </footer>
+
+    <script>
+    function setQ(btn) {
+        document.getElementById('question').value = btn.textContent;
+        document.getElementById('askForm').submit();
+    }
+    document.getElementById('askForm').addEventListener('submit', function() {
+        document.getElementById('askBtn').disabled = true;
+        document.getElementById('askBtn').innerHTML = '⏳ Searching publications...';
+    });
+    </script>
+</body>
+</html>

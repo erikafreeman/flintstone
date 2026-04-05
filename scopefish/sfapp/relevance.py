@@ -2,6 +2,57 @@
 
 import json
 from collections import defaultdict
+from datetime import datetime, timedelta
+
+
+def _compute_recency_boost(pub_date: str) -> float:
+    """Compute a 0-1 recency boost that decays over time.
+
+    - Published today: 1.0
+    - 3 days ago: ~0.75
+    - 7 days ago: ~0.5
+    - 14 days ago: ~0.25
+    - 30+ days ago: ~0.05
+    """
+    if not pub_date:
+        return 0.3  # Unknown date gets a moderate default
+
+    try:
+        pub_dt = datetime.strptime(pub_date[:10], "%Y-%m-%d")
+    except (ValueError, TypeError):
+        return 0.3
+
+    days_old = (datetime.now() - pub_dt).days
+    if days_old < 0:
+        days_old = 0  # Future date (pre-print), treat as brand new
+
+    # Exponential decay: half-life of ~7 days
+    import math
+    return max(0.05, math.exp(-0.1 * days_old))
+
+
+def _compute_citation_proximity(paper: dict, igb_pub_ids: set) -> float:
+    """Check if paper references any IGB publications.
+
+    Returns 1.0 if it cites IGB work, 0.0 otherwise.
+    Uses the referenced_works field from OpenAlex if available.
+    """
+    # Check if paper was fetched as citing IGB (source marker)
+    if paper.get("source") == "openalex_citing":
+        return 1.0
+
+    if not igb_pub_ids:
+        return 0.0
+
+    # Check referenced_works if available (OpenAlex provides this)
+    refs = paper.get("referenced_works") or []
+    for ref in refs:
+        ref_str = str(ref).lower()
+        for igb_id in igb_pub_ids:
+            if igb_id.lower() in ref_str:
+                return 1.0
+
+    return 0.0
 
 
 def score_paper(paper: dict, profile: dict, department: str = "all") -> dict:
@@ -41,12 +92,12 @@ def score_paper(paper: dict, profile: dict, department: str = "all") -> dict:
         )
         concept_overlap = min(weighted_overlap / 3.0, 1.0)  # Normalize: 3+ strong overlaps = 1.0
 
-    # Recency boost
-    pub_date = paper.get("publication_date", "")
-    recency_boost = 0.5  # Default moderate
+    # Dynamic recency boost based on publication date
+    recency_boost = _compute_recency_boost(paper.get("publication_date", ""))
 
-    # Citation proximity (placeholder - would check if paper cites IGB work)
-    citation_proximity = 0.0
+    # Citation proximity: does this paper cite IGB work?
+    igb_pub_ids = set(profile.get("igb_pub_ids", []))
+    citation_proximity = _compute_citation_proximity(paper, igb_pub_ids)
 
     # Journal quality boost
     from . import models as _m
@@ -61,7 +112,10 @@ def score_paper(paper: dict, profile: dict, department: str = "all") -> dict:
     )
 
     # Generate explanation
-    explanation = _generate_explanation(paper, overlap, igb_concepts, department, concept_overlap, journal_boost)
+    explanation = _generate_explanation(
+        paper, overlap, igb_concepts, department, concept_overlap,
+        journal_boost, citation_proximity, recency_boost
+    )
 
     return {
         "relevance_score": round(relevance_score, 3),
@@ -71,7 +125,8 @@ def score_paper(paper: dict, profile: dict, department: str = "all") -> dict:
     }
 
 
-def _generate_explanation(paper, overlap, igb_concepts, department, concept_overlap, journal_boost=0):
+def _generate_explanation(paper, overlap, igb_concepts, department, concept_overlap,
+                          journal_boost=0, citation_proximity=0, recency_boost=0.5):
     """Generate a human-readable relevance explanation."""
     parts = []
 
@@ -89,6 +144,10 @@ def _generate_explanation(paper, overlap, igb_concepts, department, concept_over
             dept_short = department.split(")")[0] + ")" if ")" in department else department
             parts.append(f"Connects to {dept_short} through {formatted}.")
 
+    # Citation proximity signal
+    if citation_proximity > 0:
+        parts.append("**Cites IGB publications** — direct connection to institute research.")
+
     journal = paper.get("journal", "")
     if journal:
         if journal_boost >= 0.9:
@@ -104,6 +163,10 @@ def _generate_explanation(paper, overlap, igb_concepts, department, concept_over
         parts.append("Moderate overlap with IGB's core research areas.")
     elif overlap:
         parts.append("Some thematic connection to IGB's work.")
+
+    # Recency note for very fresh papers
+    if recency_boost >= 0.9:
+        parts.append("Published in the last few days.")
 
     if not parts:
         parts.append("Potentially relevant to IGB's broader research interests.")

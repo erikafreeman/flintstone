@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alerts &mdash; Feuerstein</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .alert-setup {
+            background: var(--igb-card); border-radius: var(--radius); padding: 1.2rem;
+            box-shadow: var(--shadow-md); margin-bottom: 1.5rem;
+        }
+        .alert-tabs { display: flex; gap: 0.3rem; margin-bottom: 1rem; }
+        .alert-tab {
+            padding: 0.4rem 1rem; border-radius: 6px; border: 1px solid var(--igb-border);
+            background: white; cursor: pointer; font-size: 0.85rem; font-weight: 500;
+            color: var(--igb-text-mid); transition: all var(--transition);
+        }
+        .alert-tab.active { background: var(--igb-blue); color: white; border-color: var(--igb-blue); }
+        .alert-form { display: flex; gap: 0.5rem; align-items: end; flex-wrap: wrap; }
+        .alert-form-group { flex: 1; min-width: 200px; }
+        .alert-form-group label { display: block; font-size: 0.82rem; color: var(--igb-text-mid); margin-bottom: 0.2rem; font-weight: 500; }
+        .alert-input {
+            width: 100%; padding: 0.5rem 0.8rem; border: 1px solid var(--igb-border);
+            border-radius: 6px; font-size: 0.9rem; font-family: var(--font-body);
+        }
+        .alert-input:focus { outline: none; border-color: var(--igb-blue); }
+        .alert-btn {
+            padding: 0.5rem 1.2rem; background: var(--igb-blue); color: white;
+            border: none; border-radius: 6px; font-weight: 600; cursor: pointer;
+            font-size: 0.9rem; transition: background var(--transition); white-space: nowrap;
+        }
+        .alert-btn:hover { background: var(--igb-blue-mid); }
+        .author-results {
+            margin-top: 0.5rem; background: white; border: 1px solid var(--igb-border);
+            border-radius: 6px; max-height: 200px; overflow-y: auto; display: none;
+        }
+        .author-result {
+            padding: 0.5rem 0.8rem; cursor: pointer; border-bottom: 1px solid rgba(0,0,0,0.05);
+            transition: background var(--transition);
+        }
+        .author-result:hover { background: var(--igb-blue-pale); }
+        .author-result-name { font-weight: 500; }
+        .author-result-meta { font-size: 0.78rem; color: var(--igb-text-light); }
+        .alert-card {
+            background: var(--igb-card); border-radius: var(--radius); padding: 1rem 1.2rem;
+            box-shadow: var(--shadow-sm); margin-bottom: 1rem;
+            border-left: 4px solid var(--igb-blue);
+        }
+        .alert-card-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .alert-card-title { font-weight: 600; color: var(--igb-blue); font-size: 1rem; }
+        .alert-type-badge {
+            padding: 0.15rem 0.5rem; border-radius: 12px; font-size: 0.72rem;
+            font-weight: 600; margin-left: 0.5rem;
+        }
+        .badge-author { background: #ede9fe; color: #6d28d9; }
+        .badge-topic { background: #dcfce7; color: #166534; }
+        .unread-badge {
+            background: #ef4444; color: white; padding: 0.15rem 0.5rem;
+            border-radius: 12px; font-size: 0.72rem; font-weight: 700;
+        }
+        .alert-actions { display: flex; gap: 0.3rem; }
+        .alert-action {
+            padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem;
+            border: 1px solid var(--igb-border); background: white; cursor: pointer;
+            color: var(--igb-text-light); transition: all var(--transition);
+        }
+        .alert-action:hover { background: var(--igb-blue-pale); color: var(--igb-blue); }
+        .alert-action.danger:hover { background: #fee2e2; color: #dc2626; }
+        .alert-papers { margin-top: 0.5rem; }
+        .alert-paper {
+            padding: 0.4rem 0; border-bottom: 1px solid rgba(0,0,0,0.04);
+            font-size: 0.85rem;
+        }
+        .alert-paper a { color: var(--igb-blue); text-decoration: none; }
+        .alert-paper a:hover { text-decoration: underline; }
+        .alert-paper-meta { font-size: 0.75rem; color: var(--igb-text-light); }
+        .alert-paper-new { font-weight: 600; }
+        .empty-state { text-align: center; padding: 3rem; color: var(--igb-text-light); }
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+    <header>
+        <div class="header-content">
+            <h1><span class="logo-icon">🔔</span> Alerts</h1>
+            <p class="header-tagline">Follow authors and topics &mdash; get notified when new papers appear</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="alert-setup">
+            <div class="alert-tabs">
+                <button class="alert-tab active" onclick="switchAlertType('author', this)">👤 Follow Author</button>
+                <button class="alert-tab" onclick="switchAlertType('topic', this)">📝 Follow Topic</button>
+            </div>
+
+            <div id="author-form" class="alert-form">
+                <div class="alert-form-group">
+                    <label>Search for an author</label>
+                    <input type="text" class="alert-input" id="authorSearch"
+                           placeholder="e.g., Hans-Peter Jeschke" oninput="searchAuthors(this.value)">
+                    <div class="author-results" id="authorResults"></div>
+                </div>
+                <input type="hidden" id="authorId" value="">
+                <input type="hidden" id="authorName" value="">
+                <button class="alert-btn" onclick="addAuthorAlert()">🔔 Follow</button>
+            </div>
+
+            <div id="topic-form" class="alert-form" style="display:none;">
+                <div class="alert-form-group">
+                    <label>Enter a research topic</label>
+                    <input type="text" class="alert-input" id="topicInput"
+                           placeholder="e.g., microplastics in freshwater, eDNA metabarcoding">
+                </div>
+                <button class="alert-btn" onclick="addTopicAlert()">🔔 Follow</button>
+            </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+            <h2 style="font-family:var(--font-heading); color:var(--igb-blue);">Your Alerts ({{ alerts|length }})</h2>
+            {% if alerts %}
+            <button class="alert-action" onclick="checkAll()" style="padding:0.3rem 0.8rem;">🔄 Check All for Updates</button>
+            {% endif %}
+        </div>
+
+        {% if alerts %}
+        {% for alert in alerts %}
+        <div class="alert-card" id="alert-{{ alert.id }}">
+            <div class="alert-card-header">
+                <div>
+                    <span class="alert-card-title">{{ alert.name }}</span>
+                    <span class="alert-type-badge {% if alert.type == 'author' %}badge-author{% else %}badge-topic{% endif %}">{{ alert.type }}</span>
+                    {% if alert.unread_count %}
+                    <span class="unread-badge">{{ alert.unread_count }} new</span>
+                    {% endif %}
+                </div>
+                <div class="alert-actions">
+                    <button class="alert-action" onclick="checkAlert({{ alert.id }})">🔄 Check</button>
+                    <button class="alert-action" onclick="markRead({{ alert.id }})">✓ Mark Read</button>
+                    <button class="alert-action danger" onclick="removeAlert({{ alert.id }})">✕ Remove</button>
+                </div>
+            </div>
+            <div style="font-size:0.78rem; color:var(--igb-text-light);">
+                {{ alert.total_results }} papers found
+                {% if alert.last_checked %}&middot; Last checked: {{ alert.last_checked[:16] }}{% endif %}
+            </div>
+            {% if alert.results %}
+            <div class="alert-papers">
+                {% for paper in alert.results %}
+                <div class="alert-paper {% if not paper.is_read %}alert-paper-new{% endif %}">
+                    {% if paper.doi %}
+                    <a href="{{ paper.doi }}" target="_blank">{{ paper.title }}</a>
+                    {% else %}
+                    {{ paper.title }}
+                    {% endif %}
+                    <div class="alert-paper-meta">
+                        {{ paper.authors_str }} &middot; {{ paper.year or '?' }} &middot; {{ paper.journal or '' }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% else %}
+        <div class="empty-state">
+            <h3 style="font-family:var(--font-heading); color:var(--igb-text-mid);">No alerts yet</h3>
+            <p>Follow an author or topic above to start receiving alerts about new papers.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <div class="footer-content">🪨 Feuerstein &mdash; IGB Publication Intelligence Tool</div>
+    </footer>
+
+    <script>
+    let currentType = 'author';
+
+    function switchAlertType(type, btn) {
+        currentType = type;
+        document.querySelectorAll('.alert-tab').forEach(t => t.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('author-form').style.display = type === 'author' ? 'flex' : 'none';
+        document.getElementById('topic-form').style.display = type === 'topic' ? 'flex' : 'none';
+    }
+
+    let searchTimeout;
+    async function searchAuthors(query) {
+        clearTimeout(searchTimeout);
+        const results = document.getElementById('authorResults');
+        if (query.length < 3) { results.style.display = 'none'; return; }
+
+        searchTimeout = setTimeout(async () => {
+            const resp = await fetch('/api/authors/search?q=' + encodeURIComponent(query));
+            const authors = await resp.json();
+            if (authors.length === 0) { results.style.display = 'none'; return; }
+
+            results.innerHTML = authors.map(a => `
+                <div class="author-result" onclick="selectAuthor('${a.id}', '${a.name.replace(/'/g, "\\'")}')">
+                    <div class="author-result-name">${a.name}</div>
+                    <div class="author-result-meta">${a.institution || 'Unknown institution'} &middot; ${a.works_count} works &middot; ${a.cited_by_count} citations</div>
+                </div>
+            `).join('');
+            results.style.display = 'block';
+        }, 400);
+    }
+
+    function selectAuthor(id, name) {
+        document.getElementById('authorId').value = id;
+        document.getElementById('authorName').value = name;
+        document.getElementById('authorSearch').value = name;
+        document.getElementById('authorResults').style.display = 'none';
+    }
+
+    async function addAuthorAlert() {
+        const id = document.getElementById('authorId').value;
+        const name = document.getElementById('authorName').value;
+        if (!id) { alert('Please search for and select an author first.'); return; }
+
+        const formData = new FormData();
+        formData.append('alert_type', 'author');
+        formData.append('name', name);
+        formData.append('value', id);
+        const resp = await fetch('/alerts/add', { method: 'POST', body: formData });
+        const data = await resp.json();
+        if (data.error) { alert(data.error); return; }
+        window.location.reload();
+    }
+
+    async function addTopicAlert() {
+        const topic = document.getElementById('topicInput').value.trim();
+        if (!topic) { alert('Please enter a topic.'); return; }
+
+        const formData = new FormData();
+        formData.append('alert_type', 'topic');
+        formData.append('name', topic);
+        formData.append('value', topic);
+        const resp = await fetch('/alerts/add', { method: 'POST', body: formData });
+        const data = await resp.json();
+        if (data.error) { alert(data.error); return; }
+        window.location.reload();
+    }
+
+    async function removeAlert(id) {
+        if (!confirm('Remove this alert?')) return;
+        const formData = new FormData();
+        formData.append('alert_id', id);
+        await fetch('/alerts/remove', { method: 'POST', body: formData });
+        document.getElementById('alert-' + id).remove();
+    }
+
+    async function checkAlert(id) {
+        const formData = new FormData();
+        formData.append('alert_id', id);
+        const resp = await fetch('/alerts/check', { method: 'POST', body: formData });
+        const data = await resp.json();
+        alert(`Found ${data.new_papers} new papers.`);
+        if (data.new_papers > 0) window.location.reload();
+    }
+
+    async function checkAll() {
+        const resp = await fetch('/alerts/check', { method: 'POST', body: new FormData() });
+        const data = await resp.json();
+        window.location.reload();
+    }
+
+    async function markRead(id) {
+        const formData = new FormData();
+        formData.append('alert_id', id);
+        await fetch('/alerts/mark-read', { method: 'POST', body: formData });
+        window.location.reload();
+    }
+    </script>
+</body>
+</html>

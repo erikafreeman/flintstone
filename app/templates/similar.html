@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Similar Papers &mdash; Feuerstein</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .source-card {
+            background: var(--igb-accent);
+            border-radius: var(--radius);
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--igb-blue);
+        }
+        .source-card h3 { font-family: var(--font-heading); color: var(--igb-blue); margin-bottom: 0.3rem; }
+        .source-card .pub-meta { font-size: 0.85rem; color: var(--igb-text-mid); }
+        .source-card .pub-authors { font-size: 0.85rem; margin-top: 0.3rem; }
+        .action-links { display: flex; gap: 0.5rem; margin-top: 0.8rem; flex-wrap: wrap; }
+        .action-link {
+            display: inline-flex; align-items: center; gap: 0.3rem;
+            padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.8rem;
+            text-decoration: none; font-weight: 500; transition: all var(--transition);
+        }
+        .action-link-blue { background: var(--igb-blue); color: white; }
+        .action-link-blue:hover { background: var(--igb-blue-mid); }
+        .action-link-outline { border: 1px solid var(--igb-border); color: var(--igb-text-mid); }
+        .action-link-outline:hover { background: var(--igb-blue-pale); color: var(--igb-blue); }
+        .sim-badge {
+            display: inline-block; padding: 0.15rem 0.5rem; border-radius: 12px;
+            font-size: 0.75rem; font-weight: 600; color: white; margin-right: 0.3rem;
+        }
+        .save-btn {
+            background: none; border: 1px solid var(--igb-border); padding: 0.2rem 0.5rem;
+            border-radius: 6px; font-size: 0.75rem; cursor: pointer; color: var(--igb-text-mid);
+            transition: all var(--transition);
+        }
+        .save-btn:hover { background: var(--igb-green); color: white; border-color: var(--igb-green); }
+        .save-btn.saved { background: var(--igb-green); color: white; border-color: var(--igb-green); }
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+    <header>
+        <div class="header-content">
+            <h1><span class="logo-icon">🔗</span> Papers Like This</h1>
+            <p class="header-tagline">Semantically similar publications from the IGB corpus</p>
+        </div>
+    </header>
+
+    <div class="container">
+        {% if pub %}
+        <div class="source-card">
+            <h3>{{ pub.title }}</h3>
+            <div class="pub-authors">
+                {% for author in pub.authors_list[:6] %}
+                    {% if author.is_igb_affiliated %}
+                        <a href="/author/{{ author.id }}" class="igb-author">{{ author.display_name }}</a>{% if not loop.last %}, {% endif %}
+                    {% else %}
+                        {{ author.display_name }}{% if not loop.last %}, {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% if pub.authors_list|length > 6 %} et al.{% endif %}
+            </div>
+            <div class="pub-meta">
+                {{ pub.year }} &middot; {{ pub.journal or 'Unknown journal' }} &middot; {{ pub.cited_by_count }} citations
+            </div>
+            <div class="action-links">
+                {% if pub.doi %}
+                <a href="{{ pub.doi }}" target="_blank" class="action-link action-link-outline">📄 DOI</a>
+                {% endif %}
+                <a href="/citations/{{ pub.id }}" class="action-link action-link-outline">📊 Who Cited This</a>
+                <a href="/author/{{ pub.authors_list[0].id }}" class="action-link action-link-outline" {% if pub.authors_list %}{% endif %}>👤 First Author</a>
+            </div>
+        </div>
+
+        <div class="results-section">
+            <h2>📄 Similar Publications ({{ similar|length }})</h2>
+            {% for pub in similar %}
+            <div class="pub-item">
+                <div class="pub-title-row">
+                    <span class="sim-badge" style="background: hsl({{ (pub.score * 120)|int }}, 60%, 45%);">{{ "%.0f"|format(pub.score * 100) }}%</span>
+                    {% if pub.doi %}
+                    <a href="{{ pub.doi }}" target="_blank" class="pub-title">{{ pub.title }}</a>
+                    {% else %}
+                    <span class="pub-title">{{ pub.title }}</span>
+                    {% endif %}
+                    <button class="save-btn" onclick="savePaper('{{ pub.id }}')" title="Save to reading list">📚 Save</button>
+                </div>
+                <div class="pub-authors">
+                    {% for author in pub.authors_list[:5] %}
+                        {% if author.is_igb_affiliated %}
+                            <a href="/author/{{ author.id }}" class="igb-author">{{ author.display_name }}</a>{% if not loop.last %}, {% endif %}
+                        {% else %}
+                            {{ author.display_name }}{% if not loop.last %}, {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="pub-meta">
+                    <span class="meta-year">{{ pub.year }}</span>
+                    <span class="meta-sep">&middot;</span>
+                    {{ pub.journal or 'Unknown journal' }}
+                    <span class="meta-sep">&middot;</span>
+                    <span class="meta-citations">{{ pub.cited_by_count }} citations</span>
+                    <span class="meta-sep">&middot;</span>
+                    <a href="/similar/{{ pub.id }}" style="font-size:0.8rem; color: var(--igb-blue-light);">🔗 Similar</a>
+                    <a href="/citations/{{ pub.id }}" style="font-size:0.8rem; color: var(--igb-blue-light); margin-left:0.3rem;">📊 Citations</a>
+                </div>
+                {% if pub.abstract_short %}
+                <div class="pub-abstract">{{ pub.abstract_short }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            🪨 Feuerstein &mdash; IGB Publication Intelligence Tool
+        </div>
+    </footer>
+
+    <script>
+    async function savePaper(pubId) {
+        const formData = new FormData();
+        formData.append('list_id', '1');
+        formData.append('publication_id', pubId);
+        const resp = await fetch('/reading-list/add', { method: 'POST', body: formData });
+        const data = await resp.json();
+        event.target.textContent = data.success ? '✓ Saved' : '📚 Already saved';
+        event.target.classList.add('saved');
+    }
+    </script>
+</body>
+</html>

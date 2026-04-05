@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Gap Finder &mdash; Feuerstein</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .gap-intro {
+            background: var(--igb-card); border-radius: var(--radius); padding: 1.5rem;
+            box-shadow: var(--shadow-md); margin-bottom: 1.5rem; text-align: center;
+        }
+        .gap-intro h2 { font-family: var(--font-heading); color: var(--igb-blue); margin-bottom: 0.5rem; }
+        .gap-intro p { color: var(--igb-text-mid); font-size: 0.9rem; max-width: 600px; margin: 0 auto; }
+        .analyze-btn {
+            background: var(--igb-blue); color: white; border: none; padding: 0.8rem 2rem;
+            border-radius: var(--radius-sm); font-weight: 600; font-size: 1rem;
+            cursor: pointer; margin-top: 1rem; transition: background var(--transition);
+        }
+        .analyze-btn:hover { background: var(--igb-blue-mid); }
+        .analyze-btn:disabled { background: #94a3b8; }
+        .gap-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 1.5rem; }
+        .gap-section {
+            background: var(--igb-card); border-radius: var(--radius); padding: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .gap-section h2 {
+            font-family: var(--font-heading); font-size: 1.1rem; margin-bottom: 0.8rem;
+            padding-bottom: 0.5rem; border-bottom: 2px solid;
+        }
+        .gap-section.gaps h2 { color: #dc2626; border-color: #fca5a5; }
+        .gap-section.opportunities h2 { color: #d97706; border-color: #fde68a; }
+        .gap-section.strengths h2 { color: #059669; border-color: #a7f3d0; }
+        .domain-item {
+            padding: 0.7rem 0; border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .domain-item:last-child { border-bottom: none; }
+        .domain-name { font-weight: 600; font-size: 0.95rem; color: var(--igb-text); text-transform: capitalize; }
+        .domain-bar-wrap { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.3rem; }
+        .domain-bar-outer {
+            flex: 1; height: 8px; background: #e5e7eb; border-radius: 4px; overflow: hidden;
+        }
+        .domain-bar-inner { height: 100%; border-radius: 4px; transition: width 0.5s; }
+        .bar-gap { background: #ef4444; }
+        .bar-opportunity { background: #f59e0b; }
+        .bar-strength { background: #10b981; }
+        .domain-counts { font-size: 0.78rem; color: var(--igb-text-light); white-space: nowrap; }
+        .domain-rec { font-size: 0.8rem; color: var(--igb-text-mid); margin-top: 0.2rem; font-style: italic; }
+
+        .trends-section {
+            background: var(--igb-card); border-radius: var(--radius); padding: 1.2rem;
+            box-shadow: var(--shadow-sm); margin-top: 1.5rem;
+        }
+        .trends-section h2 { font-family: var(--font-heading); color: var(--igb-blue); margin-bottom: 0.8rem; }
+        .trend-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; }
+        .trend-chip {
+            display: flex; justify-content: space-between; padding: 0.4rem 0.7rem;
+            background: var(--igb-blue-pale); border-radius: 6px; font-size: 0.82rem;
+        }
+        .trend-chip.emerging { background: #dcfce7; }
+        .trend-chip.declining { background: #fef3c7; }
+        .trend-chip-name { font-weight: 500; text-transform: capitalize; }
+        .trend-chip-val { font-weight: 700; }
+        .trend-chip.emerging .trend-chip-val { color: #059669; }
+        .trend-chip.declining .trend-chip-val { color: #d97706; }
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+    <header>
+        <div class="header-content">
+            <h1><span class="logo-icon">🔬</span> Research Gap Finder</h1>
+            <p class="header-tagline">Compare IGB's publication coverage against global trends in freshwater research</p>
+        </div>
+    </header>
+
+    <div class="container">
+        {% if not gap_data %}
+        <div class="gap-intro">
+            <h2>Discover Research Gaps & Opportunities</h2>
+            <p>
+                This tool compares IGB's publication output across 15 freshwater research domains
+                against global publication trends from OpenAlex (200M+ papers).
+                It identifies where IGB is strong, where there are gaps, and where opportunities exist.
+            </p>
+            <form method="post" action="/gaps" id="gapForm">
+                <button type="submit" class="analyze-btn" id="analyzeBtn" onclick="this.disabled=true;this.textContent='⏳ Analyzing (this takes ~30 seconds)...';this.form.submit();">
+                    🔬 Run Gap Analysis
+                </button>
+            </form>
+            <p style="font-size:0.8rem; color:var(--igb-text-light); margin-top:0.5rem;">
+                Queries OpenAlex API for global publication counts. May take 20-30 seconds.
+            </p>
+        </div>
+        {% else %}
+
+        <div class="gap-grid">
+            <!-- Gaps -->
+            {% if gap_data.gaps %}
+            <div class="gap-section gaps">
+                <h2>🚨 Underrepresented Areas ({{ gap_data.gaps|length }})</h2>
+                <p style="font-size:0.82rem; color:var(--igb-text-light); margin-bottom:0.8rem;">
+                    High global activity but few IGB papers — potential growth areas.
+                </p>
+                {% for d in gap_data.gaps %}
+                <div class="domain-item">
+                    <div class="domain-name">{{ d.domain }}</div>
+                    <div class="domain-bar-wrap">
+                        <div class="domain-bar-outer">
+                            <div class="domain-bar-inner bar-gap" style="width: {{ [d.igb_share_pct * 100, 100]|min }}%;"></div>
+                        </div>
+                        <div class="domain-counts">{{ d.igb_count }} IGB / {{ "{:,}".format(d.global_count) }} global</div>
+                    </div>
+                    <div class="domain-rec">{{ d.recommendation }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Strengths -->
+            {% if gap_data.strengths %}
+            <div class="gap-section strengths">
+                <h2>💪 IGB Strengths ({{ gap_data.strengths|length }})</h2>
+                <p style="font-size:0.82rem; color:var(--igb-text-light); margin-bottom:0.8rem;">
+                    Areas where IGB has strong publication presence.
+                </p>
+                {% for d in gap_data.strengths %}
+                <div class="domain-item">
+                    <div class="domain-name">{{ d.domain }}</div>
+                    <div class="domain-bar-wrap">
+                        <div class="domain-bar-outer">
+                            <div class="domain-bar-inner bar-strength" style="width: {{ [d.igb_share_pct * 20, 100]|min }}%;"></div>
+                        </div>
+                        <div class="domain-counts">{{ d.igb_count }} IGB / {{ "{:,}".format(d.global_count) }} global ({{ "%.2f"|format(d.igb_share_pct) }}%)</div>
+                    </div>
+                    <div class="domain-rec">{{ d.recommendation }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <!-- Opportunities -->
+            {% if gap_data.opportunities %}
+            <div class="gap-section opportunities">
+                <h2>🌟 Growth Opportunities ({{ gap_data.opportunities|length }})</h2>
+                <p style="font-size:0.82rem; color:var(--igb-text-light); margin-bottom:0.8rem;">
+                    Growing fields where IGB could increase impact.
+                </p>
+                {% for d in gap_data.opportunities %}
+                <div class="domain-item">
+                    <div class="domain-name">{{ d.domain }}</div>
+                    <div class="domain-bar-wrap">
+                        <div class="domain-bar-outer">
+                            <div class="domain-bar-inner bar-opportunity" style="width: {{ [d.igb_share_pct * 50, 100]|min }}%;"></div>
+                        </div>
+                        <div class="domain-counts">{{ d.igb_count }} IGB / {{ "{:,}".format(d.global_count) }} global</div>
+                    </div>
+                    {% if d.recommendation %}
+                    <div class="domain-rec">{{ d.recommendation }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- IGB Internal Trends -->
+        {% if gap_data.igb_coverage %}
+        <div class="trends-section">
+            <h2>📈 IGB Internal Trends</h2>
+
+            {% if gap_data.igb_coverage.emerging %}
+            <h3 style="font-size:0.95rem; color:var(--igb-green); margin:0.8rem 0 0.5rem;">Emerging Topics (growing since 2020)</h3>
+            <div class="trend-grid">
+                {% for t in gap_data.igb_coverage.emerging[:12] %}
+                <div class="trend-chip emerging">
+                    <span class="trend-chip-name">{{ t.name }}</span>
+                    <span class="trend-chip-val">+{{ t.growth }}%</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if gap_data.igb_coverage.declining %}
+            <h3 style="font-size:0.95rem; color:#d97706; margin:0.8rem 0 0.5rem;">Declining Topics (fewer since 2020)</h3>
+            <div class="trend-grid">
+                {% for t in gap_data.igb_coverage.declining[:12] %}
+                <div class="trend-chip declining">
+                    <span class="trend-chip-name">{{ t.name }}</span>
+                    <span class="trend-chip-val">-{{ t.decline }}%</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div style="text-align:center; margin-top:1.5rem;">
+            <form method="post" action="/gaps">
+                <button type="submit" class="analyze-btn" style="background:var(--igb-blue-mid);">🔄 Re-run Analysis</button>
+            </form>
+        </div>
+
+        {% endif %}
+    </div>
+
+    <footer>
+        <div class="footer-content">🪨 Feuerstein &mdash; IGB Publication Intelligence Tool</div>
+    </footer>
+</body>
+</html>

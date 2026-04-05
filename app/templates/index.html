@@ -157,6 +157,10 @@
                         {{ pub.journal or 'Unknown journal' }}
                         <span class="meta-sep">&middot;</span>
                         <span class="meta-citations">{{ pub.cited_by_count }} citations</span>
+                        <span class="meta-sep">&middot;</span>
+                        <a href="/similar/{{ pub.id }}" style="font-size:0.8rem; color: var(--igb-blue-light);">🔗 Similar</a>
+                        <a href="/citations/{{ pub.id }}" style="font-size:0.8rem; color: var(--igb-blue-light); margin-left:0.3rem;">📊 Citations</a>
+                        <button onclick="savePaper('{{ pub.id }}')" style="font-size:0.75rem; padding:0.1rem 0.4rem; border:1px solid var(--igb-border); border-radius:4px; background:white; cursor:pointer; margin-left:0.3rem; color:var(--igb-text-light);" title="Save to reading list">📚</button>
                     </div>
                     {% if pub.abstract_short %}
                     <div class="pub-abstract">{{ pub.abstract_short }}</div>
@@ -290,6 +294,19 @@
     <!-- Chart.js for temporal trends -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
     <script>
+        // Save to reading list
+        async function savePaper(pubId) {
+            const formData = new FormData();
+            formData.append('list_id', '1');
+            formData.append('publication_id', pubId);
+            const resp = await fetch('/reading-list/add', { method: 'POST', body: formData });
+            const data = await resp.json();
+            event.target.textContent = data.success ? '✓' : '✓';
+            event.target.style.background = '#dcfce7';
+            event.target.style.borderColor = '#86efac';
+            event.target.style.color = '#166534';
+        }
+
         // Search form loading state
         document.getElementById('searchForm').addEventListener('submit', function() {
             document.getElementById('searchBtn').disabled = true;

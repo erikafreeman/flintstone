@@ -2,6 +2,164 @@
 {% block title %}{{ dept.name }}{% endblock %}
 
 {% block body %}
+<style>
+    .analytics-section { margin-bottom: 2rem; }
+
+    /* Stat cards row */
+    .stat-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    .stat-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 1rem 1.1rem;
+        text-align: center;
+    }
+    .stat-card .stat-value {
+        font-size: 1.6rem;
+        font-weight: 700;
+        font-family: var(--font-heading);
+        line-height: 1.2;
+    }
+    .stat-card .stat-label {
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+        margin-top: 0.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    /* Weekly bar chart */
+    .weekly-chart {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 1rem 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+    .weekly-chart h3 {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.8rem;
+    }
+    .week-bars {
+        display: flex;
+        align-items: flex-end;
+        gap: 6px;
+        height: 100px;
+    }
+    .week-bar-col {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        height: 100%;
+        justify-content: flex-end;
+    }
+    .week-bar {
+        width: 100%;
+        border-radius: 4px 4px 0 0;
+        min-height: 2px;
+        transition: height var(--transition);
+    }
+    .week-bar-label {
+        font-size: 0.65rem;
+        color: var(--text-muted);
+        white-space: nowrap;
+    }
+    .week-bar-count {
+        font-size: 0.7rem;
+        color: var(--text-secondary);
+        font-weight: 600;
+    }
+
+    /* Journals + concepts row */
+    .analytics-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    @media (max-width: 768px) {
+        .analytics-row { grid-template-columns: 1fr; }
+    }
+    .analytics-panel {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 1rem 1.2rem;
+    }
+    .analytics-panel h3 {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.7rem;
+    }
+
+    /* Journal bars */
+    .journal-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.45rem;
+    }
+    .journal-name {
+        font-size: 0.8rem;
+        color: var(--text-primary);
+        min-width: 0;
+        flex-shrink: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 55%;
+    }
+    .journal-bar-track {
+        flex: 1;
+        height: 8px;
+        background: var(--bg-input);
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .journal-bar-fill {
+        height: 100%;
+        border-radius: 4px;
+        transition: width var(--transition);
+    }
+    .journal-count {
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        min-width: 24px;
+        text-align: right;
+    }
+
+    /* Tag cloud */
+    .tag-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+    }
+    .tag-cloud .concept-tag {
+        font-size: 0.78rem;
+        padding: 0.25rem 0.6rem;
+        background: var(--bg-input);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-xs);
+        color: var(--text-primary);
+        white-space: nowrap;
+    }
+    .tag-cloud .concept-tag.size-lg { font-size: 0.92rem; font-weight: 600; }
+    .tag-cloud .concept-tag.size-md { font-size: 0.82rem; font-weight: 500; }
+    .tag-cloud .concept-tag.size-sm { font-size: 0.72rem; }
+</style>
+
 <div class="container">
     <div class="page-header">
         <div style="display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.3rem;">
@@ -16,6 +174,84 @@
         </div>
         <p>{{ dept.description }}</p>
     </div>
+
+    {% if analytics and analytics.total_papers > 0 %}
+    <div class="analytics-section">
+        {# -- Stat cards -- #}
+        <div class="stat-cards">
+            <div class="stat-card">
+                <div class="stat-value" style="color: {{ dept.color }};">{{ analytics.total_papers }}</div>
+                <div class="stat-label">Total Papers</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--accent-blue);">{{ (analytics.avg_relevance * 100) | round | int }}%</div>
+                <div class="stat-label">Avg Relevance</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--accent-green);">{{ analytics.high_relevance_count }}</div>
+                <div class="stat-label">High Relevance</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" style="color: var(--accent-cyan);">{{ analytics.open_access_count }}</div>
+                <div class="stat-label">Open Access</div>
+            </div>
+        </div>
+
+        {# -- Papers per week bar chart -- #}
+        {% if analytics.papers_by_week %}
+        {% set week_max = analytics.papers_by_week.values() | max if analytics.papers_by_week.values() | max > 0 else 1 %}
+        <div class="weekly-chart">
+            <h3>Papers per Week (Last 8 Weeks)</h3>
+            <div class="week-bars">
+                {% for week, count in analytics.papers_by_week.items() %}
+                <div class="week-bar-col">
+                    <span class="week-bar-count">{{ count }}</span>
+                    <div class="week-bar" style="height: {{ (count / week_max * 80) | round | int }}px; background: {{ dept.color }};"></div>
+                    <span class="week-bar-label">{{ week[-3:] }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {# -- Journals + Concepts row -- #}
+        <div class="analytics-row">
+            {% if analytics.top_journals %}
+            <div class="analytics-panel">
+                <h3>Top Journals</h3>
+                {% set j_max = analytics.top_journals[0].count if analytics.top_journals else 1 %}
+                {% for j in analytics.top_journals %}
+                <div class="journal-row">
+                    <span class="journal-name" title="{{ j.journal }}">{{ j.journal }}</span>
+                    <div class="journal-bar-track">
+                        <div class="journal-bar-fill" style="width: {{ (j.count / j_max * 100) | round | int }}%; background: {{ dept.color }};"></div>
+                    </div>
+                    <span class="journal-count">{{ j.count }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% if analytics.top_concepts %}
+            <div class="analytics-panel">
+                <h3>Top Concepts</h3>
+                {% set c_max = analytics.top_concepts[0].count if analytics.top_concepts else 1 %}
+                <div class="tag-cloud">
+                    {% for c in analytics.top_concepts %}
+                    {% if c.count >= c_max * 0.7 %}
+                    <span class="concept-tag size-lg" style="border-color: {{ dept.color }}55;">{{ c.name }} ({{ c.count }})</span>
+                    {% elif c.count >= c_max * 0.4 %}
+                    <span class="concept-tag size-md">{{ c.name }} ({{ c.count }})</span>
+                    {% else %}
+                    <span class="concept-tag size-sm">{{ c.name }} ({{ c.count }})</span>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
 
     {% if papers %}
     <div class="paper-list">

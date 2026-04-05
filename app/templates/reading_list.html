@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading List &mdash; Feuerstein</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .rl-layout { display: grid; grid-template-columns: 250px 1fr; gap: 1.5rem; }
+        @media (max-width: 768px) { .rl-layout { grid-template-columns: 1fr; } }
+        .rl-sidebar {
+            background: var(--igb-card); border-radius: var(--radius); padding: 1rem;
+            box-shadow: var(--shadow-sm); height: fit-content;
+        }
+        .rl-list-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0.5rem 0.7rem; border-radius: 6px; cursor: pointer;
+            transition: background var(--transition); text-decoration: none; color: var(--igb-text);
+        }
+        .rl-list-item:hover { background: var(--igb-blue-pale); }
+        .rl-list-item.active { background: var(--igb-blue); color: white; }
+        .rl-list-item .count {
+            background: rgba(0,0,0,0.1); padding: 0.1rem 0.4rem; border-radius: 10px;
+            font-size: 0.75rem; font-weight: 600;
+        }
+        .rl-list-item.active .count { background: rgba(255,255,255,0.25); }
+        .new-list-form { margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--igb-border); }
+        .new-list-input {
+            width: 100%; padding: 0.4rem 0.6rem; border: 1px solid var(--igb-border);
+            border-radius: 6px; font-size: 0.85rem; margin-bottom: 0.4rem;
+        }
+        .new-list-btn {
+            width: 100%; padding: 0.35rem; background: var(--igb-green); color: white;
+            border: none; border-radius: 6px; font-size: 0.82rem; font-weight: 500;
+            cursor: pointer; transition: background var(--transition);
+        }
+        .new-list-btn:hover { background: var(--igb-green-light); }
+        .rl-main {
+            background: var(--igb-card); border-radius: var(--radius); padding: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .rl-toolbar {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--igb-border);
+        }
+        .export-btns { display: flex; gap: 0.4rem; }
+        .export-btn {
+            padding: 0.3rem 0.7rem; border-radius: 6px; font-size: 0.8rem;
+            border: 1px solid var(--igb-border); background: white; cursor: pointer;
+            color: var(--igb-text-mid); font-weight: 500; text-decoration: none;
+            transition: all var(--transition);
+        }
+        .export-btn:hover { background: var(--igb-blue-pale); color: var(--igb-blue); }
+        .rl-item {
+            padding: 0.8rem 0; border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .rl-item:last-child { border-bottom: none; }
+        .rl-item-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+        .rl-item-title { font-weight: 500; color: var(--igb-text); flex: 1; }
+        .rl-item-title a { color: var(--igb-blue); text-decoration: none; }
+        .rl-item-title a:hover { text-decoration: underline; }
+        .rl-item-actions { display: flex; gap: 0.3rem; flex-shrink: 0; }
+        .rl-action-btn {
+            padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.75rem;
+            border: 1px solid var(--igb-border); background: white; cursor: pointer;
+            color: var(--igb-text-light); transition: all var(--transition);
+        }
+        .rl-action-btn:hover { background: #fee2e2; color: #dc2626; border-color: #fca5a5; }
+        .rl-note {
+            margin-top: 0.4rem; padding: 0.4rem 0.6rem; background: var(--igb-warm);
+            border-radius: 6px; font-size: 0.82rem; color: var(--igb-text-mid);
+            font-style: italic;
+        }
+        .rl-note-input {
+            width: 100%; padding: 0.3rem 0.5rem; border: 1px solid var(--igb-border);
+            border-radius: 4px; font-size: 0.82rem; margin-top: 0.4rem;
+            font-family: var(--font-body);
+        }
+        .rl-tags { margin-top: 0.3rem; display: flex; gap: 0.3rem; flex-wrap: wrap; }
+        .rl-tag {
+            padding: 0.1rem 0.5rem; border-radius: 12px; font-size: 0.7rem;
+            background: var(--igb-blue-pale); color: var(--igb-blue); font-weight: 500;
+        }
+        .empty-state {
+            text-align: center; padding: 3rem 1rem; color: var(--igb-text-light);
+        }
+        .empty-state h3 { font-family: var(--font-heading); color: var(--igb-text-mid); margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+    {% include 'nav.html' %}
+    <header>
+        <div class="header-content">
+            <h1><span class="logo-icon">📚</span> Reading Lists</h1>
+            <p class="header-tagline">Save papers, add notes, export to CSV or BibTeX for Zotero</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="rl-layout">
+            <div class="rl-sidebar">
+                <h3 style="font-size:0.9rem; color:var(--igb-text-mid); margin-bottom:0.5rem;">Your Lists</h3>
+                {% for lst in lists %}
+                <a href="/reading-list?list_id={{ lst.id }}"
+                   class="rl-list-item {% if lst.id == active_list %}active{% endif %}">
+                    <span>{{ lst.name }}</span>
+                    <span class="count">{{ lst.item_count }}</span>
+                </a>
+                {% endfor %}
+
+                <div class="new-list-form">
+                    <input type="text" id="newListName" class="new-list-input" placeholder="New list name...">
+                    <button class="new-list-btn" onclick="createList()">+ Create List</button>
+                </div>
+            </div>
+
+            <div class="rl-main">
+                <div class="rl-toolbar">
+                    <h2 style="font-family:var(--font-heading); font-size:1.1rem; color:var(--igb-blue);">
+                        {% for lst in lists if lst.id == active_list %}{{ lst.name }}{% endfor %}
+                        <span style="font-weight:400; color:var(--igb-text-light); font-size:0.85rem;">({{ items|length }} papers)</span>
+                    </h2>
+                    <div class="export-btns">
+                        <a href="/reading-list/export/csv?list_id={{ active_list }}" class="export-btn">📥 CSV</a>
+                        <a href="/reading-list/export/bibtex?list_id={{ active_list }}" class="export-btn">📖 BibTeX</a>
+                    </div>
+                </div>
+
+                {% if items %}
+                {% for item in items %}
+                <div class="rl-item" id="item-{{ item.publication_id | replace('/', '_') }}">
+                    <div class="rl-item-header">
+                        <div class="rl-item-title">
+                            {% if item.doi %}
+                            <a href="{{ item.doi }}" target="_blank">{{ item.title }}</a>
+                            {% else %}
+                            {{ item.title }}
+                            {% endif %}
+                        </div>
+                        <div class="rl-item-actions">
+                            <a href="/similar/{{ item.publication_id }}" class="rl-action-btn" style="color:var(--igb-blue);" title="Find similar">🔗</a>
+                            <a href="/citations/{{ item.publication_id }}" class="rl-action-btn" style="color:var(--igb-blue);" title="Citations">📊</a>
+                            <button class="rl-action-btn" onclick="removeItem('{{ active_list }}', '{{ item.publication_id }}')" title="Remove">✕</button>
+                        </div>
+                    </div>
+                    <div style="font-size:0.8rem; color:var(--igb-text-light); margin-top:0.2rem;">
+                        {{ item.authors_str }} &middot; {{ item.year or '?' }} &middot; {{ item.journal or '' }}
+                        &middot; {{ item.cited_by_count }} citations
+                        &middot; Added {{ item.added_at[:10] if item.added_at else '' }}
+                    </div>
+                    {% if item.note %}
+                    <div class="rl-note">{{ item.note }}</div>
+                    {% endif %}
+                    <input type="text" class="rl-note-input" placeholder="Add a note..."
+                           value="{{ item.note or '' }}"
+                           onchange="updateNote('{{ active_list }}', '{{ item.publication_id }}', this.value)">
+                    {% if item.tags %}
+                    <div class="rl-tags">
+                        {% for tag in item.tags.split(',') if tag.strip() %}
+                        <span class="rl-tag">{{ tag.strip() }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="empty-state">
+                    <h3>No papers saved yet</h3>
+                    <p>Search for publications and click "📚 Save" to add them to this list.</p>
+                    <p style="margin-top:0.5rem;"><a href="/" style="color:var(--igb-blue);">Go to Search</a></p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">🪨 Feuerstein &mdash; IGB Publication Intelligence Tool</div>
+    </footer>
+
+    <script>
+    async function createList() {
+        const name = document.getElementById('newListName').value.trim();
+        if (!name) return;
+        const formData = new FormData();
+        formData.append('name', name);
+        const resp = await fetch('/reading-list/create', { method: 'POST', body: formData });
+        const data = await resp.json();
+        if (data.success) window.location.href = '/reading-list?list_id=' + data.list_id;
+    }
+
+    async function removeItem(listId, pubId) {
+        if (!confirm('Remove this paper from the list?')) return;
+        const formData = new FormData();
+        formData.append('list_id', listId);
+        formData.append('publication_id', pubId);
+        await fetch('/reading-list/remove', { method: 'POST', body: formData });
+        const el = document.getElementById('item-' + pubId.replace(/\//g, '_'));
+        if (el) el.remove();
+    }
+
+    async function updateNote(listId, pubId, note) {
+        const formData = new FormData();
+        formData.append('list_id', listId);
+        formData.append('publication_id', pubId);
+        formData.append('note', note);
+        await fetch('/reading-list/note', { method: 'POST', body: formData });
+    }
+    </script>
+</body>
+</html>

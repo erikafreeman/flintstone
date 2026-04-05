@@ -62,18 +62,21 @@ def reconstruct_abstract(inverted_index: dict) -> str:
 
 
 def fetch_works_since(since_date: str):
-    """Fetch IGB works created or updated since a given date."""
+    """Fetch IGB works published since a given date.
+
+    Uses from_publication_date (free tier) instead of from_updated_date (paid).
+    """
     cursor = "*"
     all_works = []
     page = 0
 
-    print(f"  Fetching works updated since {since_date}...")
+    print(f"  Fetching works published since {since_date}...")
 
     while cursor:
         url = (
             f"{BASE_URL}/works?"
             f"filter=institutions.id:{IGB_ID},"
-            f"from_updated_date:{since_date}"
+            f"from_publication_date:{since_date}"
             f"&per_page=200"
             f"&cursor={cursor}"
             f"&mailto={MAILTO}"
@@ -131,13 +134,19 @@ def store_works(conn, works):
         cited_by = work.get("cited_by_count", 0)
         work_type = work.get("type", "")
 
+        # Open access info
+        oa = work.get("open_access") or {}
+        is_oa = 1 if oa.get("is_oa") else 0
+        oa_type = oa.get("oa_status", "")
+        oa_url = oa.get("oa_url", "")
+
         # Check if it already exists
         cur = conn.execute("SELECT id FROM publications WHERE id = ?", (work_id,))
         exists = cur.fetchone() is not None
 
         conn.execute(
-            "INSERT OR REPLACE INTO publications VALUES (?,?,?,?,?,?,?,?)",
-            (work_id, title, abstract, year, doi, journal, cited_by, work_type),
+            "INSERT OR REPLACE INTO publications VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+            (work_id, title, abstract, year, doi, journal, cited_by, work_type, is_oa, oa_type, oa_url),
         )
 
         if exists:
@@ -161,10 +170,15 @@ def store_works(conn, works):
 
             institutions = authorship.get("institutions", [])
             is_igb = any(IGB_ID in (inst.get("id", "") or "") for inst in institutions)
+            # Get first institution name and country
+            inst_name = institutions[0].get("display_name", "") if institutions else ""
+            inst_country = institutions[0].get("country_code", "") if institutions else ""
 
             conn.execute(
-                "INSERT OR REPLACE INTO publication_authors VALUES (?,?,?)",
-                (work_id, author_id, int(is_igb)),
+                """INSERT OR REPLACE INTO publication_authors
+                (publication_id, author_id, is_igb_affiliated, institution_name, institution_country)
+                VALUES (?,?,?,?,?)""",
+                (work_id, author_id, int(is_igb), inst_name, inst_country),
             )
 
     conn.commit()

@@ -11,11 +11,13 @@ from typing import Optional
 from collections import Counter
 from markupsafe import Markup
 from fastapi import FastAPI, Request, Form, Query
-from fastapi.responses import HTMLResponse, StreamingResponse
+from fastapi.responses import HTMLResponse, StreamingResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from . import search, models, analysis, citations, synthesize
+from . import similar as similar_mod
+from . import citation_tracker, rag, reading_list, alerts, gaps
 
 # Import Scopefish sub-app for mounting
 os.environ["SCOPEFISH_PREFIX"] = "/scopefish"
@@ -306,6 +308,11 @@ async def methodology(request: Request):
     return templates.TemplateResponse(request=request, name="methodology.html", context={"active": "opensci"})
 
 
+@app.get("/landscape", response_class=HTMLResponse)
+async def landscape(request: Request):
+    return templates.TemplateResponse(request=request, name="landscape.html", context={"active": "landscape"})
+
+
 @app.get("/external", response_class=HTMLResponse)
 async def external(request: Request):
     conn = models.get_connection()
@@ -324,4 +331,313 @@ async def external(request: Request):
             "institution_coords": inst_coords,
             "active": "external",
         },
+    )
+
+
+# === Similar Papers ===
+
+@app.get("/similar/{pub_id:path}", response_class=HTMLResponse)
+async def similar_papers(request: Request, pub_id: str):
+    """Find papers semantically similar to a given publication."""
+    conn = models.get_connection()
+    try:
+        pub = models.get_publication(conn, pub_id)
+        if not pub:
+            return templates.TemplateResponse(
+                request=request, name="error.html",
+                context={"error_code": 404, "error_title": "Not Found",
+                         "error_message": "Publication not found.", "active": ""},
+                status_code=404,
+            )
+
+        # Get similar papers
+        results = similar_mod.find_similar(pub_id, top_k=20)
+        sim_ids = [r[0] for r in results]
+        sim_scores = {r[0]: r[1] for r in results}
+
+        sim_pubs = models.get_publications_by_ids(conn, sim_ids)
+        all_authors = models.get_all_authors_for_publications(conn, sim_ids)
+
+        for p in sim_pubs:
+            p["score"] = sim_scores.get(p["id"], 0)
+            p["score_pct"] = int(p["score"] * 100)
+            p["authors_list"] = all_authors.get(p["id"], [])
+            abstract = _strip_html(p.get("abstract") or "")
+            p["abstract_short"] = abstract[:200] + ("..." if len(abstract) > 200 else "")
+
+        # Source publication authors
+        source_authors = models.get_all_authors_for_publications(conn, [pub_id])
+        pub["authors_list"] = source_authors.get(pub_id, [])
+    finally:
+        conn.close()
+
+    return templates.TemplateResponse(
+        request=request, name="similar.html",
+        context={"pub": pub, "similar": sim_pubs, "active": "search"},
+    )
+
+
+# === Citation Tracker ===
+
+@app.get("/citations/{pub_id:path}", response_class=HTMLResponse)
+async def citation_tracker_page(request: Request, pub_id: str):
+    """Show who cited an IGB paper."""
+    conn = models.get_connection()
+    try:
+        pub = models.get_publication(conn, pub_id)
+        if not pub:
+            return templates.TemplateResponse(
+                request=request, name="error.html",
+                context={"error_code": 404, "error_title": "Not Found",
+                         "error_message": "Publication not found.", "active": ""},
+                status_code=404,
+            )
+        source_authors = models.get_all_authors_for_publications(conn, [pub_id])
+        pub["authors_list"] = source_authors.get(pub_id, [])
+    finally:
+        conn.close()
+
+    # Fetch citing papers from OpenAlex
+    citing_data = citation_tracker.get_citing_papers(pub_id, limit=50)
+    co_cited = citation_tracker.get_co_cited_papers(pub_id, limit=15)
+
+    return templates.TemplateResponse(
+        request=request, name="citations.html",
+        context={
+            "pub": pub,
+            "citing_papers": citing_data["citing_papers"],
+            "stats": citing_data["stats"],
+            "co_cited": co_cited,
+            "active": "search",
+        },
+    )
+
+
+# === RAG Research Assistant ===
+
+@app.get("/ask", response_class=HTMLResponse)
+async def ask_page(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="ask.html",
+        context={"active": "ask"},
+    )
+
+
+@app.post("/ask", response_class=HTMLResponse)
+async def ask_question(request: Request, question: str = Form(...)):
+    result = rag.ask(question)
+    return templates.TemplateResponse(
+        request=request, name="ask.html",
+        context={
+            "question": question,
+            "answer": result.get("answer", ""),
+            "sources": result.get("sources", []),
+            "mode": result.get("mode", ""),
+            "chunks_used": result.get("chunks_used", 0),
+            "active": "ask",
+        },
+    )
+
+
+@app.post("/api/ask")
+async def api_ask(question: str = Form(...)):
+    """JSON API for the research assistant."""
+    result = rag.ask(question)
+    return JSONResponse(result)
+
+
+# === Reading Lists ===
+
+@app.get("/reading-list", response_class=HTMLResponse)
+async def reading_list_page(request: Request, list_id: int = Query(None)):
+    lists = reading_list.get_lists()
+    if not lists:
+        reading_list.create_list("My Reading List", "Default reading list")
+        lists = reading_list.get_lists()
+
+    active_list = list_id or (lists[0]["id"] if lists else None)
+    items = reading_list.get_list_items(active_list) if active_list else []
+
+    return templates.TemplateResponse(
+        request=request, name="reading_list.html",
+        context={
+            "lists": lists,
+            "active_list": active_list,
+            "items": items,
+            "active": "reading-list",
+        },
+    )
+
+
+@app.post("/reading-list/add")
+async def reading_list_add(
+    list_id: int = Form(...),
+    publication_id: str = Form(...),
+    note: str = Form(""),
+):
+    success = reading_list.add_item(list_id, publication_id, note)
+    return JSONResponse({"success": success, "message": "Added to reading list" if success else "Already in list"})
+
+
+@app.post("/reading-list/remove")
+async def reading_list_remove(
+    list_id: int = Form(...),
+    publication_id: str = Form(...),
+):
+    success = reading_list.remove_item(list_id, publication_id)
+    return JSONResponse({"success": success})
+
+
+@app.post("/reading-list/note")
+async def reading_list_update_note(
+    list_id: int = Form(...),
+    publication_id: str = Form(...),
+    note: str = Form(""),
+):
+    success = reading_list.update_note(list_id, publication_id, note)
+    return JSONResponse({"success": success})
+
+
+@app.post("/reading-list/create")
+async def reading_list_create(
+    name: str = Form(...),
+    description: str = Form(""),
+):
+    list_id = reading_list.create_list(name, description)
+    return JSONResponse({"success": True, "list_id": list_id})
+
+
+@app.get("/reading-list/export/csv")
+async def reading_list_export_csv(list_id: int = Query(...)):
+    csv_data = reading_list.export_csv(list_id)
+    return StreamingResponse(
+        iter([csv_data]),
+        media_type="text/csv",
+        headers={"Content-Disposition": f"attachment; filename=reading_list_{list_id}.csv"},
+    )
+
+
+@app.get("/reading-list/export/bibtex")
+async def reading_list_export_bibtex(list_id: int = Query(...)):
+    bib_data = reading_list.export_bibtex(list_id)
+    return StreamingResponse(
+        iter([bib_data]),
+        media_type="application/x-bibtex",
+        headers={"Content-Disposition": f"attachment; filename=reading_list_{list_id}.bib"},
+    )
+
+
+# === Author & Topic Alerts ===
+
+@app.get("/alerts", response_class=HTMLResponse)
+async def alerts_page(request: Request):
+    all_alerts = alerts.get_alerts()
+    # Get results for each alert
+    for alert in all_alerts:
+        alert["results"] = alerts.get_alert_results(alert["id"])[:10]
+    return templates.TemplateResponse(
+        request=request, name="alerts.html",
+        context={"alerts": all_alerts, "active": "alerts"},
+    )
+
+
+@app.post("/alerts/add")
+async def alerts_add(
+    alert_type: str = Form(...),
+    name: str = Form(...),
+    value: str = Form(...),
+):
+    result = alerts.add_alert(alert_type, name, value)
+    if "error" in result:
+        return JSONResponse(result, status_code=400)
+    return JSONResponse(result)
+
+
+@app.post("/alerts/remove")
+async def alerts_remove(alert_id: int = Form(...)):
+    success = alerts.remove_alert(alert_id)
+    return JSONResponse({"success": success})
+
+
+@app.post("/alerts/check")
+async def alerts_check(alert_id: int = Form(None)):
+    if alert_id:
+        count = alerts.check_alert(alert_id)
+        return JSONResponse({"new_papers": count})
+    else:
+        results = alerts.check_all_alerts()
+        return JSONResponse({"results": results})
+
+
+@app.post("/alerts/mark-read")
+async def alerts_mark_read(alert_id: int = Form(...)):
+    alerts.mark_read(alert_id)
+    return JSONResponse({"success": True})
+
+
+@app.get("/api/authors/search")
+async def api_search_authors(q: str = Query(...)):
+    """Search OpenAlex for authors (for alert setup)."""
+    results = alerts.search_authors(q)
+    return JSONResponse(results)
+
+
+# === Research Gap Finder ===
+
+@app.get("/gaps", response_class=HTMLResponse)
+async def gaps_page(request: Request):
+    return templates.TemplateResponse(
+        request=request, name="gaps.html",
+        context={"active": "gaps"},
+    )
+
+
+@app.post("/gaps", response_class=HTMLResponse)
+async def gaps_analyze(request: Request):
+    gap_data = gaps.find_gaps(max_domains=15)
+    return templates.TemplateResponse(
+        request=request, name="gaps.html",
+        context={
+            "gap_data": gap_data,
+            "active": "gaps",
+        },
+    )
+
+
+@app.get("/api/gaps")
+async def api_gaps():
+    """JSON API for gap analysis."""
+    gap_data = gaps.find_gaps(max_domains=15)
+    return JSONResponse(gap_data)
+
+
+# === Error Handlers ===
+
+@app.exception_handler(404)
+async def not_found(request: Request, exc):
+    return templates.TemplateResponse(
+        request=request,
+        name="error.html",
+        context={
+            "error_code": 404,
+            "error_title": "Page Not Found",
+            "error_message": "The page you're looking for doesn't exist or may have been moved.",
+            "active": "",
+        },
+        status_code=404,
+    )
+
+
+@app.exception_handler(500)
+async def server_error(request: Request, exc):
+    return templates.TemplateResponse(
+        request=request,
+        name="error.html",
+        context={
+            "error_code": 500,
+            "error_title": "Server Error",
+            "error_message": "Something went wrong. Please try again later.",
+            "active": "",
+        },
+        status_code=500,
     )
